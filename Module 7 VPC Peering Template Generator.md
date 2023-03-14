@@ -1,4 +1,4 @@
-# build VPC Peering Command in CLI : 
+# Build VPC Peering Command in CLI : 
 
 ## Module 7 - Guided Lab: Creating a VPC Peering Connection
 Lab overview and objectives
@@ -44,7 +44,7 @@ VPC (Accepter): Shared VPC
 Choose Create Peering Connection then choose OK
 When a VPC peering connection is created, the target VPC must accept the connection request. The target VPC must accept the request because it might be owned by a different account. Alternatively, the user that creates the peering connection might not have permission to accept the connection request for the target VPC. However, in this lab, you will accept the connection yourself.
 
-_Select  Lab-Peer.
+Select  Lab-Peer.
 
 Choose Actions then select Accept Request, and choose __Yes, Accept to accept the request.
 
@@ -112,38 +112,71 @@ Open the terminal or command prompt on your local machine.
 
 Use the following command to create a VPC peering connection:
 
-css
-Copy code
-(```aws ec2 create-vpc-peering-connection --vpc-id [vpc-id-of-requester] --peer-vpc-id [vpc-id-of-accepter] --peer-region [region-of-accepter] --peer-owner-id [AWS-account-id-of-accepter] --tags Key=Name,Value=[name-of-peering-connection]```)
+```aws
+aws ec2 create-vpc-peering-connection --vpc-id [vpc-id-of-requester] --peer-vpc-id [vpc-id-of-accepter] --peer-region [region-of-accepter] --peer-owner-id [AWS-account-id-of-accepter] --tags Key=Name,Value=[name-of-peering-connection]
+```
 Note: Replace [vpc-id-of-requester] with the ID of the requester VPC, [vpc-id-of-accepter] with the ID of the accepter VPC, [region-of-accepter] with the region of the accepter VPC, [AWS-account-id-of-accepter] with the AWS account ID of the accepter VPC, and [name-of-peering-connection] with the name of the VPC peering connection.
 
 -----For example:
 
-css
-Copy code
+
+```aws
 aws ec2 create-vpc-peering-connection --vpc-id vpc-0123456789abcdef0 --peer-vpc-id vpc-0123456789abcdef1 --peer-region us-west-2 --peer-owner-id 123456789012 --tags Key=Name,Value=Lab-Peer
+```
 Use the following command to accept the VPC peering connection:
-python
-Copy code
+
+```aws
 aws ec2 accept-vpc-peering-connection --vpc-peering-connection-id [peering-connection-id]
+```
 Note: Replace [peering-connection-id] with the ID of the VPC peering connection.
 
 For example:
 
-python
-Copy code
+```aws
 aws ec2 accept-vpc-peering-connection --vpc-peering-connection-id pcx-0123456789abcdef0
+```
 Use the following command to modify the route tables for both VPCs to use the VPC peering connection:
-css
-Copy code
+
+```aws
 aws ec2 create-route --route-table-id [route-table-id-of-requester] --destination-cidr-block [cidr-block-of-accepter-vpc] --vpc-peering-connection-id [peering-connection-id]
+```
+```aws
 aws ec2 create-route --route-table-id [route-table-id-of-accepter] --destination-cidr-block [cidr-block-of-requester-vpc] --vpc-peering-connection-id [peering-connection-id]
+```
 Note: Replace [route-table-id-of-requester] with the ID of the route table of the requester VPC, [cidr-block-of-accepter-vpc] with the CIDR block of the accepter VPC, [peering-connection-id] with the ID of the VPC peering connection, [route-table-id-of-accepter] with the ID of the route table of the accepter VPC, and [cidr-block-of-requester-vpc] with the CIDR block of the requester VPC.
 
 For example:
 
-css
-Copy code
+```aws
 aws ec2 create-route --route-table-id rtb-0123456789abcdef0 --destination-cidr-block 10.5.0.0/16 --vpc-peering-connection-id pcx-0123456789abcdef0
+```
+```aws
 aws ec2 create-route --route-table-id rtb-0123456789abcdef1 --destination-cidr-block 10.0.0.0/16 --vpc-peering-connection-id pcx-0123456789abcdef0
+```
 Verify that the VPC peering connection is working by testing connectivity between
+
+
+AWS CLI:   
+   Copy and paste the following into ~/.aws/credentials
+[default]
+aws_access_key_id=ASIASRF2WMBKVVYDZS2M
+aws_secret_access_key=G8xr9NRYPgthjHO7O1U8LOrSSWaDyUscVCpZZ634
+aws_session_token=FwoGZXIvYXdzECsaDM/fOq29zcNfqgolJiLLAbAvfTiIJC/Oed1TLOVWhsGLNVGmpebk7Ieu+G/drHAZIbVS3hUlV+W/F4wjzIKja1MplntRgwjBoUk8+ysTBTZ9Zo3YDMuqqoMTFb1XC5OHoknTA6aLVeH+RBwaw7g2EngA0zm6uT5SUdRO/JQxyG82SQFWs910Q9gYeONK5G1lTPBS2OepoRJ8F4oa+BtycQLJ+FX+CHyeHdcXC+nvHPe3NVUwOecKSfJgWz/AkcCgijzLa4uV/uXFRtVSAr/NuFk1Ijz2YeVhVFA8KN/2wKAGMi1300n/DkioaeyxS4AO0ThFQrU0cFnW1HpsOHfXkybyqGwtellI2gF1aa9w15U=
+
+Cloud Labs
+   Remaining session time: 02:18:04(139 minutes)
+   Session started at: 2023-03-14T02:16:14-0700
+   Session to end  at: 2023-03-14T05:16:14-0700
+
+   Accumulated lab time: 00:41:00 (41 minutes)
+
+   ips -- public:54.221.73.39, private:10.0.0.139
+
+   SSH key  ShowDownload PEMDownload PPK
+   AWS SSO  Download URL
+
+SecretKey	OzSKo6bDLBWcpHkTBcZpZ0N0Hv62Uu6t4gDaBBbo
+
+__Endpoint__	inventory-db.cmswnwy9hvjx.us-east-1.rds.amazonaws.com
+
+AccessKey	AKIASRF2WMBKYJN4QJG2
