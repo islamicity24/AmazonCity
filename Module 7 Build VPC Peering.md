@@ -107,7 +107,7 @@ This step confirms that the VPC peering connection was established because Share
 
 ``` aws
 aws ec2 create-vpc-peering-connection --vpc-id [vpc-id-of-requester] --peer-vpc-id [vpc-id-of-accepter] --peer-region [region-of-accepter] --peer-owner-id [AWS-account-id-of-accepter] --tags Key=Name,Value=[name-of-peering-connection]
-``
+```
 
 Note: Replace [vpc-id-of-requester] with the ID of the requester VPC, [vpc-id-of-accepter] with the ID of the accepter VPC, [region-of-accepter] with the region of the accepter VPC, [AWS-account-id-of-accepter] with the AWS account ID of the accepter VPC, and [name-of-peering-connection] with the name of the VPC peering connection.
 
