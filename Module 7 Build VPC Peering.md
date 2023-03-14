@@ -49,13 +49,27 @@ You will now update the route tables in both VPCs to send traffic from Lab VPC t
 
 #### Peering Connections
 
-1. In the left navigation pane, choose __RouteTables.
+1. In the left navigation pane, choose **RouteTables.**
 2. Select Lab Public Route Table (for Lab VPC).
 3. You will configure the Public Route Table associated with Lab VPC. If the destination IP address falls in the range of Shared VPC, the Public Route Table will send traffic to the peering connection.
 4. In the Routes tab, choose Edit routes then configure these settings:
    - Choose Add route
    - Destination: 10.5.0.0/16 (The setting is the Classless Inter-Domain Route, or CIDR, block range of Shared VPC.)
    - Target: Select Peering Connection, and then from the list, select Lab
+   - Choose Save routes then choose Close.
+You will now configure the reverse flow for traffic that comes from Shared VPC and goes to Lab VPC.
+
+5. Select  Shared-VPC Route Table. If the check boxes for any other route tables are selected, clear them.
+
+This route table is for Shared VPC. You will now configure it to send traffic to the peering connection if the destination IP address falls in the range of Lab VPC.
+
+6. In the Routes tab, choose Edit routes then configure these settings:
+
+Choose Add route
+Destination: 10.0.0.0/16 (This setting is the CIDR block range of Lab VPC.)
+Target: Select Peering Connection, and then from the list, select Lab-Peer.
+ChooseSave routes then choose Close.
+The route tables are now configured to send traffic via the peering connection when the traffic is destined for the other VPC.
 
 ### Task 3: Testing the VPC peering connection
 
@@ -71,7 +85,7 @@ You will now update the route tables in both VPCs to send traffic from Lab VPC t
 
 6. Choose Settings and configure:
 
-    - Endpoint: Paste the database endpoint. To find this endpoint, select Details. Next to AWS, choose Show. Then, copy the Endpoint.
+    - **Endpoint**: Paste the database endpoint. To find this endpoint, select Details. Next to AWS, choose Show. Then, copy the Endpoint.
 
     - Database: inventory
 
@@ -90,4 +104,39 @@ This step confirms that the VPC peering connection was established because Share
 1. Open the terminal or command prompt on your local machine.
 
 2. Use the following command to create a VPC peering connection:
+
+``` aws
+aws ec2 create-vpc-peering-connection --vpc-id [vpc-id-of-requester] --peer-vpc-id [vpc-id-of-accepter] --peer-region [region-of-accepter] --peer-owner-id [AWS-account-id-of-accepter] --tags Key=Name,Value=[name-of-peering-connection]
+``
+
+Note: Replace [vpc-id-of-requester] with the ID of the requester VPC, [vpc-id-of-accepter] with the ID of the accepter VPC, [region-of-accepter] with the region of the accepter VPC, [AWS-account-id-of-accepter] with the AWS account ID of the accepter VPC, and [name-of-peering-connection] with the name of the VPC peering connection.
+
+For example:
+
+```aws ec2 create-vpc-peering-connection --vpc-id vpc-0123456789abcdef0 --peer-vpc-id vpc-0123456789abcdef1 --peer-region us-west-2 --peer-owner-id 123456789012 --tags Key=Name,Value=Lab-Peer
+```
+
+3. Use the following command to accept the VPC peering connection:
+
+``` aws cli
+aws ec2 accept-vpc-peering-connection --vpc-peering-connection-id [peering-connection-id]
+```
+
+Note: Replace [peering-connection-id] with the ID of the VPC peering connection.
+
+For example:
+
+```
+aws ec2 accept-vpc-peering-connection --vpc-peering-connection-id pcx-0123456789abcdef0
+```
+
+4. Use the following command to modify the route tables for both VPCs to use the VPC peering connection:
+
+``` aws cli
+aws ec2 create-route --route-table-id [route-table-id-of-requester] --destination-cidr-block [cidr-block-of-accepter-vpc] --vpc-peering-connection-id [peering-connection-id]
+```
+
+``` aws cli
+aws ec2 create-route --route-table-id [route-table-id-of-accepter] --destination-cidr-block [cidr-block-of-requester-vpc] --vpc-pe
+```
 
