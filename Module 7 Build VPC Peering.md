@@ -56,3 +56,38 @@ You will now update the route tables in both VPCs to send traffic from Lab VPC t
    - Choose Add route
    - Destination: 10.5.0.0/16 (The setting is the Classless Inter-Domain Route, or CIDR, block range of Shared VPC.)
    - Target: Select Peering Connection, and then from the list, select Lab
+
+### Task 3: Testing the VPC peering connection
+
+1. Open the Amazon EC2 service from the AWS Management Console.
+
+2. Navigate to the Instances tab on the left-hand side of the page.
+
+3. Copy the IPv4 Public IP address that is shown in the Description tab.
+
+4. Open a new web browser tab with that IP address.
+
+5. You should see the Inventory application and the following message: "Please configure settings to connect to database"
+
+6. Choose Settings and configure:
+
+    - Endpoint: Paste the database endpoint. To find this endpoint, select Details. Next to AWS, choose Show. Then, copy the Endpoint.
+
+    - Database: inventory
+
+    - Username: admin
+
+    - Password: lab-password
+
+    - Choose Save.
+
+7. The application should now show data from the database.
+
+This step confirms that the VPC peering connection was established because Shared VPC does not have an internet gateway. The only way to access the database is through the VPC peering connection.
+
+### Creating and Configuring a VPC Peering Connection via CLI
+
+1. Open the terminal or command prompt on your local machine.
+
+2. Use the following command to create a VPC peering connection:
+
