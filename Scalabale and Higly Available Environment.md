@@ -112,8 +112,7 @@ In this task, you will create a bastion host in a public subnet. In later tasks,
 
 * Name: Bastion Host
 
-Only `allows` the following traffic:
-
+* Only `allows` the following traffic:
   - Type: SSH
   - Port: 22
   - Source: Your IP address
