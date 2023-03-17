@@ -12,8 +12,8 @@ In this lab, you use `Elastic Load Balancing and Amazon EC2 Auto Scaling to crea
 
 After completing this lab, you should be able to:
 
-- Inspect a VPC
-- Update a network to work across multiple Availability Zones
+- Inspect a VPC & Inspecting your environment
+- Update a network to work across multiple Availability Zones & Creating a NAT gateway for the second Availability Zone
 - Create an Application Load Balancer
 - Create a launch template
 - Create an Auto Scaling group
@@ -21,13 +21,14 @@ After completing this lab, you should be able to:
 
 When you start the lab, your architecture will look like the following example:
 
+![AmazonCity Starting Architecture](https://raw.githubusercontent.com/islamicity24/AmazonCity/main/module-9-challenge-lab-starting-architecture.png)
 
 starting architecture
 
 
 At the end of this lab, your architecture should look like the following example:
 
-
+![AmazonCity Starting Architecture](https://github.com/islamicity24/AmazonCity/blob/main/module-6-challenge-lab-final-architecture.png)
 final architecture
 
 
@@ -62,12 +63,12 @@ Tip: If a new browser tab does not open, a banner or icon is usually at the top 
 Arrange the AWS Management Console tab so that it displays along side these instructions. Ideally, you will be able to see both browser tabs at the same time so that you can follow the lab steps more easily.
 
 
-A business request for the café: Implementing a scalable and highly available environment (Challenge)
+# A business request for the café: `Implementing a scalable and highly available environment (Challenge)`
 Sofía understands that she must complete some tasks to implement high availability and scalability for the café’s web application. However, before changing the café’s application architecture, Sofía must evaluate its current state.
 
 In the next several tasks, you will work as Sofía to create and configure the resources that you need to implement a scalable and highly available application.
 
-Task 1: Inspecting your environment
+## Task 1: Inspecting your environment
 In this task, you will evaluate the current state of your lab environment.
 
 Explore the lab environment, including how the network is set up.
@@ -76,7 +77,7 @@ Tip: You might want to start in the Amazon VPC console.
 To help you explore, continue to the next section and answer the questions about this lab.
 
 
-Answering questions about the lab
+## Answering questions about the lab
 Answers will be recorded when you choose the blue Submit button at the end of the lab.
 
 Access the questions in this lab.
@@ -85,62 +86,62 @@ Choose the Details  menu, and choose Show.
 Choose the Access the multiple choice questions link that appears at the bottom of the page.
 In the page that you loaded, answer the questions:
 
-Question 1: Which ports are open in the CafeSG security group?
-Question 2: Can you connect from the internet to instances in Public Subnet 1?
-Question 3: Should an instance in Private Subnet 1 be able to reach the internet?
-Question 4: Should an instance in Private Subnet 2 be able to reach the internet?
-Question 5: Can you connect to the CafeWebAppServer instance from the internet?
-Question 6: What is the name of the Amazon Machine Image (AMI)?
+* Question 1: `Which ports are open in the CafeSG security group?`
+* Question 2: `Can you connect from the internet to instances in Public Subnet 1?`
+* Question 3: `Should an instance in Private Subnet 1 be able to reach the internet?`
+* Question 4: `Should an instance in Private Subnet 2 be able to reach the internet?`
+* Question 5: `Can you connect to the CafeWebAppServer instance from the internet?`
+* Question 6: `What is the name of the Amazon Machine Image (AMI)?`
 
-Task 2: Creating a NAT gateway for the second Availability Zone
+## Task 2: Creating a NAT gateway for the second Availability Zone
 To achieve high availability, the architecture must span at least two Availability Zones. However, before you launch Amazon Elastic Compute Cloud (Amazon EC2) instances for your web application servers in the second Availability Zone, you must create a NAT gateway for them. A NAT gateway will allow instances that do not have a public IP address to access the internet.
 
-Create a NAT gateway in the Public Subnet in the second Availability Zone.
-Configure the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway you just created.
+8. Create a NAT gateway in the Public Subnet in the second Availability Zone.
+9. Configure the network to send `internet-bound traffic` from instances in Private Subnet 2 to the NAT gateway you just created.
 
-Task 3: Creating a bastion host instance in a public subnet
+## Task 3: Creating a bastion host instance in a public subnet
 In this task, you will create a bastion host in a public subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
 
-From the Amazon EC2 console, create an EC2 instance in one of the public subnets of the Lab VPC. It must meet the following criteria:
+10. From the Amazon EC2 console, create an EC2 instance in one of the public subnets of the Lab VPC. It must meet the following criteria:
 
-Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
+- Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
 
-Instance type: t2.micro
+- Instance type: t2.micro
 
-Auto-assign Public IP: This setting should be enabled
+- Auto-assign Public IP: This setting should be enabled
 
-Name: Bastion Host
+- Name: Bastion Host
 
-Only allows the following traffic:
+Only `allows` the following traffic:
 
-Type: SSH
-Port: 22
-Source: Your IP address
-Uses the vockey key pair
+- Type: SSH
+- Port: 22
+- Source: Your IP address
+- Uses the vockey key pair
 
 
-Task 4: Creating a launch template
+## Task 4: Creating a launch template
 During the lab setup, an Amazon Machine Image (AMI) was created from the CafeWebAppServer instance. In this task, you will create a launch template by using this AMI.
 
 Create a launch template by using the AMI that was created during lab setup. It must meet the following criteria.
 
-AMI: Cafe WebServer Image
-Tip: To locate the AMI, go to the the AMI dropdown menu and enter: Cafe
+- AMI: Cafe WebServer Image
+- Tip: To locate the AMI, go to the the AMI dropdown menu and enter: Cafe
 
-Instance type: t2.micro
+- Instance type: t2.micro
 Tip: To locate the instance type, go to the Instance Type dropdown menu and enter: t2
 
-Key pair (login): Uses a new key pair Tip: Create a new key pair and select it. Make sure that you download the key pair to your local computer.
+- Key pair (login): Uses a new key pair Tip: Create a new key pair and select it. Make sure that you download the key pair to your local computer.
 
-Security groups: CafeSG
+- Security groups: CafeSG
 Tip: To locate the security group, go to the Security groups dropdown menu and enter: CafeSG
 
-Resource tags:
+- Resource tags:
 
-Key: Name
-Value: webserver
-Resource types: Instances
-IAM Instance Profile: CafeRole
+-- Key: Name
+-- Value: webserver
+-- Resource types: Instances
+- IAM Instance Profile: CafeRole
 Tip: Look in Advanced Details for this setting.
 
 
