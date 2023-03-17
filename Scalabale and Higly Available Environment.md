@@ -102,7 +102,7 @@ To achieve high availability, the architecture must span at least two Availabili
 ## Task 3: Creating a bastion host instance in a public subnet
 In this task, you will create a bastion host in a public subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
 
-10. From the Amazon EC2 console, create an EC2 instance in one of the public subnets of the Lab VPC. It must meet the following criteria:
+10. From the **Amazon EC2 console**, create an EC2 instance in one of the public subnets of the Lab VPC. It must meet the following criteria:
 
 - Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
 
@@ -123,7 +123,7 @@ Only `allows` the following traffic:
 ## Task 4: Creating a launch template
 During the lab setup, an Amazon Machine Image (AMI) was created from the CafeWebAppServer instance. In this task, you will create a launch template by using this AMI.
 
-Create a launch template by using the AMI that was created during lab setup. It must meet the following criteria.
+11. Create a launch template by using the AMI that was created during lab setup. It must meet the following criteria.
 
 - AMI: Cafe WebServer Image
 - Tip: To locate the AMI, go to the the AMI dropdown menu and enter: Cafe
@@ -137,33 +137,33 @@ Tip: To locate the instance type, go to the Instance Type dropdown menu and ente
 Tip: To locate the security group, go to the Security groups dropdown menu and enter: CafeSG
 
 - Resource tags:
-
--- Key: Name
--- Value: webserver
--- Resource types: Instances
+ - Key: Name
+ - Value: webserver
+ - Resource types: Instances
 - IAM Instance Profile: CafeRole
-Tip: Look in Advanced Details for this setting.
+Tip: Look in **Advanced Details** for this setting.
 
 
-Task 5: Creating an Auto Scaling group
+## Task 5: Creating an Auto Scaling group
 Now that the launch template is defined, you will create an Auto Scaling group for the instances. In this task, do not create a load balancer when you create the Auto Scaling group. (You will create a load balancer in the next task.)
 
-Create a new Auto Scaling Group that meets the following criteria:
+12. Create a new Auto Scaling Group that meets the following criteria:
 
-Launch template: Uses the launch template that you created in the previous task
+- Launch template: Uses the launch template that you created in the previous task
 
-VPC: Uses the VPC that was configured for this lab
+- VPC: Uses the VPC that was configured for this lab
 
-Subnets: Uses Private Subnet 1 and Private Subnet 2
+- Subnets: Uses Private Subnet 1 and Private Subnet 2
 
-Skips all the advanced options
+> Skips all the advanced options
 
-Has a Group size configured as:
+Has a **Group size** configured as:
 
-Desired capacity: 2
-Minimum capacity: 2
-Maximum capacity: 6
-Enables the Target tracking scaling policy configured as:
+- Desired capacity: 2
+- Minimum capacity: 2
+- Maximum capacity: 6
+
+- Enables the **Target tracking scaling policy** configured as:
 
 Metric type: Average CPU utilization
 Target Value: 25
@@ -171,10 +171,10 @@ Instances need: 60
 To verify that you created the Auto Scaling group correctly, go to the Amazon EC2 console. You should have two instances, both with the name that you configured as resource tags in the previous task.
 
 
-Task 6: Creating a load balancer
+## Task 6: Creating a load balancer
 Now that you web application server instances are deployed in private subnets, you need a way for the outside world to connect to them. In this task, you will create a load balancer to distribute traffic across your private instances.
 
-Create an HTTP Application Load Balancer that meets the following criteria:
+14. Create an HTTP Application Load Balancer that meets the following criteria:
 
 VPC: Uses the VPC configured for this lab
 Subnets: Uses the two public subnets
@@ -184,9 +184,9 @@ Target group: Creates a new target group
 Skips registering targets
 Note: Wait until the load balancer is active.
 
-Modify the Auto Scaling group that you created in the previous task by adding this new load balancer.
+15. Modify the Auto Scaling group that you created in the previous task by adding this new load balancer.
 
-Hint: Add the target group you created in the Load Balancer configuration.
+> Hint: Add the target group you created in the Load Balancer configuration.
 
 
 Sofía has now created and configured the resources that the web application needs to be highly available and scalable. However, Sofía knows that she still has more work to do. To complete the process of updating the application architecture, Sofía must test the café’s web application to make sure that it performs as expected.
@@ -194,7 +194,7 @@ Sofía has now created and configured the resources that the web application nee
 In the next tasks, you will continue working in the role of Sofía and test whether the café web application automatically scales under load.
 
 
-Task 7: Testing the web application
+## Task 7: Testing the web application
 In this task, you will test the café web application.
 
 To test the café web application, visit the Domain Name System (DNS) name of your load balancer and append /cafe to the URL.
@@ -202,30 +202,31 @@ The café application should load.
 
 If it does not, go back through the lab tasks and check your work. Pay attention to the following resources:
 
-Network configuration: Did you add the NAT gateway correctly?
-Route tables: Did you update the route tables with the NAT gateway?
-Launch template: Does the instance specify an IAM role?
-Load balancer: Is the load balancer in the public subnets?
-Instances: Are the instances deployed from the Auto Scaling group that is in the correct subnets?
-Security groups: Do the security groups allow HTTP traffic from the internet?
+- Network configuration: Did you add the NAT gateway correctly?
+- Route tables: Did you update the route tables with the NAT gateway?
+- Launch template: Does the instance specify an IAM role?
+- Load balancer: Is the load balancer in the public subnets?
+- Instances: Are the instances deployed from the Auto Scaling group that is in the correct subnets?
+- Security groups: Do the security groups allow HTTP traffic from the internet?
 
-Task 8: Testing automatic scaling under load
+## Task 8: Testing automatic scaling under load
 In this task, you will test whether the café application scales out automatically.
 
-By using Secure Shell (SSH) passthrough through the bastion host instance, use SSH to connect to one of the running web server instances.
-Tip: You will need to modify the CafeSG security group to allow SSH traffic over port 22 from the bastion host.
+17. By using Secure Shell (SSH) passthrough through the bastion host instance, use SSH to connect to one of the running web server instances.
+> Tip: You will need to modify the CafeSG security group to allow SSH traffic over port 22 from the bastion host.
 
 From the web server instance, use the following commands to start a stress test. This test increases the load on the web server CPU:
-
+```
 sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 sudo yum install stress -y
 stress --cpu 1 --timeout 600
+```
 Verify that the Auto Scaling group deploys new instances.
 
 Continue to observe the Amazon EC2 console.
 During the test, you should observe that more web server instances are deployed.
 
-Update from the café
+# Update from the café
 After Sofía finishes testing the café web application's performance, she tells her parents about the changes—when traffic increases, the café application now successfully scales out. Frank and Martha are impressed that Sofía implemented a highly available and scalable architecture for the application.
 
 Meanwhile, the entire café team is excited! They are busy preparing for the increased volume of orders that they anticipate from being featured on the TV show. As they work on their preparations, they know that they can rely on automatic scaling to help them take orders and delight new customers.
