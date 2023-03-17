@@ -104,20 +104,20 @@ In this task, you will create a bastion host in a public subnet. In later tasks,
 
 10. From the **Amazon EC2 console**, create an EC2 instance in one of the public subnets of the Lab VPC. It must meet the following criteria:
 
-- Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
+* Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
 
-- Instance type: t2.micro
+* Instance type: t2.micro
 
-- Auto-assign Public IP: This setting should be enabled
+* Auto-assign Public IP: This setting should be enabled
 
-- Name: Bastion Host
+* Name: Bastion Host
 
 Only `allows` the following traffic:
 
 - Type: SSH
 - Port: 22
 - Source: Your IP address
-- Uses the vockey key pair
+* Uses the vockey key pair
 
 
 ## Task 4: Creating a launch template
@@ -125,22 +125,22 @@ During the lab setup, an Amazon Machine Image (AMI) was created from the CafeWeb
 
 11. Create a launch template by using the AMI that was created during lab setup. It must meet the following criteria.
 
-- AMI: Cafe WebServer Image
-- Tip: To locate the AMI, go to the the AMI dropdown menu and enter: Cafe
+* AMI: Cafe WebServer Image
+  Tip: To locate the AMI, go to the the AMI dropdown menu and enter: Cafe
 
-- Instance type: t2.micro
+* Instance type: t2.micro
 Tip: To locate the instance type, go to the Instance Type dropdown menu and enter: t2
 
-- Key pair (login): Uses a new key pair Tip: Create a new key pair and select it. Make sure that you download the key pair to your local computer.
+* Key pair (login): Uses a new key pair Tip: Create a new key pair and select it. Make sure that you download the key pair to your local computer.
 
-- Security groups: CafeSG
+* Security groups: CafeSG
 Tip: To locate the security group, go to the Security groups dropdown menu and enter: CafeSG
 
-- Resource tags:
+* Resource tags:
  - Key: Name
  - Value: webserver
  - Resource types: Instances
-- IAM Instance Profile: CafeRole
+* IAM Instance Profile: CafeRole
 Tip: Look in **Advanced Details** for this setting.
 
 
@@ -149,21 +149,21 @@ Now that the launch template is defined, you will create an Auto Scaling group f
 
 12. Create a new Auto Scaling Group that meets the following criteria:
 
-- Launch template: Uses the launch template that you created in the previous task
+* Launch template: Uses the launch template that you created in the previous task
 
-- VPC: Uses the VPC that was configured for this lab
+* VPC: Uses the VPC that was configured for this lab
 
-- Subnets: Uses Private Subnet 1 and Private Subnet 2
+* Subnets: Uses Private Subnet 1 and Private Subnet 2
 
 > Skips all the advanced options
 
-Has a **Group size** configured as:
+* Has a **Group size** configured as:
 
 - Desired capacity: 2
 - Minimum capacity: 2
 - Maximum capacity: 6
 
-- Enables the **Target tracking scaling policy** configured as:
+* Enables the **Target tracking scaling policy** configured as:
 
 Metric type: Average CPU utilization
 Target Value: 25
