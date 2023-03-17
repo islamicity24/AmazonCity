@@ -114,9 +114,9 @@ In this task, you will create a bastion host in a public subnet. In later tasks,
 
 Only `allows` the following traffic:
 
-- Type: SSH
-- Port: 22
-- Source: Your IP address
+  - Type: SSH
+  - Port: 22
+  - Source: Your IP address
 * Uses the vockey key pair
 
 
@@ -137,9 +137,9 @@ Tip: To locate the instance type, go to the Instance Type dropdown menu and ente
 Tip: To locate the security group, go to the Security groups dropdown menu and enter: CafeSG
 
 * Resource tags:
- - Key: Name
- - Value: webserver
- - Resource types: Instances
+  - Key: Name
+  - Value: webserver
+  - Resource types: Instances
 * IAM Instance Profile: CafeRole
 Tip: Look in **Advanced Details** for this setting.
 
@@ -159,9 +159,9 @@ Now that the launch template is defined, you will create an Auto Scaling group f
 
 * Has a **Group size** configured as:
 
-- Desired capacity: 2
-- Minimum capacity: 2
-- Maximum capacity: 6
+  - Desired capacity: 2
+  - Minimum capacity: 2
+  - Maximum capacity: 6
 
 * Enables the **Target tracking scaling policy** configured as:
 
