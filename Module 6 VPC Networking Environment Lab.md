@@ -55,25 +55,25 @@ aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.0.0/24 --availability-
 Replace <vpc-id> with the ID of the Lab VPC created for this challenge, and <availability-zone> with the availability zone of your choice within your region.<br>
 step 2   
 ```
-   aws ec2 create-internet-gateway --tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=Lab VPC IGW}]'
+aws ec2 create-internet-gateway --tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=Lab VPC IGW}]'
 ```
 ```
-   aws ec2 attach-internet-gateway --internet-gateway-id <internet-gateway-id> --vpc-id <vpc-id>
+aws ec2 attach-internet-gateway --internet-gateway-id <internet-gateway-id> --vpc-id <vpc-id>
 ```
    Replace <internet-gateway-id> with the ID of the internet gateway created in step 2, and <vpc-id> with the ID of the Lab VPC.
 ```
-   aws ec2 create-route --route-table-id <route-table-id> --destination-cidr-block 0.0.0.0/0 --gateway-id <internet-gateway-id>
+aws ec2 create-route --route-table-id <route-table-id> --destination-cidr-block 0.0.0.0/0 --gateway-id <internet-gateway-id>
 ```
    Replace <route-table-id> with the ID of the route table associated with the Public Subnet created in step 1, and <internet-gateway-id> with the ID of the internet gateway created in step 2.
    
 ### Task 2: Creating a bastion host
 
-In this task, you will create a bastion host in the Public Subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
+In this task, you will `create a bastion host` in the `Public Subnet`. In later tasks, you will create `an EC2 instance` in `a private subnet` and connect to it from this bastion host.
 
 10. From the Amazon EC2 console, create an EC2 instance in the Public Subnet of the Lab VPC that meets the following criteria:
    - Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
    - Instance type: t2.micro
-   - Auto-assign Public IP: This setting should be disabled
+   - Auto-assign Public IP: `This setting should be **disabled**`
    - Name: Bastion Host
    - Security group called Bastion Host SG that only allows the following traffic:
      - Type: SSH
@@ -81,4 +81,4 @@ In this task, you will create a bastion host in the Public Subnet. In later task
      - Source: Your IP address
    - Uses the **vockey** key pair
     
-> Note: In practice, hardening a bastion host involves more
+> Note: In practice, hardening a bastion host involves more work than only restricting Secure Shell (SSH) traffic from your IP address. A bastion host is typically placed in a network that's closed off from other networks. It's often protected with multi-factor authentication (MFA) and monitored with auditing tools. Most enterprises require an auditable access trail to the bastion host.
