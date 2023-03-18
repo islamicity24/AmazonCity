@@ -196,6 +196,14 @@ In this task, you will create an EC2 instance in the Private Subnet, and you wil
   - Source: Bastion host security group (Hint: Refer to the AWS Documentation
 - Uses the `vockey2` key pair that you created earlier
 
+```
+aws ec2 create-key-pair --key-name vockey2 --query 'KeyMaterial' --output text > vockey2.pem
+```
+```
+   aws ec2 run-instances --image-id ami-0fc61db8544a617ed --instance-type t2.micro --subnet-id <private-subnet-id> --security-group-ids <private-instance-sg-id> --key-name vockey2 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Private Instance}]' --associate-public-ip-address
+```
+   Note: Replace `<private-subnet-id>` with the ID of the private subnet that you created in Task 5, and `<private-instance-sg-id>` with the ID of the security group that you will create in Task 8.
+   
 ## Task 8: Configuring your SSH client for SSH passthrough
 Because the private instance you just created uses a different key pair than the bastion host, you must configure your SSH client to use SSH passthrough. This action allows you to use a key pair that's stored on your computer to access the private instance without uploading the key pair to the bastion host. This is a good security practice.  
 
@@ -283,10 +291,10 @@ In this first challenge, you implemented the architectural best practice of enab
 
 Expand here to learn more about it.
 
-New business requirement: Enhancing the security layer for private resources (Challenge #2)
-Sofía and Nikhil are proud of the changes they made to the cafe's application architecture. They are pleased by the additional security they built, and they are also glad to have a test environment that they can use before they deploy updates to the production instance. They tell Mateo about their new application architecture, and he's impressed! To further improve their application security, Mateo advises them to build an additional layer of security by using custom network access control lists (network ACLs).
+# New business requirement: Enhancing the security layer for private resources (Challenge #2)
+Sofía and Nikhil are proud of the changes they made to the cafe's application architecture. They are pleased by the additional security they built, and they are also glad to have `a test environment` instance (for development) that they can use before they deploy  updates to `the production instance (Private E2 Instance)`. They tell Mateo about their new application architecture, and he's impressed! To further improve their application security, Mateo advises them to build `an additional layer of security by using custom network access control lists (network ACLs)`.
 
-# In this challenge, you will continue to take on the role of one of the café's system administrators. Now that you established secure access from the bastion host to the EC2 instance in the private subnet, you must enhance the security layer of the private subnet. To accomplish this task, you will create and configure a custom network ACL.
+In this challenge, you will continue to take on the role of one of the café's system administrators. Now that you established secure access from the bastion host to the EC2 instance in the private subnet, you must enhance the security layer of the private subnet. To accomplish this task, you will create and configure a custom network ACL.
 
 
 ## Task 10: Creating a network ACL
@@ -296,12 +304,12 @@ You can use network ACLs to control traffic between subnets. It's a good practic
 
 For this challenge, you will create an EC2 instance in the Public Subnet. You will create a security group that allows Internet Control Message Protocol (ICMP) traffic from the local network. Next, you will create and configure your custom network ACL to deny ICMP traffic between the Private Subnet and this test instance. ICMP is used by the ping utility.
 
-Go to the Amazon VPC console, and inspect the default network ACL of Lab VPC.  
+35. Go to the Amazon VPC console, and inspect the default network ACL of Lab VPC.  
 
-Note 1: The subnets that you created are automatically associated with the default network ACL.
-Note 2: The inbound and outbound rules of the default network ACL allow all traffic.
+**Note 1**: The subnets that you created are automatically associated with the default network ACL.
+**Note 2**: The inbound and outbound rules of the default network ACL allow all traffic.
 
-Create a custom network ACL called Lab Network ACL for the Lab VPC.  
+36. Create a custom network ACL called Lab Network ACL for the Lab VPC.  
 
 Note: The default inbound and outbound rules of the custom network ACL deny all traffic.
 
@@ -310,7 +318,7 @@ Configure your custom network ACL to allow ALL traffic that goes into and out of
 Hint: If you get stuck, refer to the AWS Documentation.
 
 
-Task 11: Testing your custom network ACL
+## Task 11: Testing your custom network ACL
 Create an EC2 instance in the Public Subnet of the Lab VPC. It should meet the following criteria.
 
 AMI: Amazon Linux 2 AMI (HVM)
