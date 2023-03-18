@@ -87,11 +87,11 @@ In this task, you will `create a bastion host` in the `Public Subnet`. In later 
 ```
 aws ec2 create-security-group --group-name "Bastion Host SG" --description "Security group for Bastion Host" --vpc-id <vpc-id>
 ```
-Replace <vpc-id> with the ID of the Lab VPC created for this challenge.
+Replace `<vpc-id>` with the ID of the Lab VPC created for this challenge.
 ```
 aws ec2 authorize-security-group-ingress --group-name "Bastion Host SG" --protocol tcp --port 22 --cidr <your-ip-address>/32
 ```
-Replace <your-ip-address> with your public IP address.
+Replace `<your-ip-address>` with your public IP address.
 ```
 aws ec2 create-key-pair --key-name bastion-key --query 'KeyMaterial' --output text > bastion-key.pem && chmod 400 bastion-key.pem
 ```
