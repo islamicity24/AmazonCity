@@ -25,7 +25,7 @@ At the end of this lab, your architecture should look like the following example
 ![AmazonCity Architecture](https://github.com/islamicity24/AmazonCity/raw/main/module-6-challenge-lab-final-architecture.png)
 ![final architecture](./final-architecture.png)
 
-_Note: in this challenge lab, step-by-step instructions are not provided for most of the tasks. You must figure out how to complete the tasks on your own._
+> _Note: in this challenge lab, step-by-step instructions are not provided for most of the tasks. You must figure out how to complete the tasks on your own._
 
 ## Challenge #1: A business request for the café: Creating a VPC network that allows café staff to remotely and securely administer the web application server 
 
