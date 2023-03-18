@@ -309,16 +309,100 @@ For this challenge, you will create an EC2 instance in the Public Subnet. You wi
 
 35. Go to the Amazon VPC console, and inspect the default network ACL of Lab VPC.  
 
-**Note 1**: The subnets that you created are automatically associated with the default network ACL.
-**Note 2**: The inbound and outbound rules of the default network ACL allow all traffic.
+**Note 1**: The subnets that you created are automatically associated with the default network ACL.<br>                                   
+   **Note 2**: The inbound and outbound rules of the default network ACL allow all traffic.
 
 36. Create a custom network ACL called Lab Network ACL for the Lab VPC.  
 
-Note: The default inbound and outbound rules of the custom network ACL deny all traffic.
+   **Note**: The default inbound and outbound rules of the custom network ACL `deny all traffic`.
 
-Configure your custom network ACL to allow ALL traffic that goes into and out of the Private Subnet.
+37. Configure your custom network ACL to allow ALL traffic that goes into and out of the Private Subnet.
 
-Hint: If you get stuck, refer to the AWS Documentation.
+Question 1: What is the purpose of the internet gateway in the public subnet?
+- A. Allows instances in the private subnet to obtain a public IP address
+- B. Allows instances in the public subnet to obtain a public IP addresss
+- C. Allows instances in the public subnet with a public IP address to communicate with the internet
+- D. Allows instances in the private subnet with a public IP address to communicate with the internet
+Which one the answer
+The correct answer is C. The purpose of the internet gateway in the public subnet is to allow instances in the public subnet with a public IP address to communicate with the internet. This enables the instances to send and receive traffic to and from the internet, and allows them to be accessed by users or other resources outside of the AWS infrastructure.
+
+
+Question 2: What allows the instance in the private subnet to connect to the internet so that it can download updates?
+- A. The internet gateway in the public subnet
+- B. The NAT gateway
+- C. The Elastic IP address
+- D .The default network ACL    so which one the right answer ?
+
+   The correct answer is B. The NAT (Network Address Translation) gateway allows the instance in the private subnet to connect to the internet so that it can download updates. The NAT gateway provides a way for instances in the private subnet to access the internet while keeping them private and secure. It allows outgoing traffic from the private subnet to the internet, while also masking the private IP addresses of the instances behind the public IP address of the NAT gateway. This helps to prevent any direct communication between the internet and the instances in the private subnet, adding an additional layer of security to the infrastructure.
+
+Option A is incorrect as the internet gateway in the public subnet allows instances in the public subnet with a public IP address to communicate with the internet, not the instances in the private subnet.
+
+Option C is incorrect as an Elastic IP address is a static, public IPv4 address that can be assigned to an instance in a VPC, but it alone does not provide internet connectivity to the instance.
+
+Option D is incorrect as the default network ACL controls inbound and outbound traffic for a subnet, but it does not provide internet connectivity to the instances in the private subnet.
+
+
+Question 3: Can the instance in the private subnet be accessed directly from the internet?
+- A. Yes
+- B. No
+
+   The answer is B. No, the instance in the private subnet cannot be accessed directly from the internet.
+
+Instances in a private subnet are not assigned a public IP address and are not directly accessible from the internet. To access resources in a private subnet from the internet, you must use a bastion host, VPN connection or a NAT gateway to allow traffic to flow from the private subnet to the internet or vice versa.
+
+The use of private subnets adds an additional layer of security to your infrastructure by keeping sensitive resources isolated from the internet and only allowing access to them through controlled channels.
+
+
+Question 4: Why do you use two different key pairs to access the private instance and the bastion host?
+- A. Each instance needs a different key pair
+- B. It provided practice with creating key pairs
+- C. Separate key pairs could help reduce the impact of a compromised bastion host
+- D .Key pairs can't be reused
+
+   The correct answer is C. Using two different key pairs to access the private instance and the bastion host can help reduce the impact of a compromised bastion host.
+
+A bastion host is a server that is placed in a public subnet and is used as a gateway to access resources in private subnets. By using a bastion host, you can restrict access to resources in the private subnet from the public internet, and allow access only to authorized users who have access to the bastion host.
+
+If an attacker gains access to the bastion host, they could potentially use it to access resources in the private subnet. However, by using separate key pairs for accessing the bastion host and the private instance, you can reduce the impact of a compromised bastion host. If the attacker gains access to the bastion host, they would not be able to access the private instance without also having the private instance key pair.
+
+Option A is incorrect because multiple instances can use the same key pair.
+
+Option B is incorrect because using separate key pairs is not necessarily about providing practice with creating them.
+
+Option D is incorrect because key pairs can be reused, but it is not recommended for security reasons.
+
+
+Question 5: Can the bastion host use ping and get a reply from the instance in the private subnet?
+- Yes
+- No
+The answer is dependent on the network configuration and security group rules set up in the VPC.
+
+In general, if the bastion host and the instance in the private subnet are in the same VPC and the appropriate security group rules are in place, then the bastion host should be able to ping and get a reply from the instance in the private subnet.
+
+However, if the security group rules are not configured properly, or if the instance in the private subnet is not set up to respond to ping requests, then the bastion host may not be able to ping the private instance.
+
+So the answer is: It depends on the network configuration and security group rules set up in the VPC.
+
+
+Question 6: Which security group rules allow the private EC2 instance to receive the return traffic when it pings the test instance?
+- A. Outbound on private and outbound on test
+- B  Outbound on private and inbound on test
+- C  Inbound on private and outbound on test
+- D  Inbound on private and inbound on test
+
+The correct answer is B.
+
+When the private EC2 instance pings the test instance, the ping request goes out from the private instance to the test instance, and then the test instance sends a reply back to the private instance. Therefore, the private instance needs to have outbound traffic allowed, and the test instance needs to have inbound traffic allowed, in order for the ping to work.
+
+In specific, the security group rules that would allow the private EC2 instance to receive the return traffic when it pings the test instance are:
+
+Outbound traffic allowed on the private instance security group to allow the ping request to go out from the private instance to the test instance.
+Inbound traffic allowed on the test instance security group to allow the ping reply to come back from the test instance to the private instance.
+Option A is incorrect because allowing outbound traffic on the test instance security group alone would not allow the private instance to receive the return traffic.
+
+Option C is incorrect because allowing inbound traffic on the private instance security group alone would not allow the test instance to receive the initial ping request.
+
+Option D is incorrect because allowing inbound traffic on both security groups would allow the private instance to receive the initial ping request from the test instance, but it would not allow the private instance to receive the return traffic.: If you get stuck, refer to the AWS Documentation.
    
    1. Create the custom network ACL:
 ```
