@@ -345,19 +345,23 @@ Make sure to replace `<vpc-id>` with the ID of your Lab VPC.
 39. Note the private IP address of the Test Instance.
    
 40. Test that you can reach the private IP address of the Test Instance from the Private Instance. From the Private Instance terminal window, run the following ping command:
-
+```
 ping <private-ip-address-of-test-instance>
-Leave the ping utility running.
+```
+   
+41. Leave the ping utility running.
 
-Modify your custom network ACL to deny All ICMP – IPv4 traffic to the <private-ip-address-of-test-instance>/32
+42. Modify your custom network ACL to deny All ICMP – IPv4 traffic to the <private-ip-address-of-test-instance>/32
 
-Make sure to add /32 to the end of the private IP address.
-Make sure that this rule is evaluated first.
-In the Private Instance terminal window, the ping command should stop responding. The traffic to the Test Instance has been blocked.
+   - Make sure to add /32 to the end of the private IP address.
+   - Make sure that this rule is evaluated first.
+
+43. In the Private Instance terminal window, the ping command should stop responding. The traffic to the Test Instance has been blocked.
 
 
 You have now denied traffic from the Private Subnet to the Test Instance, as shown in the following diagram:
 
+[Private EC2 instance to Test EC2 instance](https://github.com/islamicity24/AmazonCity/blob/main/module-6-challenge-lab-private-to-test.png)
 
 private EC2 instance to test EC2 instance
 
@@ -365,27 +369,27 @@ private EC2 instance to test EC2 instance
 
 
 
-Architecture best practice
+**Architecture best practice**
 
 In this second challenge, you protected your network resources by implementing the architectural best practice of controlling traffic at all layers.
 
 Expand here to learn more about it.
 
-Answering questions about the lab
+**Answering questions about the lab**
 Answers will be recorded when you choose the blue Submit button at the end of the lab.
 
 Access the questions in this lab.
 Choose the Details 
 menu, and choose Show.
 Choose the Access the multiple choice questions link that appears at the bottom of the page.
-In the page that you loaded, answer the following questions:
+45. In the page that you loaded, answer the following questions:
 
-Question 1: What is the purpose of the internet gateway in the public subnet?
-Question 2: What allows the instance in the private subnet to connect to the internet so that it can download updates?
-Question 3: Can the instance in the private subnet be accessed directly from the internet?
-Question 4: Why do you use two different key pairs to access the private instance and the bastion host?
-Question 5: Can the bastion host use ping and get a reply from the instance in the private subnet?
-Question 6: Which security group rules allow the private EC2 instance to receive the return traffic when it pings the test instance?
+   - Question 1: What is the purpose of the internet gateway in the public subnet?
+   - Question 2: What allows the instance in the private subnet to connect to the internet so that it can download updates?
+   - Question 3: Can the instance in the private subnet be accessed directly from the internet?
+   - Question 4: Why do you use two different key pairs to access the private instance and the bastion host?
+   - Question 5: Can the bastion host use ping and get a reply from the instance in the private subnet?
+   - Question 6: Which security group rules allow the private EC2 instance to receive the return traffic when it pings the test instance?
    
 ```
    aws ec2 run-instances \
