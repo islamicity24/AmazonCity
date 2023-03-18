@@ -75,13 +75,13 @@ In this task, you will `create a bastion host` in the `Public Subnet`. In later 
    - Instance type: t2.micro
    - Auto-assign Public IP: `This setting should be **disabled**`
    - Name: Bastion Host
-   - Security group called Bastion Host SG that only allows the following traffic:
+   - Security group called `Bastion Host SG` that only allows the following traffic:
      - Type: SSH
      - Port: 22
      - Source: Your IP address
    - Uses the **vockey** key pair
     
-> Note: In practice, hardening a bastion host involves more work than only restricting Secure Shell (SSH) traffic from your IP address. A bastion host is typically placed in a network that's closed off from other networks. It's often protected with multi-factor authentication (MFA) and monitored with auditing tools. Most enterprises require an auditable access trail to the bastion host.
+> Note: In practice, hardening a bastion host involves more work than only restricting `Secure Shell (SSH)` traffic from your IP address. A bastion host is typically placed in a network that's closed off from other networks. It's often protected with multi-factor authentication (MFA) and monitored with auditing tools. Most enterprises require an auditable access trail to the bastion host.
 
 **step 1**
 ```
