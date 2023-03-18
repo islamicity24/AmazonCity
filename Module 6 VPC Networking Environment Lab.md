@@ -22,6 +22,7 @@ When you start the lab, you will only have a VPC created for you in the AWS acco
 
 At the end of this lab, your architecture should look like the following example:
 
+![AmazonCity Architecture](https://github.com/islamicity24/AmazonCity/raw/main/module-6-challenge-lab-final-architecture.png)
 ![final architecture](./final-architecture.png)
 
 _Note: in this challenge lab, step-by-step instructions are not provided for most of the tasks. You must figure out how to complete the tasks on your own._
@@ -35,7 +36,7 @@ In this challenge, you will take on the role of one of the café's system admini
 Your first task in this lab is to create a public subnet in the Lab VPC. After you create a public subnet, you will create an internet gateway to allow communication from the subnet to the internet. You will update the routing table that's attached to the subnet to route internet-bound network traffic through the internet gateway.
 
 5. Open the Amazon VPC console.
-6. Note that a VPC called Lab VPC was created for you.
+6. Note that a VPC called `Lab VPC` was created for you.
 7. Create a public subnet that meets the following criteria:
    - Name tag: Public Subnet
    - VPC: Lab VPC
@@ -44,8 +45,27 @@ Your first task in this lab is to create a public subnet in the Lab VPC. After y
 8. Create a new internet gateway and attach it to the Lab VPC.
 9. Edit the route table that was created in your VPC. Add the route 0.0.0.0/0. For the target, select the internet gateway that you created in the previous step.
 
-_Hint: To successfully complete this task, you must create a few resources. If you get stuck, refer to the AWS Documentation._
+> Hint: To successfully complete this task, you must create a few resources. If you get stuck, refer to the AWS Documentation._
 
+Here's the AWS CLI code to complete Task 1 of Challenge #1:<br>
+step 1
+```
+aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.0.0/24 --availability-zone <availability-zone> --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=Public Subnet}]'
+```
+Replace <vpc-id> with the ID of the Lab VPC created for this challenge, and <availability-zone> with the availability zone of your choice within your region.
+step 2   
+```
+   aws ec2 create-internet-gateway --tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=Lab VPC IGW}]'
+```
+```
+   aws ec2 attach-internet-gateway --internet-gateway-id <internet-gateway-id> --vpc-id <vpc-id>
+```
+   Replace <internet-gateway-id> with the ID of the internet gateway created in step 2, and <vpc-id> with the ID of the Lab VPC.
+```
+   aws ec2 create-route --route-table-id <route-table-id> --destination-cidr-block 0.0.0.0/0 --gateway-id <internet-gateway-id>
+```
+   Replace <route-table-id> with the ID of the route table associated with the Public Subnet created in step 1, and <internet-gateway-id> with the ID of the internet gateway created in step 2.
+   
 ### Task 2: Creating a bastion host
 
 In this task, you will create a bastion host in the Public Subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
