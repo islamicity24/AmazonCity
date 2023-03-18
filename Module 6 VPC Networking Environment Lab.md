@@ -361,7 +361,7 @@ ping <private-ip-address-of-test-instance>
 
 You have now denied traffic from the Private Subnet to the Test Instance, as shown in the following diagram:
 
-[Private EC2 instance to Test EC2 instance](https://github.com/islamicity24/AmazonCity/blob/main/module-6-challenge-lab-private-to-test.png)
+![Private EC2 instance to Test EC2 instance](https://github.com/islamicity24/AmazonCity/blob/main/module-6-challenge-lab-private-to-test.png)
 
 private EC2 instance to test EC2 instance
 
