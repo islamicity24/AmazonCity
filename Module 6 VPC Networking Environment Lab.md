@@ -82,3 +82,23 @@ In this task, you will `create a bastion host` in the `Public Subnet`. In later 
    - Uses the **vockey** key pair
     
 > Note: In practice, hardening a bastion host involves more work than only restricting Secure Shell (SSH) traffic from your IP address. A bastion host is typically placed in a network that's closed off from other networks. It's often protected with multi-factor authentication (MFA) and monitored with auditing tools. Most enterprises require an auditable access trail to the bastion host.
+
+**step 1**
+```
+aws ec2 create-security-group --group-name "Bastion Host SG" --description "Security group for Bastion Host" --vpc-id <vpc-id>
+```
+Replace <vpc-id> with the ID of the Lab VPC created for this challenge.
+```
+aws ec2 authorize-security-group-ingress --group-name "Bastion Host SG" --protocol tcp --port 22 --cidr <your-ip-address>/32
+```
+Replace <your-ip-address> with your public IP address.
+```
+aws ec2 create-key-pair --key-name bastion-key --query 'KeyMaterial' --output text > bastion-key.pem && chmod 400 bastion-key.pem
+```
+This creates a new key pair called "bastion-key" and saves the private key to a file named "bastion-key.pem". Make sure to securely store this private key, as you will need it later to connect to the bastion host.
+```
+aws ec2 run-instances --image-id ami-0fc61db8544a617ed --instance-type t2.micro --key-name bastion-key --subnet-id <public-subnet-id> --security-group-ids <security-group-id> --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Bastion Host}]' --no-associate-public-ip-address
+```
+Replace `<public-subnet-id>` with the ID of the Public Subnet created in Task 1, and `<security-group-id>` with the ID of the security group "Bastion Host SG" created in step 1.
+   
+> Note: Make sure to run the above commands in the same order as listed above, and replace the required parameters with the corresponding values.
