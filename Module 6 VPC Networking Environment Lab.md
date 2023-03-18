@@ -60,6 +60,9 @@ aws ec2 create-internet-gateway --tag-specifications 'ResourceType=internet-gate
 ```
 aws ec2 attach-internet-gateway --internet-gateway-id <internet-gateway-id> --vpc-id <vpc-id>
 ```
+```
+   aws ec2 attach-internet-gateway --vpc-id "vpc-078e4a79bcb2ecb6c" --internet-gateway-id "igw-0c880167a2e2dba47" --region us-east-1
+```   
    Replace <internet-gateway-id> with the ID of the internet gateway created in step 2, and <vpc-id> with the ID of the Lab VPC.
 ```
 aws ec2 create-route --route-table-id <route-table-id> --destination-cidr-block 0.0.0.0/0 --gateway-id <internet-gateway-id>
