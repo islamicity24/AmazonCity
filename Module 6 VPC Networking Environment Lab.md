@@ -332,18 +332,19 @@ Make sure to replace `<vpc-id>` with the ID of your Lab VPC.
    3. Create inbound and outbound rules for the custom network ACL to allow all traffic into and out of the Private Subnet:
 ```
    aws ec2 create-network-acl-entry --network-acl-id <network-acl-id> --rule-number 110 --protocol -1 --rule-action allow --cidr-block <private-subnet-cidr-block> --egress false
-aws ec2 create-network-acl-entry --network-acl-id <network-acl-id> --rule-number 110 --protocol -1 --rule-action allow --cidr-block <private-subnet-cidr-block> --egress true
-
+   aws ec2 create-network-acl-entry --network-acl-id <network-acl-id> --rule-number 110 --protocol -1 --rule-action allow --cidr-block <private-subnet-cidr-block> --egress true
+```
+   
 ## Task 11: Testing your custom network ACL
-Create an EC2 instance in the Public Subnet of the Lab VPC. It should meet the following criteria.
+38. Create an EC2 instance in the Public Subnet of the Lab VPC (Public Test E2 Instance). It should meet the following criteria.
+   - AMI: Amazon Linux 2 AMI (HVM)
+   - Instance type: t2.micro
+   - Name: Test Instance
+   - Allows All ICMP – IPv4 inbound traffic to the instance through the security group
 
-AMI: Amazon Linux 2 AMI (HVM)
-Instance type: t2.micro
-Name: Test Instance
-Allows All ICMP – IPv4 inbound traffic to the instance through the security group
-Note the private IP address of the Test Instance.
-
-Test that you can reach the private IP address of the Test Instance from the Private Instance. From the Private Instance terminal window, run the following ping command:
+39. Note the private IP address of the Test Instance.
+   
+40. Test that you can reach the private IP address of the Test Instance from the Private Instance. From the Private Instance terminal window, run the following ping command:
 
 ping <private-ip-address-of-test-instance>
 Leave the ping utility running.
@@ -385,9 +386,42 @@ Question 3: Can the instance in the private subnet be accessed directly from the
 Question 4: Why do you use two different key pairs to access the private instance and the bastion host?
 Question 5: Can the bastion host use ping and get a reply from the instance in the private subnet?
 Question 6: Which security group rules allow the private EC2 instance to receive the return traffic when it pings the test instance?
-
-Submitting your work
-At the top of these instructions, choose Submit to record your progress and when prompted, choose Yes.
+   
+```
+   aws ec2 run-instances \
+    --image-id ami-0c94855ba95c71c99 \
+    --instance-type t2.micro \
+    --subnet-id <public-subnet-id> \
+    --key-name vockey1 \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Public Test E2 Instance}]' \
+    --security-group-ids <public-test-instance-security-group-id> \
+    --count 1
+```
+   **Note**: Replace `<public-subnet-id>` with the actual ID of the Public Subnet, and <public-test-instance-security-group-id>` with the actual ID of the security group that allows All ICMP – IPv4 inbound traffic to the instance.
+   <br>
+   <br>
+   To get the private IP address of the Test Instance, you can use the following AWS CLI command:
+```
+   aws ec2 describe-instances \
+    --filters "Name=tag:Name,Values=Public Test E2 Instance" \
+    --query "Reservations[*].Instances[*].PrivateIpAddress" \
+    --output text
+```
+   
+   Then, to modify the custom network ACL to deny All ICMP – IPv4 traffic to the `<private-ip-address-of-test-instance>/32`, you can use the following AWS CLI command:
+```
+   aws ec2 replace-network-acl-entry \
+    --network-acl-id <custom-network-acl-id> \
+    --rule-number 100 \
+    --protocol 1 \
+    --rule-action deny \
+    --cidr-block <private-ip-address-of-test-instance>/32 \
+    --egress false
+```
+   Note: Replace `<custom-network-acl-id>` with the actual ID of the custom network ACL. Also, make sure that the --rule-number is lower than any existing rule number in the network ACL, so that this new rule is evaluated first.
+   
+**Submitting your work**
+At the top of these instructions, choose `Submit` to record your progress and when prompted, choose Yes.
 
 If the results don't display after a couple of minutes, return to the top of these instructions and choose Grades
 
@@ -395,6 +429,5 @@ If the results don't display after a couple of minutes, return to the top of the
 
 To find detailed feedback on your work, choose Details followed by  View Submission Report.
 
-
-Lab complete
+**Lab complete**
  Congratulations! You have completed the lab.   
