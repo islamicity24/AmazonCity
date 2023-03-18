@@ -1,3 +1,13 @@
+# Module 6 - Challenge Lab: Creating a VPC Networking Environment for the Café
+**Scenario**
+Sofía and Nikhil are now confident in their ability to create a two-tier architecture because of their experience migrating the café's data. They successfully moved from a MariaDB database on an Amazon Elastic Compute Cloud (Amazon EC2) instance to an Amazon Relational Database Service (Amazon RDS) database instance. In addition, they also moved their database resources from a public subnet to a private subnet.
+
+Mateo
+
+When Mateo—a café regular and an AWS systems administrator and engineer—visits the café, Sofía and Nikhil tell him about the database migration. Mateo tells them that they can enhance security by running the café's application server in another private subnet that's separate from the database instance. They could then go through a bastion host (or jump box) to gain administrative access to the application server. The application server must also be able to download needed patches.
+
+Knowing that the cloud makes experimentation easier, Sofía and Nikhil are eager to set up a non-production VPC environment. They can use it implement the new architecture and test different security layers, without accidentally disrupting the café's production environment.
+
 # Lab Overview and Objectives
 
 In this lab, you will use Amazon Virtual Private Cloud (Amazon VPC) to create a networking environment on AWS and implement security layers to protect your resources.
@@ -24,15 +34,15 @@ In this challenge, you will take on the role of one of the café's system admini
 
 Your first task in this lab is to create a public subnet in the Lab VPC. After you create a public subnet, you will create an internet gateway to allow communication from the subnet to the internet. You will update the routing table that's attached to the subnet to route internet-bound network traffic through the internet gateway.
 
-1. Open the Amazon VPC console.
-2. Note that a VPC called Lab VPC was created for you.
-3. Create a public subnet that meets the following criteria:
+5. Open the Amazon VPC console.
+6. Note that a VPC called Lab VPC was created for you.
+7. Create a public subnet that meets the following criteria:
    - Name tag: Public Subnet
    - VPC: Lab VPC
    - Availability Zone: Choose Availability Zone a of your Region (for example, if your Region is us-east-1, then select us-east-1a)
    - IPv4 CIDR block: 10.0.0.0/24
-4. Create a new internet gateway and attach it to the Lab VPC.
-5. Edit the route table that was created in your VPC. Add the route 0.0.0.0/0. For the target, select the internet gateway that you created in the previous step.
+8. Create a new internet gateway and attach it to the Lab VPC.
+9. Edit the route table that was created in your VPC. Add the route 0.0.0.0/0. For the target, select the internet gateway that you created in the previous step.
 
 _Hint: To successfully complete this task, you must create a few resources. If you get stuck, refer to the AWS Documentation._
 
@@ -40,7 +50,7 @@ _Hint: To successfully complete this task, you must create a few resources. If y
 
 In this task, you will create a bastion host in the Public Subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
 
-1. From the Amazon EC2 console, create an EC2 instance in the Public Subnet of the Lab VPC that meets the following criteria:
+10. From the Amazon EC2 console, create an EC2 instance in the Public Subnet of the Lab VPC that meets the following criteria:
    - Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
    - Instance type: t2.micro
    - Auto-assign Public IP: This setting should be disabled
@@ -49,5 +59,6 @@ In this task, you will create a bastion host in the Public Subnet. In later task
      - Type: SSH
      - Port: 22
      - Source: Your IP address
-     - Uses the vockey key pair
-2. Note: In practice, hardening a bastion host involves more
+   - Uses the **vockey** key pair
+    
+> Note: In practice, hardening a bastion host involves more
