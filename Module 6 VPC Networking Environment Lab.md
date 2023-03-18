@@ -29,11 +29,11 @@ _Note: in this challenge lab, step-by-step instructions are not provided for mos
 
 ## Challenge #1: A business request for the café: Creating a VPC network that allows café staff to remotely and securely administer the web application server 
 
-In this challenge, you will take on the role of one of the café's system administrators. You will create and configure a VPC network so that you can securely connect from a bastion host in a public subnet to an EC2 instance in a private subnet. You will also create a NAT gateway to enable the EC2 instance in your private subnet to access the internet.
+In this challenge, you will take on the role of one of the café's system administrators. You will create and configure `a VPC network` so that you can securely connect from `a bastion host` in `a public subnet` to an EC2 instance in `a private subnet`. You will also create `a NAT gateway` to enable the EC2 instance in your private subnet to access the internet.
 
 ### Task 1: Creating a public subnet
 
-Your first task in this lab is to create a public subnet in the Lab VPC. After you create a public subnet, you will create an internet gateway to allow communication from the subnet to the internet. You will update the routing table that's attached to the subnet to route internet-bound network traffic through the internet gateway.
+Your first task in this lab is to create a `public subnet` in the `Lab VPC`. After you create a public subnet, you will create an `internet gateway` to allow communication from the subnet to the internet. You will update the `routing table` that's attached to the subnet to `route internet-bound network traffic  through the internet gateway.
 
 5. Open the Amazon VPC console.
 6. Note that a VPC called `Lab VPC` was created for you.
