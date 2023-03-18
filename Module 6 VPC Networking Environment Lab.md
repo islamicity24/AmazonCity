@@ -428,19 +428,19 @@ Choose the Access the multiple choice questions link that appears at the bottom 
    Note: Replace `<custom-network-acl-id>` with the actual ID of the custom network ACL. Also, make sure that the --rule-number is lower than any existing rule number in the network ACL, so that this new rule is evaluated first.
 
 Question 1: What is the purpose of the internet gateway in the public subnet?
- A. Allows instances in the private subnet to obtain a public IP address
- B. Allows instances in the public subnet to obtain a public IP addresss
- C. Allows instances in the public subnet with a public IP address to communicate with the internet
- D. Allows instances in the private subnet with a public IP address to communicate with the internet
+- A. Allows instances in the private subnet to obtain a public IP address
+- B. Allows instances in the public subnet to obtain a public IP addresss
+- C. Allows instances in the public subnet with a public IP address to communicate with the internet
+- D. Allows instances in the private subnet with a public IP address to communicate with the internet
 Which one the answer
 The correct answer is C. The purpose of the internet gateway in the public subnet is to allow instances in the public subnet with a public IP address to communicate with the internet. This enables the instances to send and receive traffic to and from the internet, and allows them to be accessed by users or other resources outside of the AWS infrastructure.
 
 
 Question 2: What allows the instance in the private subnet to connect to the internet so that it can download updates?
- A. The internet gateway in the public subnet
- B. The NAT gateway
- C. The Elastic IP address
- D .The default network ACL    so which one the right answer ?
+- A. The internet gateway in the public subnet
+- B. The NAT gateway
+- C. The Elastic IP address
+- D .The default network ACL    so which one the right answer ?
 The correct answer is B. The NAT (Network Address Translation) gateway allows the instance in the private subnet to connect to the internet so that it can download updates. The NAT gateway provides a way for instances in the private subnet to access the internet while keeping them private and secure. It allows outgoing traffic from the private subnet to the internet, while also masking the private IP addresses of the instances behind the public IP address of the NAT gateway. This helps to prevent any direct communication between the internet and the instances in the private subnet, adding an additional layer of security to the infrastructure.
 
 Option A is incorrect as the internet gateway in the public subnet allows instances in the public subnet with a public IP address to communicate with the internet, not the instances in the private subnet.
@@ -451,8 +451,8 @@ Option D is incorrect as the default network ACL controls inbound and outbound t
 
 
 Question 3: Can the instance in the private subnet be accessed directly from the internet?
- A. Yes
- B. No
+- A. Yes
+- B. No
 The answer is B. No, the instance in the private subnet cannot be accessed directly from the internet.
 
 Instances in a private subnet are not assigned a public IP address and are not directly accessible from the internet. To access resources in a private subnet from the internet, you must use a bastion host, VPN connection or a NAT gateway to allow traffic to flow from the private subnet to the internet or vice versa.
@@ -461,10 +461,11 @@ The use of private subnets adds an additional layer of security to your infrastr
 
 
 Question 4: Why do you use two different key pairs to access the private instance and the bastion host?
- A. Each instance needs a different key pair
- B. It provided practice with creating key pairs
- C. Separate key pairs could help reduce the impact of a compromised bastion host
- D .Key pairs can't be reused
+- A. Each instance needs a different key pair
+- B. It provided practice with creating key pairs
+- C. Separate key pairs could help reduce the impact of a compromised bastion host
+- D .Key pairs can't be reused
+
 The correct answer is C. Using two different key pairs to access the private instance and the bastion host can help reduce the impact of a compromised bastion host.
 
 A bastion host is a server that is placed in a public subnet and is used as a gateway to access resources in private subnets. By using a bastion host, you can restrict access to resources in the private subnet from the public internet, and allow access only to authorized users who have access to the bastion host.
@@ -479,8 +480,8 @@ Option D is incorrect because key pairs can be reused, but it is not recommended
 
 
 Question 5: Can the bastion host use ping and get a reply from the instance in the private subnet?
- Yes
- No
+- Yes
+- No
 The answer is dependent on the network configuration and security group rules set up in the VPC.
 
 In general, if the bastion host and the instance in the private subnet are in the same VPC and the appropriate security group rules are in place, then the bastion host should be able to ping and get a reply from the instance in the private subnet.
@@ -491,10 +492,10 @@ So the answer is: It depends on the network configuration and security group rul
 
 
 Question 6: Which security group rules allow the private EC2 instance to receive the return traffic when it pings the test instance?
- A. Outbound on private and outbound on test
- B  Outbound on private and inbound on test
- C  Inbound on private and outbound on test
- D  Inbound on private and inbound on test
+- A. Outbound on private and outbound on test
+- B  Outbound on private and inbound on test
+- C  Inbound on private and outbound on test
+- D  Inbound on private and inbound on test
 
 The correct answer is B.
 
