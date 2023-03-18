@@ -316,7 +316,23 @@ Note: The default inbound and outbound rules of the custom network ACL deny all 
 Configure your custom network ACL to allow ALL traffic that goes into and out of the Private Subnet.
 
 Hint: If you get stuck, refer to the AWS Documentation.
-
+   
+   1. Create the custom network ACL:
+```
+   aws ec2 create-network-acl --vpc-id <vpc-id> --tag-specifications 'ResourceType=network-acl,Tags=[{Key=Name,Value=Lab Network ACL}]'
+```
+Make sure to replace `<vpc-id>` with the ID of your Lab VPC.
+   
+   2. Replace the default inbound and outbound rules of the custom network ACL to `deny all traffic`:   
+```
+   aws ec2 replace-network-acl-entries --network-acl-id <network-acl-id> --ingress '[{"RuleNumber":100,"Protocol":-1,"RuleAction":"deny","CidrBlock":"0.0.0.0/0"}]' --egress '[{"RuleNumber":100,"Protocol":-1,"RuleAction":"deny","CidrBlock":"0.0.0.0/0"}]'
+```
+   Make sure to replace <network-acl-id> with the ID of the custom network ACL.
+   
+   3. Create inbound and outbound rules for the custom network ACL to allow all traffic into and out of the Private Subnet:
+```
+   aws ec2 create-network-acl-entry --network-acl-id <network-acl-id> --rule-number 110 --protocol -1 --rule-action allow --cidr-block <private-subnet-cidr-block> --egress false
+aws ec2 create-network-acl-entry --network-acl-id <network-acl-id> --rule-number 110 --protocol -1 --rule-action allow --cidr-block <private-subnet-cidr-block> --egress true
 
 ## Task 11: Testing your custom network ACL
 Create an EC2 instance in the Public Subnet of the Lab VPC. It should meet the following criteria.
