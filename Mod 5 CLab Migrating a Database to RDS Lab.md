@@ -99,6 +99,27 @@ Your first challenge in this lab is to create an RDS instance.
  DB creating
 
 **Important**: Don't wait for the database to finish the creation process. Instead, after you have successfully started the database creation process, continue to the next step.
+```
+aws rds create-db-instance \
+--db-instance-identifier CafeDatabase \
+--db-instance-class db.t2.micro \
+--engine MariaDB \
+--db-name cafe_db \
+--master-username admin \
+--master-user-password Caf3DbPassw0rd! \
+--allocated-storage 20 \
+--storage-type gp2 \
+--vpc-security-group-ids dbSG \
+--db-subnet-group-name lab-db-subnet-group \
+--no-publicly-accessible \
+--availability-zone us-east-1a \
+--no-multi-az
+```
+This command creates an RDS instance with the specified specifications. Make sure to replace the db-instance-identifier, master-username, and master-user-password with your desired values. Additionally, make sure to select the appropriate vpc-security-group-ids, db-subnet-group-name, and availability-zone based on your specific environment.
+
+Note: This command assumes that you have already configured your AWS CLI with the necessary credentials and region.
+
+
 
 ## Task 2: Analyzing the existing café application deployment
 In this task, you will connect to the existing EC2 instance that runs the current café application.
@@ -108,16 +129,16 @@ In this task, you will connect to the existing EC2 instance that runs the curren
 Notice the running instance named **CafeServer**. This EC2 instance was created when you started the lab.  
 
 7. Test the café application.
-  - Open a new browser tab and load the café application at http://<public-ip-address>/cafe.
-Note: Replace <public-ip-address> with the actual `IPv4 public IP address` of the CafeServer instance.
+  - Open a new browser tab and load the café application at `http://<public-ip-address>/cafe`.
+Note : Replace <public-ip-address> with the actual `IPv4 public IP address` of the _CafeServer_ instance.
   - Browse to the Menu page and test placing an order.
 To do this, change the quantity for at least one menu item to at least 1 and choose Submit Order.
 An Order Confirmation page should display, which indicates that the café website is working as intended.
   - Choose Order History.
 The page shows that many orders were placed. The current database contains past customer orders that you will migrate to a database that's hosted on Amazon RDS.
 8. Connect to the ~~(DataBase ?)~~ EC2 instance by using AWS Systems Manager to access a terminal session in the browser.
-  - Back in the AWS Management Console, navigate to the **Systems Manager Console and choose Session Manager**.
-  - Start a session and connect to the CafeServer.
+  - Back in the AWS Management Console, search Session Manager or navigate to the **Systems Manager Console and choose Session Manager** under Node Management.
+  - Start a session and connect to the **CafeServer**.
 You should now have a new browser tab open, with a terminal session that's connected to the EC2 instance.
   - At the prompt, enter the following commands:
 ```
@@ -143,16 +164,16 @@ In this challenge, you continue as Sofía to complete these tasks.
 In this task, you will observe details about the MariaDB database that runs on the EC2 instance. You will then export existing order history data from the database by using the mysqldump utility.
 
 9. Observe details of the database that runs on the EC2 instance.
-
 In the terminal, run these commands:
-
+```
 service mariadb status
 mysql --version
+```
 The output should show that the locally installed MariaDB database on this EC2 instance is running. It should also show the version number of the database.
 
 Leave this browser tab open. You will use it throughout this lab.
 
-Return to the browser tab with the AWS Systems Manager console open in it.
+Return to the browser tab with the **AWS Systems Manager** console open in it.
 From the panel on the left, under Application Management, choose Parameter Store.
 
 Notice that seven parameters are stored here. The café application PHP code references these values—for example, to retrieve the connection information for the database.
