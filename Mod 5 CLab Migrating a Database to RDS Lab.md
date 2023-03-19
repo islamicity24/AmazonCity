@@ -173,57 +173,62 @@ The output should show that the locally installed MariaDB database on this EC2 i
 
 Leave this browser tab open. You will use it throughout this lab.
 
-Return to the browser tab with the **AWS Systems Manager** console open in it.
-From the panel on the left, under Application Management, choose Parameter Store.
-
+10. Return to the browser tab with the **AWS Systems Manager** console open in it.
+11. From the panel on the left, under Application Management, choose Parameter Store.
 Notice that seven parameters are stored here. The café application PHP code references these values—for example, to retrieve the connection information for the database.
 
-Choose the /cafe/dbPassword parameter, and copy the Value to your clipboard. You will use this value in a moment.
-Connect to the database that is running on the EC2 instance.
+ - Choose the /cafe/dbPassword parameter, and copy the *Value* to your clipboard. You will use this value in a moment.
+
+12. Connect to the database that is running on the EC2 instance.
 
 In the browser tab with the Bash terminal, connect the terminal-based MySQL client to the database by running this command:
-
+```
 mysql -u root -p
-When prompted for the database password, paste the dbPassword parameter value that you copied a moment ago.
+```
+When prompted for the database password, paste the `_dbPassword_` parameter value that you copied a moment ago.
 
 You should now see a  mariadb> prompt. This prompt indicates that you are now connected to the MariaDB database that runs on this EC2 instance.
 
 database-client
 
-Observe the data in the existing database.
+13. Observe the data in the existing database.
 
 To observe the contents of the database, enter the following commands. In particular, you will review the tables that support the café web application.
-
+```
 show databases;
 use cafe_db;
 show tables;
 select * from `order`;
+```
 These commands show all the orders that were placed, including the order that you placed a moment ago.
-
+```
 select * from `order_item`;
+```
 This command shows the order line items. Each order number has a row for each type of item that was ordered, with details about the quantity of each item and the price.
 
 All this data must be migrated to the new database.
 
 Exit the SQL client.
-
+```
 exit;
-Capture existing data in a file by using the mysqldump utility.
-
+```
+15 Capture existing data in a file by using the _mysqldump_ utility.
+```
 mysqldump --databases cafe_db -u root -p > CafeDbDump.sql
+```
 When prompted for the database password, paste the dbPassword value from the Systems Manager Parameter Store.
 
-Confirm that mysqldump succeeded.
+15. Confirm that mysqldump succeeded.
 
-Run the ls command in the terminal. The output should show that the CafeDbDump.sql file was created.
+  - Run the ls command in the terminal. The output should show that the CafeDbDump.sql file was created.
 
-Run the cat CafeDbDump.sql command to see the contents of the file.
+  - Run the cat `CafeDbDump.sql` command to see the contents of the file.
 
 In the next section of the lab, you will import this data to the new RDS database.
 
  
 
-Task 4: Working with the RDS database
+## Task 4: Working with the RDS database
 In this task, you will first answer a few questions about the RDS instance that you created. Then, you will confirm that you can connect to the RDS instance.
 
 In the AWS Management Console, return to the RDS service console and confirm that the cafedatabase RDS instance you created is now available.
