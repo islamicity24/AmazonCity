@@ -88,13 +88,13 @@ Your first challenge in this lab is to create an RDS instance.
   - **DB Instance Class**: db.t2.micro  (Burstable classes (includes t classes)
   - **Storage type**: General Purpose (SSD)  gp2
   - **Allocated storage**: 20 GiB
-  - Do not create a standby instance ??
-  - Place it in the **Lab VPC**
+  - Do not create a standby instance ??  (**Availability & durability**)
+  - Place it in the **Lab VPC**          (**Connectivity** : Virtual private cloud (VPC))
   - **Subnet Group**: `lab-db-subnet-group`, where the database is not publicly accessible.
-  - Choose existing **VPC security group** named `dbSG`, and _0unselect the default security group.
+  - Choose **existing VPC security groups** named `dbSG`, and _0unselect the default security group.
   - **Availability Zone**: Choose the first Availability Zone in the list, which ends in a. For example, if the Region is us-east-1, choose `us-east-1a`.
   - **Database port**: Keep the default TCP port of _3306.
-  - Enhanced monitoring is not supported in the lab environment. `Clear the default setting`.
+  - Enhanced **Monitoring** is not supported in the lab environment. `Clear the default setting`. `Clear/UnCheck` Enable Enhanced monitoring
 
  DB creating
 
