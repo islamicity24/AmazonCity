@@ -29,8 +29,8 @@ start architecture
 At the end of this lab, your architecture will look like the following example:
 
 final architecture
+![m5ch-lab-start-arch.png](https://github.com/islamicity24/AmazonCity/raw/main/m5ch-lab-start-arch.png)
 
- 
 
 Duration
 This lab will require approximately 80 minutes to complete.
@@ -65,8 +65,8 @@ Arrange the AWS Management Console tab so that it displays alongside these instr
 
  
 
-A business request: Creating an RDS instance for the café application (Challenge #1)
-After a conversation with Olivia—the AWS solutions architect who often comes in for a coffee—Sofía decided that the café needs a database solution that is easier to maintain. In addition, the database should provide essential features such as durability, scalability, and high performance.
+## A business request: Creating an RDS instance for the café application (Challenge #1)
+After a conversation with Olivia—the AWS solutions architect who often comes in for a coffee—Sofía decided that the café needs a database solution that is `easier to maintain`. In addition, the database should provide essential features such as `durability, scalability, and high performance`.
 
 Olivia
 
@@ -74,106 +74,75 @@ In the first part of this lab, you will take on the role of Sofía. You will cre
 
  
 
-Task 1: Creating an RDS instance
+## Task 1: Creating an RDS instance
 Your first challenge in this lab is to create an RDS instance.
 
-Create an RDS instance that complies with these specifications. (When you submit your work at the end of this lab, it will check for many of these settings. To get full credit, follow these guidelines.)
-
-Engine type: MariaDB
-
-Templates: Dev/Test
-
-DB instance identifier: CafeDatabase
-
-Username: admin
-
-Password: Caf3DbPassw0rd!
-
-You must use this precise password.
-Tip: Copy and paste the password to set it.
-DB Instance Class: db.t2.micro
-
-Storage type: General Purpose (SSD)
-
-Allocated storage: 20 GiB
-
-Do not create a standby instance
-
-Place it in the Lab VPC
-
-Subnet Group: lab-db-subnet-group, where the database is not publicly accessible.
-
-Choose existing VPC security group named dbSG, and unselect the default security group.
-
-Availability Zone: Choose the first Availability Zone in the list, which ends in a. For example, if the Region is us-east-1, choose us-east-1a.
-
-Database port: Keep the default TCP port of 3306.
-
-Enhanced monitoring is not supported in the lab environment. Clear the default setting.
+5. Create an RDS instance that complies with these specifications. (When you submit your work at the end of this lab, it will check for many of these settings. To get full credit, follow these guidelines.)
+ - **Engine type**: MariaDB
+ - **Templates**: Dev/Test
+ - **DB instance identifier**: `CafeDatabase`
+ - **Username**: admin
+ - **Password**: Caf3DbPassw0rd!
+   - You must use this precise password.
+   - **Tip**: Copy and paste the password to set it.
+ - **DB Instance Class**: db.t2.micro
+ - **Storage type**: General Purpose (SSD)  gp2
+ - **Allocated storage**: 20 GiB
+ - Do not create a standby instance ??
+ - Place it in the **Lab VPC**
+ - **Subnet Group**: `lab-db-subnet-group`, where the database is not publicly accessible.
+ - Choose existing **VPC security group** named `dbSG`, and _0unselect the default security group.
+ - **Availability Zone**: Choose the first Availability Zone in the list, which ends in a. For example, if the Region is us-east-1, choose `us-east-1a`.
+ - **Database port**: Keep the default TCP port of _3306.
+ - Enhanced monitoring is not supported in the lab environment. `Clear the default setting`.
 
  DB creating
 
- 
+**Important**: Don't wait for the database to finish the creation process. Instead, after you have successfully started the database creation process, continue to the next step.
 
-Important: Don't wait for the database to finish the creation process. Instead, after you have successfully started the database creation process, continue to the next step.
-
- 
-
-Task 2: Analyzing the existing café application deployment
+## Task 2: Analyzing the existing café application deployment
 In this task, you will connect to the existing EC2 instance that runs the current café application.
 
-Browse to the EC2 Console and choose Running instances.
+6. Browse to the EC2 Console and choose **Running instances**.
 
-Notice the running instance named CafeServer. This EC2 instance was created when you started the lab.  
+Notice the running instance named **CafeServer**. This EC2 instance was created when you started the lab.  
 
-Test the café application.
-
-Open a new browser tab and load the café application at http://<public-ip-address>/cafe.
-
-Note: Replace <public-ip-address> with the actual IPv4 public IP address of the CafeServer instance.
-
-Browse to the Menu page and test placing an order.
-
+7. Test the café application.
+ - Open a new browser tab and load the café application at http://<public-ip-address>/cafe.
+Note: Replace <public-ip-address> with the actual `IPv4 public IP address` of the CafeServer instance.
+ - Browse to the Menu page and test placing an order.
 To do this, change the quantity for at least one menu item to at least 1 and choose Submit Order.
-
 An Order Confirmation page should display, which indicates that the café website is working as intended.
-
-Choose Order History.
-
+ - Choose Order History.
 The page shows that many orders were placed. The current database contains past customer orders that you will migrate to a database that's hosted on Amazon RDS.
-
-Connect to the EC2 instance by using AWS Systems Manager to access a terminal session in the browser.
-
-Back in the AWS Management Console, navigate to the Systems Manager Console and choose Session Manager.
-
-Start a session and connect to the CafeServer.
-
+8. Connect to the ~~(DataBase ?)~~ EC2 instance by using AWS Systems Manager to access a terminal session in the browser.
+ - Back in the AWS Management Console, navigate to the **Systems Manager Console and choose Session Manager**.
+ - Start a session and connect to the CafeServer.
 You should now have a new browser tab open, with a terminal session that's connected to the EC2 instance.
-
-At the prompt, enter the following commands:
-
+ - At the prompt, enter the following commands:
+```
 bash
 sudo su
 su ec2-user
 whoami
 cd /home/ec2-user/
-Analysis: The first command gave you a Bash shell. The second command switched your session to use the root user account on the EC2 instance. The third command switched you to use the ec2-user account. The fourth command should have returned output that confirms that you are connected as the ec2-user. The last command switches your terminal to the home directory of the ec2-user.
+ls 
+```
+ Analysis: The first command gave you a Bash shell. The second command switched your session to use the root user account on the EC2 instance. The third command switched you to use the ec2-user account. The fourth command should have returned output that confirms that you are connected as the ec2-user. The last command switches your terminal to the home directory of the ec2-user.
 
 session manager screenshot
 
-Note: The Systems Manager agent (ssm agent) is installed by default on all Amazon Linux 2 instances (and some other OS types). When you started the lab and the EC2 instance was created, the user data specified that the ssm agent service should be started on the instance. Also, an AWS Identity and Access Management (IAM) role that includes an IAM policy named AmazonSSMManagedInstanceCore was attached to the EC2 instance. These two actions made the instance accessible through the Systems Manager session manager.
+**Note**: The Systems Manager agent (ssm agent) is installed by default on all Amazon Linux 2 instances (and some other OS types). When you started the lab and the EC2 instance was created, the user data specified that the ssm agent service should be started on the instance. Also, an AWS Identity and Access Management (IAM) role that includes an IAM policy named **_AmazonSSMManagedInstanceCore_** was attached to the EC2 instance. These two actions made the instance accessible through the Systems Manager session manager.
 
- 
-
-New business requirement: Exporting data from the old database and establishing a connection to the new database (Challenge #2)
+## New business requirement: Exporting data from the old database and establishing a connection to the new database (Challenge #2)
 Now that you created a new RDS instance, you can move on to the next step in the café's database migration plan. Next, you will export the data from the database that the café application currently uses. You will also establish a network connection from the EC2 instance (where the application runs) to the new RDS database instance.
 
 In this challenge, you continue as Sofía to complete these tasks.
 
-Task 3: Working with the database on the EC2 instance
+## Task 3: Working with the database on the EC2 instance
 In this task, you will observe details about the MariaDB database that runs on the EC2 instance. You will then export existing order history data from the database by using the mysqldump utility.
 
-Observe details of the database that runs on the EC2 instance.
+9. Observe details of the database that runs on the EC2 instance.
 
 In the terminal, run these commands:
 
