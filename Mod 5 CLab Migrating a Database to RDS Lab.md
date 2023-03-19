@@ -78,23 +78,23 @@ In the first part of this lab, you will take on the role of Sofía. You will cre
 Your first challenge in this lab is to create an RDS instance.
 
 5. Create an RDS instance that complies with these specifications. (When you submit your work at the end of this lab, it will check for many of these settings. To get full credit, follow these guidelines.)
- - **Engine type**: MariaDB
- - **Templates**: Dev/Test
- - **DB instance identifier**: `CafeDatabase`
- - **Username**: admin
- - **Password**: Caf3DbPassw0rd!
-   - You must use this precise password.
-   - **Tip**: Copy and paste the password to set it.
- - **DB Instance Class**: db.t2.micro
- - **Storage type**: General Purpose (SSD)  gp2
- - **Allocated storage**: 20 GiB
- - Do not create a standby instance ??
- - Place it in the **Lab VPC**
- - **Subnet Group**: `lab-db-subnet-group`, where the database is not publicly accessible.
- - Choose existing **VPC security group** named `dbSG`, and _0unselect the default security group.
- - **Availability Zone**: Choose the first Availability Zone in the list, which ends in a. For example, if the Region is us-east-1, choose `us-east-1a`.
- - **Database port**: Keep the default TCP port of _3306.
- - Enhanced monitoring is not supported in the lab environment. `Clear the default setting`.
+  - **Engine type**: MariaDB
+  - **Templates**: Dev/Test
+  - **DB instance identifier**: `CafeDatabase`
+  - **Username**: admin
+  - **Password**: Caf3DbPassw0rd!
+    - You must use this precise password.
+    - **Tip**: Copy and paste the password to set it.
+  - **DB Instance Class**: db.t2.micro  (Burstable classes (includes t classes)
+  - **Storage type**: General Purpose (SSD)  gp2
+  - **Allocated storage**: 20 GiB
+  - Do not create a standby instance ??
+  - Place it in the **Lab VPC**
+  - **Subnet Group**: `lab-db-subnet-group`, where the database is not publicly accessible.
+  - Choose existing **VPC security group** named `dbSG`, and _0unselect the default security group.
+  - **Availability Zone**: Choose the first Availability Zone in the list, which ends in a. For example, if the Region is us-east-1, choose `us-east-1a`.
+  - **Database port**: Keep the default TCP port of _3306.
+  - Enhanced monitoring is not supported in the lab environment. `Clear the default setting`.
 
  DB creating
 
@@ -108,18 +108,18 @@ In this task, you will connect to the existing EC2 instance that runs the curren
 Notice the running instance named **CafeServer**. This EC2 instance was created when you started the lab.  
 
 7. Test the café application.
- - Open a new browser tab and load the café application at http://<public-ip-address>/cafe.
+  - Open a new browser tab and load the café application at http://<public-ip-address>/cafe.
 Note: Replace <public-ip-address> with the actual `IPv4 public IP address` of the CafeServer instance.
- - Browse to the Menu page and test placing an order.
+  - Browse to the Menu page and test placing an order.
 To do this, change the quantity for at least one menu item to at least 1 and choose Submit Order.
 An Order Confirmation page should display, which indicates that the café website is working as intended.
- - Choose Order History.
+  - Choose Order History.
 The page shows that many orders were placed. The current database contains past customer orders that you will migrate to a database that's hosted on Amazon RDS.
 8. Connect to the ~~(DataBase ?)~~ EC2 instance by using AWS Systems Manager to access a terminal session in the browser.
- - Back in the AWS Management Console, navigate to the **Systems Manager Console and choose Session Manager**.
- - Start a session and connect to the CafeServer.
+  - Back in the AWS Management Console, navigate to the **Systems Manager Console and choose Session Manager**.
+  - Start a session and connect to the CafeServer.
 You should now have a new browser tab open, with a terminal session that's connected to the EC2 instance.
- - At the prompt, enter the following commands:
+  - At the prompt, enter the following commands:
 ```
 bash
 sudo su
