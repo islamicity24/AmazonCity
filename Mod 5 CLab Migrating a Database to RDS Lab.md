@@ -218,7 +218,7 @@ mysqldump --databases cafe_db -u root -p > CafeDbDump.sql
 ```
 When prompted for the database password, paste the dbPassword value from the Systems Manager Parameter Store.
 
-15. Confirm that mysqldump succeeded.
+16. Confirm that mysqldump succeeded.
 
   - Run the ls command in the terminal. The output should show that the CafeDbDump.sql file was created.
 
@@ -237,11 +237,11 @@ In the AWS Management Console, return to the RDS service console and confirm tha
 Answering questions about the RDS instance
 Your answers will be recorded when you click the blue Submit button at the end of the lab.
 
-Access the questions in this lab.
+18. Access the questions in this lab.
 
 Above these instructions, choose Details > Show.
 Choose the Access the multiple choice questions link.
-In the page you loaded, answer the first four questions:
+19. In the page you loaded, answer the first four questions:
 
 Question 1: Where is the RDS instance running?
 Question 2: Does the RDS instance have an IPv4 public IP address assigned to it?
@@ -249,42 +249,51 @@ Question 3: What is the Name tag applied to the subnet in which the RDS instance
 Question 4: How many security group rules are defined for the RDS instance?
  
 
-Establish a network connection from the terminal running on the EC2 instance to the new RDS instance.
+20. Establish a network connection from the terminal running on the EC2 instance to the new RDS instance.
 Here are some tips to help you get started:
 
 Tip #1 (click to expand)
-
+Here is the syntax that you can use to connect: mysql -u admin -p --host <rds-endpoint>
+Replace <rds-endpoint> with the actual RDS endpoint for your RDS instance.
+After you run the command, it will prompt you to enter the **password** for the RDS instance. You defined this password when you created the RDS instance.
 Tip #2 (click to expand)
-
+Even if you enter the RDS endpoint and database password correctly, you still won't be able to connect. You must update the `inbound rules of the security group` that the RDS instance runs in. The MySQL client software tries to connect to the database on TCP port 3306.
 Tip #3 (click to expand)
-
+Avoid opening port 3306 to all source IP addresses. That would not be secure. Instead, open it only to servers in the security group that is used by the EC2 instance that you're connecting from (try typing `sg-` into the source field to see options).
 Tip #4 (click to expand)
+You can confirm that the security group settings allow traffic on TCP port 3306 from the EC2 instance to the database. Try running these commands in the Systems Manager session manager terminal (replace with the actual RDS endpoint):
+```
+nmap -Pn <rds-endpoint>
+```
+If the output of the command shows that port 3306 is open for the *mysql* service, then it confirms that the security group settings allow the traffic.
+If nmap shows that the port is open, then the mysql -u admin -p --host <rds-endpoint> command should also work. (However, you must enter the database password correctly. This password is the one that you set when you created the instance).
 
 Note: If you still can't solve the issue, you might find it helpful to submit your work, as documented in the Submitting your work section at the end of these lab instructions. The submission report that is generated can provide additional tips for parts of the lab that you didn't complete successfully. You can submit your work as many times as you like. Only the score you achieve on the last submission is retained.
 
 It's important to confirm that you can connect to the RDS MariaDB before you go to the next step. If you already managed to connect, congratulations!
 
-Run the show databases; command. It should show this output:
+21. Run the show databases; command. It should show this output:
 
 rds-client
 
-Notice that cafe_db database is not in the list yet. This situation is expected, because you haven't imported any data.  
-To disconnect, run the exit; command.
+  - Notice that cafe_db database is not in the list yet. This situation is expected, because you haven't imported any data.  
+  - To disconnect, run the exit; command.
  
 
-New business requirement: Importing data and connecting the application to the new database (Challenge #3)
+# New business requirement: Importing data and connecting the application to the new database (Challenge #3)
 In the previous challenge, you exported the data from the database that the café application currently uses. you also established a network connection from the EC2 instance to the RDS instance. You can now work on the next business requirement.
 
 In this challenge, you will continue to take on the role of Sofía to import the cafe data into the RDS database instance. After you complete the import, you will configure the application to use the new database.
 
  
 
-Task 5: Importing the data into the RDS database instance
-Import the data that you exported in task 3 to the RDS database instance.
+## Task 5: Importing the data into the RDS database instance
+22. Import the data that you exported in task 3 to the RDS database instance.
 
 To import the data, in the terminal, run the following command (where <rds-endpoint> is the actual endpoint):
-
+```
 mysql -u admin -p --host <rds-endpoint> < CafeDbDump.sql
+```
 At the password prompt, enter the password for the RDS instance.
 
 If you don't see any errors, the command likely succeeded.
@@ -297,46 +306,49 @@ mysql -u admin -p --host <rds-endpoint>
 At the password prompt, enter the password for the RDS instance.
 
 To confirm that the data was imported, run the following command:
-
+```
 show databases;
 use cafe_db;
 show tables;
 select * from `order`;
+```
 The output of the select statement should show at least 24 orders in the database.
 
-Exit the SQL client:
-
+  - Exit the SQL client:
+```
 exit;
- 
+```
 
-Task 6: Connecting the café application to the new database
+## Task 6: Connecting the café application to the new database
 In this last task in the lab, you will be challenged to connect the café application to the new database. You will also stop the database that runs locally on the EC2 instance.
 
-Return to the AWS Systems Manager console browser tab.
-From the panel on the left, choose Parameter Store.
+24. Return to the AWS Systems Manager console browser tab.
+25. From the panel on the left, choose Parameter Store.
 
 Recall from an earlier challenge lab that the café application's PHP code references these values. For example, it uses the values to retrieve the connection information for the database.
 
-Connect the café application to the RDS instance.
+26. Connect the café application to the RDS instance.
 
 Because the database connection information has changed, you must update these values to connect the application to the new RDS database instance instead of to the database running on the EC2 instance.
 
 Tip #1 (click to expand)
-
+After you update which database the application is connected to, use the http://<public-ip>/cafe/menu.php page to test whether you have successfully updated the connection.
 Tip #2 (click to expand)
-
+The PHP code doesn't need any updates. Also, the network configuration doesn't need additional changes, assuming that you successfully completed the previous challenge in this lab. The only updates that you must make will be to some values in the Systems Manager Parameter Store.
 Tip #3 (click to expand)
-
+The currency, dbName, timeZone, and showServerInfo values don't need to be updated.
 Tip #4 (click to expand)
+The dbUrl should be the RDS endpoint value.
 
-Confirm that your web application now uses the new database.
+27. Confirm that your web application now uses the new database.
 
-Stop the database that's still running on the EC2 instance. In the terminal, use this command:
-
+  - Stop the database that's still running on the EC2 instance. In the terminal, use this command:
+```
 sudo service mariadb stop
-Load the http://<public-ip>/cafe/menu.php page and confirm that the application still works by placing an order.
+```
+  - Load the http://<public-ip>/cafe/menu.php page and confirm that the application still works by placing an order.
 
-Choose Order History. Your latest order—and all the other previous orders—should be there. These orders are the data that you migrated to the new database.
+  - Choose Order History. Your latest order—and all the other previous orders—should be there. These orders are the data that you migrated to the new database.
 
  
 
