@@ -483,12 +483,12 @@ ping <private-ip-address-of-test-instance>
    
 41. Leave the ping utility running.
 
-42. Modify your custom network ACL to deny All ICMP – IPv4 traffic to the <private-ip-address-of-test-instance>/32
+42. Modify your custom network ACL to `deny` All ICMP – IPv4 traffic to the <private-ip-address-of-test-instance>/32
 
    - Make sure to add /32 to the end of the private IP address.
-   - Make sure that this rule is evaluated first.
+   - Make sure that this rule is evaluated **first**.
 
-43. In the Private Instance terminal window, the ping command should stop responding. The traffic to the Test Instance has been blocked.
+43. **In the Private EC2 Instance terminal window**, the ping command should stop responding. The traffic to the Test Instance has been blocked.
 
 
 You have now denied traffic from the Private Subnet to the Test Instance, as shown in the following diagram:
@@ -556,6 +556,46 @@ Choose the Access the multiple choice questions link that appears at the bottom 
 ```
    Note: Replace `<custom-network-acl-id>` with the actual ID of the custom network ACL. Also, make sure that the --rule-number is lower than any existing rule number in the network ACL, so that this new rule is evaluated first.
 
+   
+   
+   
+   
+======== 
+   
+To create a custom network ACL in AWS CLI, follow these steps:
+
+1. Create a custom network ACL for the Lab VPC:
+```
+aws ec2 create-network-acl --vpc-id <vpc-id> --tag-specifications 'ResourceType=network-acl,Tags=[{Key=Name,Value=Lab Network ACL}]'
+```   
+Replace `<vpc-id>` with the ID of the Lab VPC.
+
+2. Create a rule to `allow` all inbound and outbound traffic for the Private Subnet:
+```
+aws ec2 create-network-acl-entry --network-acl-id <acl-id> --rule-number 100 --protocol -1 --rule-action allow --cidr-block <private-subnet-cidr-block> --egress false
+```   
+Replace `<acl-id>` with the ID of the custom network ACL, and `<private-subnet-cidr-block>` with the CIDR block of the Private Subnet.
+
+3. Modify the rule to `deny` ICMP traffic to the Test Instance:
+```
+aws ec2 create-network-acl-entry --network-acl-id <acl-id> --rule-number 1 --protocol 1 --rule-action deny --cidr-block <private-ip-address-of-test-instance>/32 --egress false
+```   
+Replace `<acl-id>` with the ID of the custom network ACL, and `<private-ip-address-of-test-instance>` with the private IP address of the Test Instance.
+
+4. To create the EC2 instance in the Public Subnet with the specified criteria, use the following command:
+
+```
+aws ec2 run-instances --image-id ami-0c94855ba95c71c99 --count 1 --instance-type t2.micro --subnet-id <public-subnet-id> --security-group-ids <security-group-id> --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Test Instance}]'
+```   
+Replace `<public-subnet-id>` with the ID of the Public Subnet, and `<security-group-id>` with the ID of the security group that `allows` All ICMP – IPv4 inbound traffic to the instance. Once the instance is running, note its private IP address and use it in the ping command to test the connectivity.
+```
+ping <private-ip-address-of-test-instance>
+```
+
+
+
+   
+   
 Question 1: What is the purpose of the internet gateway in the public subnet?
 - A. Allows instances in the private subnet to obtain a public IP address
 - B. Allows instances in the public subnet to obtain a public IP addresss
