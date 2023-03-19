@@ -130,7 +130,7 @@ Notice the running instance named **CafeServer**. This EC2 instance was created 
 
 7. Test the café application.
   - Open a new browser tab and load the café application at `http://<public-ip-address>/cafe`.
-Note : Replace <public-ip-address> with the actual `IPv4 public IP address` of the _CafeServer_ instance.
+Note : Replace <public-ip-address> with the actual `public IPv4 IP address` of the _CafeServer_ instance.
   - Browse to the Menu page and test placing an order.
 To do this, change the quantity for at least one menu item to at least 1 and choose Submit Order.
 An Order Confirmation page should display, which indicates that the café website is working as intended.
@@ -177,7 +177,7 @@ Leave this browser tab open. You will use it throughout this lab.
 11. From the panel on the left, under Application Management, choose Parameter Store.
 Notice that seven parameters are stored here. The café application PHP code references these values—for example, to retrieve the connection information for the database.
 
- - Choose the /cafe/dbPassword parameter, and copy the *Value* to your clipboard. You will use this value in a moment.
+ - Choose the /cafe/dbPassword parameter, and copy the *Value* to your clipboard. You will use this value in a moment to fill password from mysql -u root -p.
 
 12. Connect to the database that is running on the EC2 instance.
 
@@ -185,7 +185,7 @@ In the browser tab with the Bash terminal, connect the terminal-based MySQL clie
 ```
 mysql -u root -p
 ```
-When prompted for the database password, paste the `_dbPassword_` parameter value that you copied a moment ago.
+When prompted for the database password, paste the `_dbPassword_` parameter **value** that you copied a moment ago.
 
 You should now see a  mariadb> prompt. This prompt indicates that you are now connected to the MariaDB database that runs on this EC2 instance.
 
@@ -222,7 +222,7 @@ When prompted for the database password, paste the dbPassword value from the Sys
 
   - Run the ls command in the terminal. The output should show that the CafeDbDump.sql file was created.
 
-  - Run the cat `CafeDbDump.sql` command to see the contents of the file.
+  - Run the `cat CafeDbDump.sql` command to see the contents of the file.
 
 In the next section of the lab, you will import this data to the new RDS database.
 
