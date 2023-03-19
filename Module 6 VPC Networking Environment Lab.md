@@ -6,7 +6,7 @@ Mateo
 
 When Mateo—a café regular and an AWS systems administrator and engineer—visits the café, Sofía and Nikhil tell him about the database migration. Mateo tells them that **they can enhance security by running the café's application server in another private subnet that's separate from the database instance**. `They could then go through a bastion host (or jump box) to gain administrative access to the application server`. The application server must also be able to download needed patches.
 
-Knowing that the cloud makes experimentation easier, Sofía and Nikhil are eager to set up a non-production VPC environment. They can use it implement the new architecture and test different security layers, without accidentally disrupting the café's production environment.
+Knowing that `the cloud makes experimentation easier`, Sofía and Nikhil are eager to set up a non-production VPC environment. They can use it implement the new architecture and test different security layers, without accidentally disrupting the café's production environment.
 
 # Lab Overview and Objectives
 
@@ -48,12 +48,12 @@ Your first task in this lab is to create a `public subnet` in the `Lab VPC`. Aft
 > Hint: To successfully complete this task, you must create a few resources. If you get stuck, refer to the AWS Documentation._
 
 Here's the AWS CLI code to complete Task 1 of Challenge #1:<br>
-step 1
+**step 1**
 ```
 aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.0.0/24 --availability-zone <availability-zone> --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=Public Subnet}]'
 ```
 Replace <vpc-id> with the ID of the Lab VPC created for this challenge, and <availability-zone> with the availability zone of your choice within your region.<br>
-step 2   
+**step 2**   
 ```
 aws ec2 create-internet-gateway --tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=Lab VPC IGW}]'
 ```
@@ -67,7 +67,7 @@ aws ec2 attach-internet-gateway --internet-gateway-id "igw-0c880167a2e2dba47" --
 ```
 aws ec2 create-route --route-table-id <route-table-id> --destination-cidr-block 0.0.0.0/0 --gateway-id <internet-gateway-id>
 ```
-   Replace <route-table-id> with the ID of the route table associated with the Public Subnet created in step 1, and <internet-gateway-id> with the ID of the internet gateway created in step 2.
+   Replace `<route-table-id>` with the ID of the route table associated with the Public Subnet created in step 1, and `<internet-gateway-id>` with the ID of the internet gateway created in step 2.
    
 ### Task 2: Creating a bastion host
 
