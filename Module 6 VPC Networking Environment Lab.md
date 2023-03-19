@@ -123,16 +123,20 @@ Once the instance is running, you can use SSH to connect to it using the key pai
 ## Task 3: Allocating an Elastic IP address for the bastion host
 In this task, you will assign `an Elastic IP address` to the bastion host.  
 
-The bastion host that you just created can't be reached from the internet. It doesn't have a public IPv4 address or an Elastic IP address that's associated with its private IPv4 address. Elastic IP addresses are associated with bastion instances and are allowed from on-premises firewalls. If an instance is terminated and a new instance is launched in its place, the existing Elastic IP address is re-associated with the new instance. With this behavior, the same trusted Elastic IP address is used at all times.
+The Bastion host that you just created can't be reached from the internet. It doesn't have a public IPv4 address or an Elastic IP address that's associated with its private IPv4 address. Elastic IP addresses are associated with Bastion host instances and are allowed from on-premises firewalls. If an instance is terminated and a new instance is launched in its place, the existing Elastic IP address is re-associated with the new instance. With this behavior, the same trusted Elastic IP address is used at all times.
 
 11. Allocate an Elastic IP address, and make it reachable from the internet over IPv4 by associating it with your bastion host.
 
+To allocate and associate an Elastic IP address to the bastion host using AWS CLI, you can follow these steps:
+**step 1** Allocate an Elastic IP address:
 ```
    aws ec2 allocate-address --domain vpc --region <your-region>
-
+```
+**step 2 **  Associate the Elastic IP address with the bastion host:
+```
    aws ec2 associate-address --instance-id <your-bastion-host-instance-id> --public-ip <your-elastic-ip-address> --region <your-region>
 ```
-   > Make sure to replace `<your-region>` with the region where your VPC and instance are located, `<your-bastion-host-instance-id>` with the ID of the bastion host instance you created in Task 2, and `<your-elastic-ip-address>` with the Elastic IP address that you allocated.
+   > Make sure to replace `<your-region>` with the region where your VPC and instance are located, `<your-bastion-host-instance-id>` with the actual instance ID of the bastion host instance you created in Task 2, and `<your-elastic-ip-address>` with the Elastic IP address that you allocated in step 1.
 
 ## Task 4: Testing the connection to the bastion host
    
@@ -140,14 +144,14 @@ In this task, you will use the SSH key (.pem file or .ppk file) to test the SSH 
 
 12. In the top-right area of these instructions, `select Details` in AWS Challenge Lab Next to AWS, choose `Show`.
 
-Download the **SSH key**. Note the file will be named `labuser.*`.
+14. Download the **SSH key**. Note the file will be named `labuser.*`.
 
-   - Microsoft Windows PuTTY users: Download PPK
+   - Microsoft Windows PuTTY users: `Download PPK`
    - macOS or Linux users: Download PEM
 
-15. To close the window, choose X.
+15. To close the window, choose **X**.
 
-16. Connect to your bastion host by using SSH. 
+16. Connect to your bastion host by using SSH. (from PUTTY)
 ```
    ssh -i /path/to/labuser.pem ec2-user@<bastion-host-public-ip>
 ```
@@ -166,9 +170,9 @@ In this task, you will create `a private subnet` in the `Lab VPC`.
 
 18. In the console, create a private subnet that meets the following criteria:
 
-- Name tag: Private Subnet
-- Availability Zone: Same as Public Subnet
-- IPv4 CIDR block: 10.0.1.0/24
+   - Name tag: Private Subnet
+   - Availability Zone: Same as Public Subnet
+   - IPv4 CIDR block: 10.0.1.0/24
 ```
    aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.1.0/24 --availability-zone <availability-zone> --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=Private Subnet}]'
 ```
@@ -181,48 +185,62 @@ In this task, you will create `a NAT gateway`, which enables resources in the 'P
 
 19 Create `a NAT gateway` that meets the following criteria:
 
-Name: Lab NAT Gateway
-Subnet: Public Subnet
+   - Name: Lab NAT Gateway
+   - Subnet: Public Subnet
    
 **Tip**: Your NAT gateway needs an Elastic IP address. -->  `Tekan Tombol Allocate Elastic IP`
 
 20. Create a new route table that meets the following criteria:
 
-   - Name tag: Private Route Table
-   - Destination: 0.0.0.0/0
-   - Target: NAT Gateway
+   - **Name tag**: Private Route Table
+   - **Destination**: 0.0.0.0/0
+   - **Target**: NAT Gateway
 21. Attach this route table to the Private Subnet, which you created earlier.   (Associate) 
 
 **Hint**: If you get stuck, refer to the AWS Documentation [AWS VPC documentation on creating a NAT gateway](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html#nat-gateway-creating)
 .
-
-
+```
+aws ec2 create-nat-gateway --subnet-id <Public Subnet ID> --allocation-id <Elastic IP Allocation ID> --tag-specifications 'ResourceType=natgateway,Tags=[{Key=Name,Value=Lab NAT Gateway}]'
+```
+   Make sure to replace <Public Subnet ID> with the actual ID of the public subnet, and <Elastic IP Allocation ID> with the actual allocation ID of an Elastic IP address.
+   
 ## Task 7: Creating an EC2 instance in the private subnet
 In this task, you will create an EC2 instance in the Private Subnet, and you will configure it to allow SSH traffic from the bastion host. You will also create a new key pair to access this instance.
 
 22. Create a new key pair named `vockey2`, and download the appropriate .ppk (Microsoft Windows) or .pem (macOS or Linux).
 
 23. Create an EC2 instance in the Private Subnet of the Lab VPC that meets the following criteria.
-
-- AMI: Amazon Linux 2 AMI (HVM)
-- Instance type: t2.micro
-- Name: Private Instance
-- Only allows the following traffic:   
-  - Type: SSH
-  - Port: 22
-  - Source: Bastion host security group (Hint: Refer to the AWS Documentation
-- Uses the `vockey2` key pair that you created earlier
+   - AMI: Amazon Linux 2 AMI (HVM)
+   - Instance type: t2.micro
+   - Name: Private Instance
+   - Only allows the following traffic:   
+      - Type: SSH
+      - Port: 22
+      - Source: Bastion host security group (Hint: Refer to the AWS Documentation
+   - Uses the `vockey2` key pair that you created earlier
 
 ```
 aws ec2 create-key-pair --key-name vockey2 --query 'KeyMaterial' --output text > vockey2.pem
 ```
 ```
-   aws ec2 run-instances --image-id ami-0fc61db8544a617ed --instance-type t2.micro --subnet-id <private-subnet-id> --security-group-ids <private-instance-sg-id> --key-name vockey2 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Private Instance}]' --associate-public-ip-address
+aws ec2 create-key-pair --key-name vockey2 --query 'KeyMaterial' --output text > vockey2.pem
+chmod 400 vockey2.pem
+```   
+   The first two commands create and download the key pair. Make sure to store the private key file (vockey2.pem) in a safe and secure location.
 ```
-   Note: Replace `<private-subnet-id>` with the ID of the private subnet that you created in Task 5, and `<private-instance-sg-id>` with the ID of the security group that you will create in Task 8.
+aws ec2 run-instances --image-id ami-0fc61db8544a617ed --instance-type t2.micro --subnet-id <private-subnet-id> --security-group-ids <private-instance-sg-id> --key-name vockey2 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Private Instance}]' --associate-public-ip-address --user-data file://userdata.txt
+``` 
+   > Note: Replace `<private-subnet-id>` with the ID of the private subnet that you created in Task 5, and `<private-instance-sg-id>` with the ID of the security group that you will create in Task 8 ???.
+   > Note that the userdata.txt file should contain the following script to allow SSH traffic from the bastion host:
+```
+#!/bin/bash
+echo "Allowing SSH traffic from Bastion Security Group"
+aws ec2 authorize-security-group-ingress --group-id <Security Group ID> --protocol tcp --port 22 --cidr <CIDR Block>
+```
+Make sure to replace <Security Group ID> with the ID of the security group that allows SSH traffic from the bastion host, and <CIDR Block> with the CIDR block of the VPC (e.g., 10.0.0.0/16).
    
 ## Task 8: Configuring your SSH client for SSH passthrough
-Because the private instance you just created uses a different key pair than the bastion host, you must configure your SSH client to use SSH passthrough. This action allows you to use a key pair that's stored on your computer to access the private instance without uploading the key pair to the bastion host. This is a good security practice.  
+Because the private instance you just created uses a different key pair than the bastion host, you must configure your SSH client to use SSH passthrough. This action allows you to use a key pair that's stored on your computer to access the private instance without uploading the key pair to the bastion host. **This is a good security practice**.  
 
 To set up your client, follow either the Microsoft Windows, or the macOS or Linux steps.
 
@@ -236,7 +254,7 @@ After you install Pageant, open it. Pageant runs as a Windows service.
 To import the PuTTY-formatted key into Pageant, follow these steps.
 
 In the Windows system tray, double-click the Pageant icon. Pagent Icon
-Choose Add Key.
+right click Choose Add Key.
 Select the .ppk file that you downloaded when you created the vockey2 key pair.  
 Your screen should look similar to the following example.
 
@@ -246,7 +264,7 @@ Screen capture of Pageant
 
 You should now have two keys listed. You can close the Pageant window.
 
-In PuTTY, under Connection > SSH > Auth, select Allow agent forwarding. Expand  Auth and choose Credentials. Under Private key file for authentication choose Browse. Browse to the labsuser.ppk file that you downloaded, select it, and choose Open. Choose Accept. After you have completed this step, continue on to Task 9, step 32. Proceed to connect to the bastion host using PuTTY as you normally would, but don't open a .ppk file.
+In PuTTY, under Connection > SSH > Auth, select Allow agent forwarding. Expand  Auth and choose Credentials. Under Private key file for authentication choose Browse. Browse to the `labsuser.ppk` file that you downloaded, select it, and choose Open. Choose Accept. After you have completed this step, continue on to Task 9, step 32. Proceed to connect to the bastion host using PuTTY as you normally would, but don't open a .ppk file.
 
 macOS or Linux users only
 For macOS users, ssh-agent is already installed as part of the OS. To add your keys, complete the following steps.
