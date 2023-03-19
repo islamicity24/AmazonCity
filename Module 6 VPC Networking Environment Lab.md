@@ -52,7 +52,7 @@ Here's the AWS CLI code to complete Task 1 of Challenge #1:<br>
 ```
 aws ec2 create-subnet --vpc-id <vpc-id> --cidr-block 10.0.0.0/24 --availability-zone <availability-zone> --tag-specifications 'ResourceType=subnet,Tags=[{Key=Name,Value=Public Subnet}]'
 ```
-Replace <vpc-id> with the ID of the Lab VPC created for this challenge, and <availability-zone> with the availability zone of your choice within your region.<br>
+Replace `<vpc-id>` with the ID of the Lab VPC created for this challenge, and <availability-zone> with the availability zone of your choice within your region.<br>
 **step 2**   
 ```
 aws ec2 create-internet-gateway --tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=Lab VPC IGW}]'
@@ -63,7 +63,7 @@ aws ec2 attach-internet-gateway --internet-gateway-id <internet-gateway-id>   --
 ```
 aws ec2 attach-internet-gateway --internet-gateway-id "igw-0c880167a2e2dba47" --vpc-id "vpc-078e4a79bcb2ecb6c" --region us-east-1
 ```   
-   Replace <internet-gateway-id> with the ID of the internet gateway created in step 2, and <vpc-id> with the ID of the Lab VPC.
+   Replace `<internet-gateway-id>` with the ID of the internet gateway created in step 2, and `<vpc-id>` with the ID of the Lab VPC.
 ```
 aws ec2 create-route --route-table-id <route-table-id> --destination-cidr-block 0.0.0.0/0 --gateway-id <internet-gateway-id>
 ```
@@ -74,35 +74,49 @@ aws ec2 create-route --route-table-id <route-table-id> --destination-cidr-block 
 In this task, you will `create a bastion host` in the `Public Subnet`. In later tasks, you will create `an EC2 instance` in `a private subnet` and connect to it from this bastion host.
 
 10. From the Amazon EC2 console, create an EC2 instance in the Public Subnet of the Lab VPC that meets the following criteria:
-   - Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
-   - Instance type: t2.micro
-   - Auto-assign Public IP: `This setting should be **disabled**`
-   - Name: Bastion Host
+   - **Amazon Machine Image (AMI)**: Amazon Linux 2 AMI (HVM)
+   - **Instance type**: t2.micro
+   - **Auto-assign Public IP**: `This setting should be **disabled**`
+   - **Name**: Bastion Host
    - Security group called `Bastion Host SG` that only allows the following traffic:
-     - Type: SSH
-     - Port: 22
-     - Source: Your IP address ?
+     - **Type**: SSH
+     - **Port**: 22
+     - **Source**: Your IP address ?
    - Uses the **vockey** key pair   (bastion-key ?)
     
 > Note: In practice, hardening a bastion host involves more work than only restricting `Secure Shell (SSH)` traffic from your IP address. A bastion host is typically placed in a network that's closed off from other networks. It's often protected with multi-factor authentication (MFA) and monitored with auditing tools. Most enterprises require an auditable access trail to the bastion host.
+> Catatan: Pada praktiknya, pengamanan bastion host melibatkan lebih banyak pekerjaan daripada hanya membatasi lalu lintas Secure Shell (SSH) dari alamat IP Anda. Bastion host biasanya ditempatkan di jaringan yang terisolasi dari jaringan lain. Biasanya, bastion host dilindungi dengan otentikasi multi-faktor (MFA) dan dipantau dengan alat audit. Kebanyakan perusahaan memerlukan jejak akses yang dapat diaudit ke bastion host. 
 
-**step 1**
+**step 1** Create a security group for the bastion host
 ```
-aws ec2 create-security-group --group-name "Bastion Host SG" --description "Security group for Bastion Host" --vpc-id <vpc-id>
+aws ec2 create-security-group --group-name "Bastion Host SG" --description "Security Group for Bastion Host" --vpc-id <vpc-id>
 ```
-Replace `<vpc-id>` with the ID of the Lab VPC created for this challenge.
+Replace `<vpc-id>` with the ID of the Lab VPC created for this challenge. This command will return a JSON object with the details of the security group, including its GroupId `<security-group-id>`. Make note of this value, as it will be used in the next steps.
+   
+**step 2** Add a rule to the security group to allow SSH traffic from your IP address:   
 ```
 aws ec2 authorize-security-group-ingress --group-name "Bastion Host SG" --protocol tcp --port 22 --cidr <your-ip-address>/32
 ```
 Replace `<your-ip-address>` with your public IP address.
+   
 ```
 aws ec2 create-key-pair --key-name bastion-key --query 'KeyMaterial' --output text > bastion-key.pem && chmod 400 bastion-key.pem
 ```
 This creates a new key pair called "bastion-key" and saves the private key to a file named "bastion-key.pem". Make sure to securely store this private key, as you will need it later to connect to the bastion host.
+
+**step 3** Launch the EC2 instance:
 ```
 aws ec2 run-instances --image-id ami-0fc61db8544a617ed --instance-type t2.micro --key-name bastion-key --subnet-id <public-subnet-id> --security-group-ids <security-group-id> --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Bastion Host}]' --no-associate-public-ip-address
 ```
-Replace `<public-subnet-id>` with the ID of the Public Subnet created in Task 1, and `<security-group-id>` with the ID of the security group "Bastion Host SG" created in step 1.
+Replace `<public-subnet-id>` with the ID of the Public Subnet created in Task 1, and `<security-group-id>` with the ID of the Security Group "Bastion Host SG" created in step 1.
+   
+step 4 Wait for the instance to be running:
+```   
+aws ec2 wait instance-running --instance-ids <InstanceId>
+```
+Replace <InstanceId> with the InstanceId of the launched instance.
+
+Once the instance is running, you can use SSH to connect to it using the key pair specified in step 3.
    
 > Note: Make sure to run the above commands in the same order as listed above, and replace the required parameters with the corresponding values.
 
