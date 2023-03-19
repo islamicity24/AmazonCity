@@ -136,7 +136,7 @@ To do this, change the quantity for at least one menu item to at least 1 and cho
 An Order Confirmation page should display, which indicates that the café website is working as intended.
   - Choose Order History.
 The page shows that many orders were placed. The current database contains past customer orders that you will migrate to a database that's hosted on Amazon RDS.
-8. Connect to the ~~(DataBase ?)~~ EC2 instance by using AWS Systems Manager to access a terminal session in the browser.
+8. Connect to the ~~(DataBase ?)~~ EC2 instance by using `**AWS Systems Manager**` to access a terminal session in the browser.
   - Back in the AWS Management Console, search Session Manager or navigate to the **Systems Manager Console and choose Session Manager** under Node Management.
   - Start a session and connect to the **CafeServer**.
 You should now have a new browser tab open, with a terminal session that's connected to the EC2 instance.
@@ -255,11 +255,11 @@ Here are some tips to help you get started:
 Tip #1 (click to expand)
 Here is the syntax that you can use to connect: mysql -u admin -p --host <rds-endpoint>
 Replace <rds-endpoint> with the actual RDS endpoint for your RDS instance.
-After you run the command, it will prompt you to enter the **password** for the RDS instance. You defined this password when you created the RDS instance.
+After you run the command, it will prompt you to enter the **password** for the RDS instance. You defined this password when you created the RDS instance.<br>
 Tip #2 (click to expand)
-Even if you enter the RDS endpoint and database password correctly, you still won't be able to connect. You must update the `inbound rules of the security group` that the RDS instance runs in. The MySQL client software tries to connect to the database on TCP port 3306.
+Even if you enter the RDS endpoint and database password correctly, you still won't be able to connect. You must update the `inbound rules of the security group` that the RDS instance runs in. The MySQL client software tries to connect to the database on TCP port 3306.<br>
 Tip #3 (click to expand)
-Avoid opening port 3306 to all source IP addresses. That would not be secure. Instead, open it only to servers in the security group that is used by the EC2 instance that you're connecting from (try typing `sg-` into the source field to see options).
+Avoid opening port 3306 to all source IP addresses. That would not be secure. Instead, open it only to servers in the security group that is used by the EC2 instance that you're connecting from (try typing `sg-` into the source field to see options).<b>
 Tip #4 (click to expand)
 You can confirm that the security group settings allow traffic on TCP port 3306 from the EC2 instance to the database. Try running these commands in the Systems Manager session manager terminal (replace with the actual RDS endpoint):
 ```
