@@ -318,13 +318,12 @@ You have now established communication between the Bastion Host in the Public Su
 bastion host to private EC2 instance
 
 
-
-
 **Architecture best practice**
 
 In this first challenge, you implemented the architectural best practice of enable people to perform actions at a distance.
 
 Expand here to learn more about it.
+   According to the Well-Architected Framework, compute resources require multiple layers of defense to help protect them from external and internal threats. In practice, you should remove the ability for interactive access to reduce the risk of human error and the potential for manual configuration or management. The Well-Architected Framework recommends that you use a change management workflow to deploy EC2 instances by using infrastructure as code. Then, you should use tools, such as Amazon EC2 Systems Manager, to manage EC2 instances instead of allowing direct access or a bastion host. For more information about replacing a bastion host with Amazon EC2 Systems Manager, see this AWS Security Blog post
 
 # New business requirement: Enhancing the security layer for private resources (Challenge #2)
 Sofía and Nikhil are proud of the changes they made to the cafe's application architecture. They are pleased by the additional security they built, and they are also glad to have `a test environment` instance (for development) that they can use before they deploy  updates to `the production instance (Private E2 Instance)`. They tell Mateo about their new application architecture, and he's impressed! To further improve their application security, Mateo advises them to build `an additional layer of security by using custom network access control lists (network ACLs)`.
@@ -339,6 +338,12 @@ You can use network ACLs to control traffic between subnets. It's a good practic
 
 For this challenge, you will create an EC2 instance in the Public Subnet. You will create a security group that allows Internet Control Message Protocol (ICMP) traffic from the local network. Next, you will create and configure your custom network ACL to deny ICMP traffic between the Private Subnet and this test instance. ICMP is used by the ping utility.
 
+   To create a custom network ACL and configure it to allow all traffic to go into and out of the Private Subnet, you can use the following AWS CLI commands:
+
+Create a custom network ACL called "Lab Network ACL":
+```
+aws ec2 create-network-acl --vpc-id <vpc-id> --tag-specifications 'ResourceType=network-acl,Tags=[{Key=Name,Value="Lab Network ACL"}]'
+```   
 35. Go to the Amazon VPC console, and inspect the default network ACL of Lab VPC.  
 
 **Note 1**: The subnets that you created are automatically associated with the default network ACL.<br>                                   
@@ -349,7 +354,15 @@ For this challenge, you will create an EC2 instance in the Public Subnet. You wi
    **Note**: The default inbound and outbound rules of the custom network ACL `deny all traffic`.
 
 37. Configure your custom network ACL to allow ALL traffic that goes into and out of the Private Subnet.
-
+Configure the custom network ACL to allow all traffic that goes into and out of the Private Subnet:
+```
+aws ec2 create-network-acl-entry --network-acl-id <network-acl-id> --rule-number 100 --protocol all --rule-action allow --cidr-block 10.0.1.0/24 --egress false   
+aws ec2 create-network-acl-entry --network-acl-id <network-acl-id> --rule-number 200 --protocol all --rule-action allow --cidr-block 10.0.1.0/24 --egress true
+```   
+false = allow  and true = deny (default)
+   These commands create a custom network ACL called "Lab Network ACL" for your VPC and configure it to allow all traffic that goes into and out of the Private Subnet.
+   
+   
 Question 1: What is the purpose of the internet gateway in the public subnet?
 - A. Allows instances in the private subnet to obtain a public IP address
 - B. Allows instances in the public subnet to obtain a public IP addresss
@@ -456,9 +469,9 @@ Make sure to replace `<vpc-id>` with the ID of your Lab VPC.
    
 ## Task 11: Testing your custom network ACL
 38. Create an EC2 instance in the Public Subnet of the Lab VPC (Public Test E2 Instance). It should meet the following criteria.
-   - AMI: Amazon Linux 2 AMI (HVM)
-   - Instance type: t2.micro
-   - Name: Test Instance
+   - **AMI**: Amazon Linux 2 AMI (HVM)
+   - **Instance type**: t2.micro
+   - **Name**: `**Test Instance**`
    - Allows All ICMP – IPv4 inbound traffic to the instance through the security group
 
 39. Note the private IP address of the Test Instance.
