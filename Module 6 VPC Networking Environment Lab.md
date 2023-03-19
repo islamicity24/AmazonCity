@@ -4,7 +4,7 @@ Sofía and Nikhil are now confident in their ability to create a two-tier archit
 
 Mateo
 
-When Mateo—a café regular and an AWS systems administrator and engineer—visits the café, Sofía and Nikhil tell him about the database migration. Mateo tells them that they can enhance security by running the café's application server in another private subnet that's separate from the database instance. They could then go through a bastion host (or jump box) to gain administrative access to the application server. The application server must also be able to download needed patches.
+When Mateo—a café regular and an AWS systems administrator and engineer—visits the café, Sofía and Nikhil tell him about the database migration. Mateo tells them that **they can enhance security by running the café's application server in another private subnet that's separate from the database instance**. `They could then go through a bastion host (or jump box) to gain administrative access to the application server`. The application server must also be able to download needed patches.
 
 Knowing that the cloud makes experimentation easier, Sofía and Nikhil are eager to set up a non-production VPC environment. They can use it implement the new architecture and test different security layers, without accidentally disrupting the café's production environment.
 
@@ -58,10 +58,10 @@ step 2
 aws ec2 create-internet-gateway --tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=Lab VPC IGW}]'
 ```
 ```
-aws ec2 attach-internet-gateway --internet-gateway-id <internet-gateway-id> --vpc-id <vpc-id>
+aws ec2 attach-internet-gateway --internet-gateway-id <internet-gateway-id>   --vpc-id <vpc-id>  --region ap-southeast-3
 ```
 ```
-   aws ec2 attach-internet-gateway --vpc-id "vpc-078e4a79bcb2ecb6c" --internet-gateway-id "igw-0c880167a2e2dba47" --region us-east-1
+aws ec2 attach-internet-gateway --internet-gateway-id "igw-0c880167a2e2dba47" --vpc-id "vpc-078e4a79bcb2ecb6c" --region us-east-1
 ```   
    Replace <internet-gateway-id> with the ID of the internet gateway created in step 2, and <vpc-id> with the ID of the Lab VPC.
 ```
