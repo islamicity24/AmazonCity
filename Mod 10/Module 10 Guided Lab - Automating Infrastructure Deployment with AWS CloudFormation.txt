@@ -1,0 +1,58 @@
+c76965a1585994l3781324t1w289135571999
+
+
+Delete
+Update
+Stack actions
+Create stack
+
+Stack info
+
+Events
+
+Resources
+
+Outputs
+
+Parameters
+
+Template
+
+Change sets
+Outputs (2)
+
+
+1
+
+
+Key
+Value
+Description
+Export name
+Key
+Value
+Description
+Export name
+
+AccessKey	AKIAUGUOSWQP73VI6NHD	-	-
+SecretKey	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
+
+
+Submission Report
+
+[Executed at: Tue Mar 21 0:04:04 PDT 2023]
+
+Testing report - The lab-network stack was successfully created.
+Testing report -The lab-application stack was successfully created.
+Testing report - The lab_application stack was successfully updated.
+Testing report - The lab_application stack was successfully deleted.
+
+gradeFile = /mnt/vocwork2/ccc_v1_g_11ed7_28593/asn1585993_13/asn1585994_1/tmp/temp_uf_03212023/.6A1sCY
+reportFile =/mnt/vocwork2/ccc_v1_g_11ed7_28593/asn1585993_13/asn1585994_1/tmp/temp_uf_03212023/.Vb8Nhe
+/mnt/vocwork2/ccc_v1_g_11ed7_28593/asn1585993_13/asn1585994_1/tmp/temp_uf_03212023/.6A1sCY
+len 4
+Present working directory = /mnt/vocwork2/ccc_v1_g_11ed7_28593/asn1585993_13/asn1585994_1/1566224/1/work
+
+Default region: us-east-1
+Back in submit.sh...
+end

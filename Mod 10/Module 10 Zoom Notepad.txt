@@ -1,0 +1,10 @@
+ini sandbox modul ini dibelakangnya ada cloud formation coach?
+Fauzi Tri Musyafa  to  Everyone 7:17 PM
+cara kerjanya kaya terraform coach?
+Athariq  to  Everyone 7:21 PM
+Maaf pak saya ada kendala di bagian webcam, nanti untuk sesi foto bagaimana? apa pakai foto saja?
+Terimakasih
+Candra  to  Everyone 7:39 PM
+Kalau ada yg modified via console, apakah saat kita deploy lg pakai template cloudformation menjadi error pak?
+Jimmy 7:40 PM
+https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html

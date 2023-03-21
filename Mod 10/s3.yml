@@ -1,0 +1,9 @@
+# S3.yaml
+AWSTemplateFormatVersion: "2010-09-09"
+Description: cafe S3 template
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+
