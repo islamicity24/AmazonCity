@@ -1,19 +1,19 @@
 # Module 10 - Challenge Lab: Automating Infrastructure Deployment
 
 ## Scenario
-Up to this point, the café staff created their AWS resources and configured their applications manually—mostly by using the AWS Management Console. This approach worked well as a way for the café to get started with a web presence quickly. However, they find it challenging to replicate their deployments to new AWS Regions so that they can support new café locations in multiple countries. They would also like to have separate development and production environments that reliably have matching configurations.
+Up to this point, the café staff created their AWS resources and configured their applications manually—mostly by using the AWS Management Console. This approach worked well as a way for the café to get started with a web presence quickly. However, they find it challenging to `**replicate their deployments to new AWS Regions so that they can support new café locations in multiple countries. They would also like to have separate development and production environments that reliably have matching configurations**`.
 
 In this challenge lab, you will take on the role of Sofía as you work to automate the café's deployments and replicate them to another AWS Region.
 
 ## Lab Overview and Objectives
-In this lab, you will gain experience with creating AWS CloudFormation templates. You will use the templates to create and update AWS CloudFormation stacks. The stacks create and manage updates to resources in multiple AWS service areas in your AWS account. You will practice using AWS CodeCommit to control the version of your templates. You will also observe how you can use AWS CodePipeline to automate stack updates.
+In this lab, you will gain experience with `creating AWS CloudFormation templates`. You will use the templates to create and update AWS CloudFormation stacks. The stacks create and manage updates to resources in multiple AWS service areas in your AWS account. You will `practice using AWS CodeCommit to control the version of your templates`. You will also observe how you can `use AWS CodePipeline to automate stack updates`.
 
 After completing this lab, you should be able to:
 
-- Deploy a virtual private cloud (VPC) networking layer by using an AWS CloudFormation template
-- Deploy an application layer by using an AWS CloudFormation template
-- Use Git to invoke AWS CodePipeline, and to create or update stacks from templates that are stored in AWS CodeCommit
-- Duplicate network and application resources to another AWS Region by using AWS CloudFormation
+- Deploy `a virtual private cloud (VPC) networking layer` by using an AWS CloudFormation template
+- Deploy `an application layer` by using an AWS CloudFormation template
+- Use Git to `invoke AWS CodePipeline`, and to `create or update stacks from templates` that are `stored in AWS CodeCommit`
+- `Duplicate network and application resources` to another AWS Region by using AWS CloudFormation
 
 ## Duration
 This lab will require approximately 90 minutes to complete.
@@ -47,13 +47,14 @@ In this first task, you will create an AWS CloudFormation template that creates 
  
 
 At the top of the file, add the following two lines:
+```
 # S3.yaml
 AWSTemplateFormatVersion: "2010-09-09"
 Description: cafe S3 template
-
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
+```    
     
 To run the AWS CLI command:
 
