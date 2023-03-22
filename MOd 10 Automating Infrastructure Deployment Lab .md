@@ -66,10 +66,101 @@ Make sure to replace CreateBucket with your desired stack name. (example S3-Stac
 
 To answer the questions:
 
-Question 1: Yes, the bucket was created. It was given a name in the format createbucket-s3bucket-<random-string>.
-Question 2: The bucket was created in the default Region of the AWS CLI client that is installed on the AWS Cloud9 instance. This can be checked by running aws configure get region in the terminal.
-Question 3: Only three lines of code were needed to define the S3 bucket in the Resources section of the template file.
-Task 3: Cloning a CodeCommit repository that contains AWS CloudFormation templates
+Question 1: Yes, the bucket was created. It was given a name in the format `createbucket-s3bucket-<random-string>`.<br>
+Question 2: The bucket was created in the default Region of the AWS CLI client that is installed on the AWS Cloud9 instance. This can be checked by running aws configure get region in the terminal.<br>
+Question 3: Only three lines of code were needed to define the S3 bucket in the Resources section of the template file.<br>
+
+## Task 2: Configuring the bucket as a website and updating the stack
+In this next task, you will update the AWS CloudFormation template. The update will configure the S3 bucket to host a static website. This task is similar to the results from the Module 3 challenge lab. In that challenge lab, you created and configured the S3 bucket manually by using the AWS Management Console. However, in this lab, you will instead configure the bucket by using an AWS CloudFormation template.
+
+ 
+
+Upload static website assets to the bucket.
+
+To do this task, run the following commands in the Bash terminal (replace <bucket-name> with your actual bucket name):
+
+wget https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-200-ACACAD-2-16750/14-lab-mod10-challenge-CFn/s3/static-website.zip
+unzip static-website.zip -d static
+cd static
+aws s3 cp --recursive . s3://<bucket-name>/ --acl public-read
+If these operations are successful, you should see numerous upload:<file_name> messages in the command output.
+
+ 
+
+In a new browser tab, open the AWS CloudFormation template documentation for defining S3 bucket resources.
+
+Go to the AWS resource and property types reference documentation
+Scroll down, choose Amazon S3, and then choose the AWS::S3::Bucket resource type.
+ 
+
+Using the documentation as a reference, modify your S3.yaml template to set the following characteristics on the S3 bucket resource:
+
+Attach a deletion policy that will retain the bucket
+
+Configure the bucket to host a static website with index.html set as the index document
+
+ Tip: You can accomplish this task by adding as few as four additional lines of code to your template. See the code in the Examples section of the documentation page that you opened in the last step.
+
+ 
+
+To your AWS CloudFormation template, add an output that provides the website URL.
+
+Again, consult the Examples section of the documentation as a reference.
+
+ 
+
+Save the changes to your S3.yaml file.
+ 
+
+Validate your template.
+
+Back in the Bash terminal, change the directory back to the location of the S3.yaml file and validate your template by running the following commands.
+
+cd ../
+aws cloudformation validate-template --template-body file://S3.yaml
+If the output indicates that your template has syntax or other errors, correct them, and then run the command again to verify that they have been resolved.
+
+ 
+
+Update the stack by running this command:
+
+aws cloudformation update-stack --stack-name CreateBucket --template-body file://S3.yaml
+Tip: Proper YAML syntax is important. If you receive a ValidationError when you run update-stack, review your use of colons and confirm that you indented each line appropriately. The example templates in the documentation provide a good reference for well-structured YAML templates.
+
+ 
+
+Browse to the AWS CloudFormation service and confirm that your stack update completed successfully.
+
+The stack should show status UPDATE_COMPLETE.
+
+If the stack does not attain a status of UPDATE_COMPLETE, try these troubleshooting tips.
+
+If you see that the stack has a ROLLBACK status of some kind, go the Events tab and search for an UPDATE_FAILED entry. (Read the Status reason for that event to understand why the stack update failed.)
+After you think that you resolved any errors, run the update-stack command again. In the console, return to the AWS CloudFormation stack and go to the Events tab to confirm whether you successfully updated the stack.
+Repeat as necessary.
+ 
+
+Verify success.
+
+Does the stack's Outputs tab list an output with a URL value? If so, choose the link.
+
+Does the static website open? (You previously copied the website assets into the bucket.)
+
+If so, congratulations!
+
+Note: If the stack does not have any output—or if the output hyperlink does not display the contents of the café website—you can try these troubleshooting steps.
+
+Browse to the Amazon S3 console and choose your bucket. The Overview tab should list the index.html file and two folders that are named css and images. If these resources are not listed, you might want to revisit the first step in this challenge section.
+
+Choose the index.html file and then choose Permissions. Under Public access, the value for Read object should be Yes.
+
+Return to the bucket view. In the Properties tab, confirm that  Static website hosting is enabled, with a Hosting type of Bucket hosting.
+
+All of the permissions and properties that are described in this list should be set in your S3.yaml template. If necessary, adjust the details in the template and run the update-stack AWS CLI command again.
+
+Note: In this first challenge, you manually copied the website files into the bucket. You can also perform this action by using a custom resource from AWS CloudFormation, combined with an AWS Lambda function. Both of these resources can be defined in an AWS CloudFormation template. This approach is a more advanced use of AWS CloudFormation beyond the scope of this lab. However, if you are interested in this topic, refer to the AWS Lambda-backed custom resources page in the AWS Documentation.
+
+## Task 3: Cloning a CodeCommit repository that contains AWS CloudFormation templates
 In this task, you will work as Sofía to clone a CodeCommit repository. The café team will use the repository to store and control the versions of the AWS CloudFormation templates.
 
  
