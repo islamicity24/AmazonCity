@@ -95,9 +95,8 @@ Scroll down, choose Amazon S3, and then choose the AWS::S3::Bucket resource type
  
 
 17. Using the documentation as a reference, modify your S3.yaml template to set the following characteristics on the S3 bucket resource:
-
-        - Attach a deletion policy that will retain the bucket
-        - Configure the bucket to host a static website with index.html set as the index document
+    - Attach a deletion policy that will retain the bucket
+    - Configure the bucket to host a static website with index.html set as the index document
 
  **Tip**: You can accomplish this task by adding as few as four additional lines of code to your template. See the code in the Examples section of the documentation page that you opened in the last step.
 
@@ -131,13 +130,11 @@ Tip: Proper YAML syntax is important. If you receive a ValidationError when you 
  
 
 22. Browse to the AWS CloudFormation service and confirm that your stack update completed successfully.
-
-        - The stack should show status UPDATE_COMPLETE.
-        - If the stack does not attain a status of UPDATE_COMPLETE, try these troubleshooting tips.
-
-            -If you see that the stack has a ROLLBACK status of some kind, go the Events tab and search for an UPDATE_FAILED entry. (Read the Status reason for that event to understand why the stack update failed.)
-            - After you think that you resolved any errors, run the update-stack command again. In the console, return to the AWS CloudFormation stack and go to the Events tab to confirm whether you successfully updated the stack.
-            - Repeat as necessary.
+    - The stack should show status UPDATE_COMPLETE.
+    - If the stack does not attain a status of UPDATE_COMPLETE, try these troubleshooting tips.
+        - If you see that the stack has a ROLLBACK status of some kind, go the Events tab and search for an UPDATE_FAILED entry. (Read the Status reason for that event to understand why the stack update failed.)
+        - After you think that you resolved any errors, run the update-stack command again. In the console, return to the AWS CloudFormation stack and go to the Events tab to confirm whether you successfully updated the stack.
+        - Repeat as necessary.
  
 
 23. Verify success.
@@ -160,19 +157,24 @@ All of the permissions and properties that are described in this list should be 
 
 Note: In this first challenge, you manually copied the website files into the bucket. You can also perform this action by using a custom resource from AWS CloudFormation, combined with an AWS Lambda function. Both of these resources can be defined in an AWS CloudFormation template. This approach is a more advanced use of AWS CloudFormation beyond the scope of this lab. However, if you are interested in this topic, refer to the AWS Lambda-backed custom resources page in the AWS Documentation.
 
+# New business requirement: Storing templates in a version control system (Challenge #2)
+The café team was impressed that Sofía configured an entire static website by using an AWS CloudFormation template. Given this success, the team decided that they would like to expand their use of infrastructure as code (IaC) to build out other application resources in the AWS account.
+
+The team understands that it is a best practice to store IaC templates in a version control system, so they asked Sofía to take on this challenge. Sofía spoke with Mateo about this new business requirement when he stopped by the café. He mentioned that AWS CodeCommit would be a good choice for storing templates and managing version control for them. Mateo created a CodeCommit repository with some sample AWS CloudFormation templates in it. Sofía is eager to start using this code repository.     
+
 ## Task 3: Cloning a CodeCommit repository that contains AWS CloudFormation templates
 In this task, you will work as Sofía to clone a CodeCommit repository. The café team will use the repository to store and control the versions of the AWS CloudFormation templates.
 
  
 
-Browse to the CodeCommit service and in your account, notice the repository that is named CFTemplatesRepo.
+24. Browse to the CodeCommit service and in your account, notice the repository that is named **_CFTemplatesRepo_**.
    codecommit
 
  CodeCommit is a source control service that can be used to host Git-based repositories. It can be used in a way that's similar to GitHub repositories. For details about AWS CodeCommit, see the AWS Documentation.
 
  
 
-Choose CFTemplatesRepo and then choose the templates folder.
+25. Choose CFTemplatesRepo and then choose the templates folder.
 
 Notice that it has AWS CloudFormation templates in it.
 
@@ -180,7 +182,7 @@ Notice that it has AWS CloudFormation templates in it.
 
  
 
-Open the CFTemplatesRepo/templates/start-lab.yaml file and analyze the contents.
+26. Open the CFTemplatesRepo/templates/start-lab.yaml file and analyze the contents.
 
 Notice that this template defines a few of the resources that you observed in this AWS account.
 
@@ -192,30 +194,31 @@ Starting on line 12, the template defines the CodeCommit repository that you now
 
  
 
-In the breadcrumbs at the top of the page, choose Repositories and in the Clone URL column, choose HTTPS.
+27. In the breadcrumbs at the top of the page, choose Repositories and in the Clone URL column, choose HTTPS.
 
  This action copies the CodeCommit repository's HTTPS clone URL to your clipboard.
 
  
 
-Return to the AWS Cloud9 IDE and clone the existing CodeCommit repository to your workspace (replace <url> with the clone URL that you copied)
+28. Return to the AWS Cloud9 IDE and clone the existing CodeCommit repository to your workspace (replace <url> with the clone URL that you copied)
 
 In the Bash terminal in the AWS Cloud9 IDE, enter this command:
-
+```
 git clone <url>
+```    
 This command clones a copy of the CodeCommit repository that you just observed. The command creates a CFTemplatesRepo directory that should now appear in the navigation pane (which is the left pane in the IDE).
 
 Use the Git client software to analyze your local copy of the repository.
-
+```
 cd CFTemplatesRepo
 git status
-git status
+```
 
 The git status command shows what branch of the repository you are connected to. It also shows that your local copy is up to date with the source branch in CodeCommit.
 
  
 
-New business requirement: Using a continuous delivery service, create the network and application layers for the café (Challenge #3)
+# New business requirement: Using a continuous delivery service, create the network and application layers for the café (Challenge #3)
 The next challenge is for Sofía to use AWS CloudFormation to create all the network resources that the dynamic website café application can be deployed to. Then, she must deploy the café application itself.
 
 Also, Sofía would like to find an easier way to update stacks when she updates an AWS CloudFormation template. She is now updating templates regularly, and she thinks that she should be able to automate stack updates.
