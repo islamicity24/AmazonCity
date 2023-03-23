@@ -234,7 +234,7 @@ In this task, you will use an AWS CloudFormation template to create a VPC with a
 
  
 
-Create a new AWS CloudFormation template that will create a VPC, public subnet, and other resources.
+29. Create a new AWS CloudFormation template that will create a VPC, public subnet, and other resources.
 
 In the navigation pane of the AWS Cloud9 IDE, expand the CFTemplatesRepo/templates directory.
 In the templates directory, right-click template1.yaml and create a duplicate of it.
@@ -271,17 +271,17 @@ To return to the CafeNetworkPipeline page, choose Done.
 
  
 
-Analyze the Deploy stage of the CafeNetworkPipeline.
+32. Analyze the Deploy stage of the CafeNetworkPipeline.
 
-Notice that the Deploy action will be performed by using AWS CloudFormation.
+    - Notice that the Deploy action will be performed by using AWS CloudFormation.
 
-To the right of the RunChangeSet heading, choose 
+    - To the right of the RunChangeSet heading, choose 
 
 Analysis: The details in the Configuration window show that a stack named update-cafe-network will be run or be updated. To perform these actions, the stack will use the cafe-network.yaml AWS CloudFormation template. This Deploy action receives the template from the Source stage, which found the template in the CodeCommit repository.
 
 The following diagram illustrates how you will trigger this pipeline and what the pipeline will do. It also shows some of the AWS account resources that the resulting AWS CloudFormation stack will create or update.
 
-codepipeline
+![codepipeline](https://github.com/islamicity24/AmazonCity/blob/main/Mod%2010/code-pipeline.png)
 
  For more details about AWS CodePipeline, refer to the AWS Documentation.
 
