@@ -229,7 +229,7 @@ In this challenge, you will work as Sofía and make use of these pipelines. You 
 
  
 
-Task 4: Creating a new network layer with AWS CloudFormation, CodeCommit, and CodePipeline
+## Task 4: Creating a new network layer with AWS CloudFormation, CodeCommit, and CodePipeline
 In this task, you will use an AWS CloudFormation template to create a VPC with a public subnet, along with other network resources. You will gain experience with using a CI/CD pipeline. When you use Git to push the template into a CodeCommit repository, it will trigger a pipeline that will create an AWS CloudFormation stack.
 
  
@@ -348,7 +348,7 @@ Congratulations! You have successfully created the network resources that are ne
 
  
 
-Task 5: Updating the network stack
+## Task 5: Updating the network stack
 In this task, you update the network stack so that it exports essential information about two of the resources that it creates. These two outputs can then be referenced by the application stack that you create later.
 
  
@@ -384,7 +384,7 @@ VpcId	update-cafe-network-VpcID
 
  
 
-Task 6: Defining an EC2 instance resource and creating the application stack
+## Task 6: Defining an EC2 instance resource and creating the application stack
 In this task, you will create a new AWS CloudFormation template that will be used to create a stack. The new stack deploys a dynamic website for the café. The CafeAppPipeline pipeline (which you observed earlier) creates or updates the update-cafe-app stack when you push the cafe-app.yaml template to the CodeCommit repository.
 
  
@@ -514,7 +514,7 @@ Sofía will soon experience the benefits of the hard work that she did to define
 
  
 
-Task 7: Duplicating the café network and website to another AWS Region
+## Task 7: Duplicating the café network and website to another AWS Region
 In this final lab task, you will experience how quickly you can duplicate a deployment. A quick deployment is possible because you defined all your resources in AWS CloudFormation templates.
 
 In Tasks 4, 5, and 6, the AWS CloudFormation stacks were created or updated automatically. A pipeline was defined to monitor when the CodeCommit repository was updated. It then invoked AWS CloudFormation to create or update the stack. However, in this task, you will use the AWS CLI to duplicate the café network resources in another AWS Region. Then, you will use the AWS CloudFormation console to create the application stack in the second Region.
