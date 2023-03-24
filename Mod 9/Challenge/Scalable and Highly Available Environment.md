@@ -2,16 +2,15 @@
 Scenario
 The café will soon be featured in a famous TV food show. When it airs, Sofía and Nikhil anticipate that the café’s web server will experience a temporary spike in the number of users—perhaps even up to tens of thousands of users. Currently, the café’s web server is deployed in one Availability Zone, and they are worried that it won’t be able to handle the expected increase in traffic. They want to ensure that their customers have a great experience when they visit the website, and that they don’t experience any issues, such as lags or delays in placing orders.
 
-To ensure this experience, the website must be responsive, able to scale both up and down to meet fluctuating customer demand, and be highly available. Instead of overloading a single server, the architecture must distribute customer order requests across multiple application servers so it can handle the increase in demand.
+To ensure this experience, the website must be **responsive**, able to **scale both up and down** to meet fluctuating customer demand, and be **highly available**. Instead of overloading a single server, the architecture must distribute customer order requests **across multiple application servers** so it can handle the increase in demand.
 
 In this lab, you will take on the role of Sofía to implement a scalable and highly available architecture for the café's web application.
 
 
-Lab overview and objectives
-In this lab, you use Elastic Load Balancing and Amazon EC2 Auto Scaling to create a scalable and highly available environment on AWS.
+## Lab overview and objectives
+In this lab, you use `Elastic Load Balancing` and Amazon `EC2 Auto Scaling` to create a **scalable and highly available environment** on AWS.
 
 After completing this lab, you should be able to:
-
 Inspect a VPC
 Update a network to work across multiple Availability Zones
 Create an Application Load Balancer
@@ -67,7 +66,7 @@ Sofía understands that she must complete some tasks to implement high availabil
 
 In the next several tasks, you will work as Sofía to create and configure the resources that you need to implement a scalable and highly available application.
 
-Task 1: Inspecting your environment
+## Task 1: Inspecting your environment
 In this task, you will evaluate the current state of your lab environment.
 
 Explore the lab environment, including how the network is set up.
@@ -76,7 +75,7 @@ Tip: You might want to start in the Amazon VPC console.
 To help you explore, continue to the next section and answer the questions about this lab.
 
 
-Answering questions about the lab
+## Answering questions about the lab
 Answers will be recorded when you choose the blue Submit button at the end of the lab.
 
 Access the questions in this lab.
@@ -85,31 +84,28 @@ Choose the Details  menu, and choose Show.
 Choose the Access the multiple choice questions link that appears at the bottom of the page.
 In the page that you loaded, answer the questions:
 
-Question 1: Which ports are open in the CafeSG security group?
-Question 2: Can you connect from the internet to instances in Public Subnet 1?
-Question 3: Should an instance in Private Subnet 1 be able to reach the internet?
-Question 4: Should an instance in Private Subnet 2 be able to reach the internet?
-Question 5: Can you connect to the CafeWebAppServer instance from the internet?
-Question 6: What is the name of the Amazon Machine Image (AMI)?
+  Question 1: Which ports are open in the CafeSG security group?
+  Question 2: Can you connect from the internet to instances in Public Subnet 1?
+  Question 3: Should an instance in Private Subnet 1 be able to reach the internet?
+  Question 4: Should an instance in Private Subnet 2 be able to reach the internet?
+  Question 5: Can you connect to the CafeWebAppServer instance from the internet?
+  Question 6: What is the name of the Amazon Machine Image (AMI)?
 
-Task 2: Creating a NAT gateway for the second Availability Zone
+## Task 2: Creating a NAT gateway for the second Availability Zone
 To achieve high availability, the architecture must span at least two Availability Zones. However, before you launch Amazon Elastic Compute Cloud (Amazon EC2) instances for your web application servers in the second Availability Zone, you must create a NAT gateway for them. A NAT gateway will allow instances that do not have a public IP address to access the internet.
 
 Create a NAT gateway in the Public Subnet in the second Availability Zone.
 Configure the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway you just created.
 
-Task 3: Creating a bastion host instance in a public subnet
+## Task 3: Creating a bastion host instance in a public subnet
 In this task, you will create a bastion host in a public subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
 
 From the Amazon EC2 console, create an EC2 instance in one of the public subnets of the Lab VPC. It must meet the following criteria:
 
-Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
-
-Instance type: t2.micro
-
-Auto-assign Public IP: This setting should be enabled
-
-Name: Bastion Host
+  Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
+  Instance type: t2.micro
+  Auto-assign Public IP: This setting should be enabled
+  Name: Bastion Host
 
 Only allows the following traffic:
 
@@ -119,7 +115,7 @@ Source: Your IP address
 Uses the vockey key pair
 
 
-Task 4: Creating a launch template
+## Task 4: Creating a launch template
 During the lab setup, an Amazon Machine Image (AMI) was created from the CafeWebAppServer instance. In this task, you will create a launch template by using this AMI.
 
 Create a launch template by using the AMI that was created during lab setup. It must meet the following criteria.
@@ -144,7 +140,7 @@ IAM Instance Profile: CafeRole
 Tip: Look in Advanced Details for this setting.
 
 
-Task 5: Creating an Auto Scaling group
+## Task 5: Creating an Auto Scaling group
 Now that the launch template is defined, you will create an Auto Scaling group for the instances. In this task, do not create a load balancer when you create the Auto Scaling group. (You will create a load balancer in the next task.)
 
 Create a new Auto Scaling Group that meets the following criteria:
@@ -170,7 +166,7 @@ Instances need: 60
 To verify that you created the Auto Scaling group correctly, go to the Amazon EC2 console. You should have two instances, both with the name that you configured as resource tags in the previous task.
 
 
-Task 6: Creating a load balancer
+## Task 6: Creating a load balancer
 Now that you web application server instances are deployed in private subnets, you need a way for the outside world to connect to them. In this task, you will create a load balancer to distribute traffic across your private instances.
 
 Create an HTTP Application Load Balancer that meets the following criteria:
@@ -193,7 +189,7 @@ Sofía has now created and configured the resources that the web application nee
 In the next tasks, you will continue working in the role of Sofía and test whether the café web application automatically scales under load.
 
 
-Task 7: Testing the web application
+## Task 7: Testing the web application
 In this task, you will test the café web application.
 
 To test the café web application, visit the Domain Name System (DNS) name of your load balancer and append /cafe to the URL.
@@ -208,7 +204,7 @@ Load balancer: Is the load balancer in the public subnets?
 Instances: Are the instances deployed from the Auto Scaling group that is in the correct subnets?
 Security groups: Do the security groups allow HTTP traffic from the internet?
 
-Task 8: Testing automatic scaling under load
+## Task 8: Testing automatic scaling under load
 In this task, you will test whether the café application scales out automatically.
 
 By using Secure Shell (SSH) passthrough through the bastion host instance, use SSH to connect to one of the running web server instances.
