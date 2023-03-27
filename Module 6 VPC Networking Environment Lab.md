@@ -670,7 +670,7 @@ Question 6: Which security group rules allow the private EC2 instance to receive
 - C  Inbound on private and outbound on test
 - D  Inbound on private and inbound on test
 
-The correct answer is B.
+The correct answer is B. salah , lantas yang benar apa ya?  C ??
 
 When the private EC2 instance pings the test instance, the ping request goes out from the private instance to the test instance, and then the test instance sends a reply back to the private instance. Therefore, the private instance needs to have outbound traffic allowed, and the test instance needs to have inbound traffic allowed, in order for the ping to work.
 
