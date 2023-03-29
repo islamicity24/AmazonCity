@@ -1,4 +1,4 @@
-## Which use cases indicate tha a non-relational database might be a better solution than a relational database? 
+## 1. Which use cases indicate tha a non-relational database might be a better solution than a relational database? 
 1. Horizontal scaling for massive data volume 
 2. ACID compliance for all database transakstion 
 3. Data with unpredictable attributes 
@@ -33,3 +33,6 @@ Amazon Relational Database Service (RDS) is a fully-managed database service off
 **Mobile applications**: Amazon RDS can be used to store data for mobile applications. You can use the service to store user profiles, session data, and other application data. With Amazon RDS, you can ensure that your data is secure, highly available, and scalable.
 
 Overall, Amazon RDS is a good fit for any application that requires a reliable, scalable, and fully-managed relational database service.
+
+
+## 9. A company wants to migrate their on-premises Oracle database to amazon Aurora MySQL. Which proess describe the high level steps ?
