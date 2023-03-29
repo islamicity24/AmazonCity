@@ -15,6 +15,36 @@ There are several reasons to use automation to provision resources:
 
 Overall, using automation to provision resources can help **improve efficiency**, **reduce costs**, and **increase the reliability** and **security of your applications and services**.
 
+## What are some reason to use automation to provision resources? (SELECT TWO)
+1. Lack of version control with manual process
+2. Automation requirement for creating some resources
+3. Alignment with the reliability design principle
+4. Greater expence with manual processes
+5. Automation requirement for high availability
+
+2. Automation requirement for creating some resources
+5. Automation requirement for high availability
+The reasons to use automation to provision resources are:
+
+**Automation requirement for creating some resources**: Some resources, such as virtual machines, containers, or databases, may require a high degree of standardization and repeatability. Automation allows creating these resources consistently and quickly, reducing errors and improving productivity.
+
+**Automation requirement for high availability**: Automating the provisioning of resources can improve the availability of the applications running on these resources. Automation can help create redundant instances, monitor their health, and automatically replace failed instances with new ones, reducing downtime and improving the reliability of the system.
+
+## What does AWS OpsWorks do? (Select Thrree)
+1. Provides managed Chef instances
+2. Automates operational tasks across AWS resources
+3. Provides managed Kubernetes clusters
+4. Automates server configurtion, deployment and management
+5. Provides managed Puppet instances
+6. Automates containersrized application deployment at scale
+
+The correct answers are:
+
+1. Provides managed Chef instances
+4. Automates server configuration, deployment, and management
+5. Provides managed Puppet instances
+
+AWS OpsWorks is an application management service that helps automate operational tasks across AWS resources. It provides managed instances of popular configuration management tools such as Chef and Puppet, allowing users to automate server configuration, deployment, and management. OpsWorks also allows for customization of workflows, and offers features such as application monitoring and auto-scaling. However, AWS OpsWorks does not provide managed Kubernetes clusters or automate containerized application deployment at scale.
 
 ## A Fleet of Amazon Elastic Compute Cloud (Amazon EC2) instances require application patches on a regular schedule. Which approach is the most efficient? 
 1. Create a scheduled task on each instance to download patches 
