@@ -1,10 +1,6 @@
 # Creating a Dynamic Website for the Cafe
 
-![image](https://user-images.githubusercontent.com/126258837/229767299-197a34f1-9c02-444f-bae0-647233f0a1c5.png)
-
-![image](https://user-images.githubusercontent.com/126258837/229767441-42780323-0568-4537-b3ef-2200c03ea11f.png)
-
-Module 4 - Challenge Lab: Creating a Dynamic Website for the Café
+# Module 4 - Challenge Lab: Creating a Dynamic Website for the Café
 Scenario
 After the café launched the first version of their website, customers told the café staff how nice the website looks. However, in addition to the praise, customers often asked whether they could place online orders.
 
@@ -17,22 +13,23 @@ In this lab, you will deploy an application on an Amazon Elastic Compute Cloud (
 
 After completing this lab, you should be able to:
 
-Connect to the AWS Cloud9 IDE on an existing EC2 instance
-Analyze the EC2 instance environment and confirm web server accessibility
-Install a web application on an EC2 instance that also uses AWS Systems Manager Parameter Store
-Test the web application
-Create an AMI
-Deploy a second copy of the web application to another AWS Region
+- Connect to the AWS Cloud9 IDE on an existing EC2 instance
+- Analyze the EC2 instance environment and confirm web server accessibility
+- Install a web application on an EC2 instance that also uses AWS Systems Manager Parameter Store
+- Test the web application
+- Create an AMI
+- Deploy a second copy of the web application to another AWS Region
  
 
 When you start the lab, some resources are already created for you in the AWS account:
 
 start architecture
+![image](https://user-images.githubusercontent.com/126258837/229767299-197a34f1-9c02-444f-bae0-647233f0a1c5.png)
 
 At the end of this lab, your architecture should look like the following example:
 
 final architecture
-
+![image](https://user-images.githubusercontent.com/126258837/229767441-42780323-0568-4537-b3ef-2200c03ea11f.png)
  
 
 Duration
@@ -78,12 +75,12 @@ In the first part of this lab, you will take on the role of Sofía. You will con
 ## Task 1: Analyzing the existing EC2 instance
 In this task, you will note details about an existing EC2 instance that was created for you in the AWS account.
 
-From the Services menu, choose EC2, then choose Running instances.
+5. From the Services menu, choose EC2, then choose Running instances.
 
 Notice the running instance named aws-cloud9-CafeWebServer-.... This EC2 instance was created when you started the lab.
 
 EC2 console
-
+![image](https://user-images.githubusercontent.com/126258837/229841567-8735b30a-8b88-49d7-ad28-4fe04fca3c57.png)
  
 
 Answering questions about the instance
@@ -123,9 +120,9 @@ You are now connected to the AWS Cloud9 IDE that is running on the EC2 instance 
 
 The IDE includes:
 
-A Bash terminal in the bottom-right panel.
-A file browser in the left panel that shows files in the /home/ec2-user/environment directory on the instance.
-A file editor in the upper-right panel. If you double-click a file in the file browser—such as the README.md file—it will display in the editor.
+- A Bash terminal in the bottom-right panel.
+- A file browser in the left panel that shows files in the /home/ec2-user/environment directory on the instance.
+- A file editor in the upper-right panel. If you double-click a file in the file browser—such as the README.md file—it will display in the editor.
 AWS Cloud9
 
  
@@ -159,7 +156,7 @@ The output should show the versions of the web server and the database, and also
 
  
 
-Start the web server and the database, and also set them to start automatically after any future EC2 instance restart.
+12. Start the web server and the database, and also set them to start automatically after any future EC2 instance restart.
 
 In the terminal, run these commands:
 ```
@@ -332,7 +329,7 @@ You will see that only the title banner of the website loads. The rest of the we
 
  
 
-Resolve an issue with the website.
+26. **Resolve an issue with the website.**
 
 In this step, you will need to figure out how to make the café website function correctly.
 
@@ -343,10 +340,36 @@ You also know that the MySQL database is running, and contains tables and data t
 What could be the issue?
 
 Tip #1 (click to expand)
+There is nothing wrong with the PHP code as written. The issue is related to permissions.
+
 Tip #2 (click to expand)
+Does the web application rely on any other services or resources in addition to the web server and the database? For example, does it require access to another AWS service?
+
 Tip #3 (click to expand)
+Go to the IAM service and search for the IAM role that is named CafeRole. Observe the permissions that this role grants. Would it be helpful to have these rights granted to the EC2 instance? How could you grant these permissions to the café web application?
+
 Tip #4 (click to expand)
- 
+Select the EC2 instance in the Amazon EC2 console, and review the options on the Actions menu. Would any of the actions help solve the issue?
+
+Based on the information given, it seems that the issue with the café website is related to permissions. One of the tips suggests that there is nothing wrong with the PHP code as written, but there is an issue related to permissions.
+
+To resolve this issue, you can try the following steps:
+
+1. Check the file and folder permissions on the web server. Make sure that the files and folders required by the web application have the correct permissions set. The web server user **should have read and execute permissions** on the required files and folders.
+
+2. Check the permissions of the MySQL database. Make sure that the MySQL user used by the web application has the correct permissions set to access the required tables and data.
+
+3. Check if the web application relies on any other services or resources in addition to the web server and the database. If it requires access to another AWS service, make sure that the necessary permissions are granted to the EC2 instance or the IAM role that the instance is associated with.
+
+4. Review the IAM role named CafeRole and observe the permissions that this role grants. If these permissions could help solve the issue, grant them to the EC2 instance or the IAM role that the instance is associated with.
+
+5. Review the options on the Actions menu for the EC2 instance in the Amazon EC2 console. Some of the actions available may help solve the issue.
+
+?????
+![image](https://user-images.githubusercontent.com/126258837/229867482-af7c37e2-14d3-47c1-a746-99a6c9171a91.png)
+
+
+After making any necessary changes, try loading the http://<public-ip>/cafe page again to see if the café menu items load completely. If they do, then the issue has been resolved. If not, continue to troubleshoot the issue based on the available information and any error messages that may be displayed.
 
 When you think you have fixed the issue, load the http://<public-ip>/cafe page again. Does it load completely so that you can see the café menu items? If so, congratulations!
 
@@ -383,7 +406,7 @@ Sofía is now very busy! As she accomplishes more impressive work, her skills be
 
  
 
-Task 6: Creating an AMI and launching another EC2 instance
+## Task 6: Creating an AMI and launching another EC2 instance
 Because the café website already runs well on an existing EC2 instance, Sofía decides to duplicate it by creating an AMI from it. She will then launch a new instance from the new AMI.
 
 You will continue to take on the role of Sofía for this task. Before you create an AMI out of this instance, you should create a new key pair, which might be important to have later in this lab.
@@ -391,9 +414,10 @@ You will continue to take on the role of Sofía for this task. Before you create
 Set a static internal hostname and create a new key pair on the EC2 instance.
 
 In the bash terminal, run the following commands:
-
+```
 sudo hostname cafeserver
 ssh-keygen -t rsa -f ~/.ssh/id_rsa
+```
 For the two times that you are prompted for a passphrase, press the ENTER key.
 
 To make the new key available to the SSH utilities, in the Bash terminal, run the following command:
