@@ -66,7 +66,7 @@ In the Custom box, paste the security group's Security group ID that you copied 
 Choose Create security group.
 
 
-Task 2: Creating an EFS file system
+## Task 2: Creating an EFS file system
 EFS file systems can be mounted to multiple EC2 instances that run in different Availability Zones in the same Region. These instances use mount targets that are created in each Availability Zone to mount the file system by using standard NFSv4.1 semantics. You can mount the file system on instances in only one virtual private cloud (VPC) at a time. Both the file system and the VPC must be in the same Region.
 
 On the Services menu, choose EFS.
@@ -115,7 +115,7 @@ Proceed to the next step after the Mount target state for each mount target chan
 Note: You may need to scroll to the right in the File systems pane to find the File system state.
 
 
-Task 3: Connecting to your EC2 instance via SSH
+## Task 3: Connecting to your EC2 instance via SSH
 In this task, you will connect to your EC2 instance by using Secure Shell (SSH).
 
  Microsoft Windows users
@@ -197,7 +197,7 @@ Because you are using a key pair for authentication, you are not prompted for a 
 
 
 
-Task 4: Creating a new directory and mounting the EFS file system
+## Task 4: Creating a new directory and mounting the EFS file system
  Amazon EFS supports the NFSv4.1 and NFSv4.0 protocols when it mounts your file systems on EC2 instances. Though NFSv4.0 is supported, we recommend that you use NFSv4.1. When you mount your EFS file system on your EC2 instance, you must also use an NFS client that supports your chosen NFSv4 protocol. The EC2 instance that was launched as a part of this lab includes an NFSv4.1 client, which is already installed on it.
 
 In your SSH session, make a new directory by entering sudo mkdir efs
@@ -211,9 +211,12 @@ In the Amazon EFS Console, on the top right corner of the page, choose Attach to
 Copy the entire command in the Using the NFS client section.
 
 The mount command should look similar to this example:
-
+```
+sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-0d4a1bffc22283e04.efs.us-east-1.amazonaws.com:/ efs
+```
+``` 
 sudo mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,noresvport fs-bce57914.efs.us-west-2.amazonaws.com:/ efs
-
+```
  The provided sudo mount... command uses the default Linux mount options.
 
 In your Linux SSH session, mount your Amazon EFS file system by:
@@ -221,25 +224,26 @@ In your Linux SSH session, mount your Amazon EFS file system by:
 Pasting the command
 Pressing ENTER
 Get a full summary of the available and used disk space usage by entering:
-
+```
 sudo df -hT
-
+```
 This following screenshot is an example of the output from the following disk filesystem command: 
-
+```
 df -hT
-
+```
 Notice the Type and Size of your mounted EFS file system.
 
 disk space
 
 
-Task 5: Examining the performance behavior of your new EFS file system
+## Task 5: Examining the performance behavior of your new EFS file system
 Examining the performance by using Flexible IO
  Flexible IO (fio) is a synthetic I/O benchmarking utility for Linux. It is used to benchmark and test Linux I/O subsystems. During boot, fio was automatically installed on your EC2 instance.
 
 Examine the write performance characteristics of your file system by entering:
-
+```
 sudo fio --name=fio-efs --filesize=10G --filename=./efs/fio-efs-test.img --bs=1M --nrfiles=1 --direct=1 --sync=0 --rw=write --iodepth=200 --ioengine=libaio
+``` 
  The fio command will take 5–10 minutes to complete. The output should look like the example in the following screenshot. Make sure that you examine the output of your fio command, specifically the summary status information for this WRITE test.
 
 fio
