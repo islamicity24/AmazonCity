@@ -226,3 +226,27 @@ Amazon Elastic Transcoder and Amazon CloudFront
 Amazon CloudFront
 AWS Training and Certification
  
+ 
+
+     Submission Report:                                                                                  
+                                                                                                        
+                                                                                                        
+    [Executed at: Wed Apr 5 4:00:32 PDT 2023]                                                           
+                                                                                                        
+    Testing report - A CloudFront distribution was created.                                             
+    Testing report - The Pipeline was created.                                                          
+    Testing report - The correct storage class was chosen fo                                            
+    Testing report - The correct storage class was chosen fo                                            
+    "Testing report - PROBLEM: The Output Key Prefix is not                                             
+    er."                                                                                                
+    Testing report - PROBLEM: At least one of the selected p                                            
+                                                                                                        
+                                                                                                        
+    gradeFile = /mnt/vocwork2/ccc_v1_g_11ed7_28593/asn158599                                            
+    reportFile =/mnt/vocwork2/ccc_v1_g_11ed7_28593/asn158599                                            
+    /mnt/vocwork2/ccc_v1_g_11ed7_28593/asn1585997_15/asn1585                                            
+    len 4                                                                                               
+    Present working directory = /mnt/vocwork2/ccc_v1_g_11ed7                                            
+rk                                                                                                      
+                                                                                                        
+    Default region: us-east-1
