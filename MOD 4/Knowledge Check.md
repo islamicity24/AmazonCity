@@ -9,7 +9,7 @@ E. Complete control of computing resources: Amazon EC2 gives you complete contro
 ![image](https://user-images.githubusercontent.com/126258837/230414580-38500d12-73bc-48c7-bb53-0d120e90a4ec.png)
 
 
-## What are the benefits of using an Amazon Machine Image (AMI)?
+## 2. What are the benefits of using an Amazon Machine Image (AMI)?
 (Select THREE.)
 
 A. Migrating data from on-premises to Amazon EC2 instances
@@ -34,7 +34,7 @@ E. Selling or sharing software solutions packaged as an AMI: An AMI can be used 
 ![image](https://user-images.githubusercontent.com/126258837/230417455-ea87099c-a982-423e-8a27-761c9ed9fca8.png)
 
 
-A system administrator must change the instance types of multiple running Amazon
+## 3. A system administrator must change the instance types of multiple running Amazon
 Elastic Compute Cloud (Amazon EC2) instances. The instances were launched with a
 mix of Amazon Elastic Block Store (Amazon EBS)-backed Amazon Machine Images
 (AMIs) and instance store-backed AMIs. Which method is a valid way to change the
@@ -64,7 +64,7 @@ However, changing the instance type of an Amazon EBS-backed instance after stopp
 ![image](https://user-images.githubusercontent.com/126258837/230419496-595cb697-0679-4c13-976f-fc23a793332c.png)
 
 
-A workload reguires high read/write access to large local datasets. Which instance
+## 4. A workload reguires high read/write access to large local datasets. Which instance
 types would perform best for this workload? (Select TWO.)
 
 A. General purpose
@@ -88,3 +88,22 @@ Accelerated computing instances are designed for workloads that require high-per
 
 B & D are correct answers
 
+## 5. An application requires the media access control (MAC) address of the host Amazon Elastic Compute Cloud (Amazon EC2) instance. The architecture uses an AWS Auto Scaling group to dynamically launch and terminate instances. Which way is best for the application to obtain the MAC address? 
+
+A. Write the MAC address in the application configuration file of each instance.
+
+B. Include the MAC address in the Amazon Machine Image (AM I) that is used to launch all of the instances in the AWS Auto Scaling group. 
+
+C. Include the MAC address in a custom AMI for each instance in the AWS Auto Scaling group. 
+
+D. Use the user data of each instance to access the MAC address through the instance metadata. 
+
+The best way for the application to obtain the media access control (MAC) address of the host Amazon Elastic Compute Cloud (Amazon EC2) instance that is launched by an AWS Auto Scaling group is:
+
+D. Use the user data of each instance to access the MAC address through the instance metadata.
+
+The instance metadata service provides information about an Amazon EC2 instance, such as the MAC address, that can be accessed from within the instance using a simple HTTP request. The user data can be used to execute scripts or retrieve metadata during instance launch. Therefore, you can use the user data to execute a script that retrieves the MAC address from the instance metadata service and then make it available to the application.
+
+Writing the MAC address in the application configuration file of each instance is not a scalable solution because it would require updating the configuration file each time a new instance is launched or an existing instance is terminated.
+
+Including the MAC address in the Amazon Machine Image (AMI) or a custom AMI is not recommended because it can lead to security issues, as the MAC address is specific to the instance and should not be included in the AMI. Additionally, including the MAC address in an AMI would not be a scalable solution because it would require creating a new AMI each time a new instance is launched or an existing instance is terminated.
