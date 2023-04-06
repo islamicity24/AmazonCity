@@ -107,3 +107,113 @@ The instance metadata service provides information about an Amazon EC2 instance,
 Writing the MAC address in the application configuration file of each instance is not a scalable solution because it would require updating the configuration file each time a new instance is launched or an existing instance is terminated.
 
 Including the MAC address in the Amazon Machine Image (AMI) or a custom AMI is not recommended because it can lead to security issues, as the MAC address is specific to the instance and should not be included in the AMI. Additionally, including the MAC address in an AMI would not be a scalable solution because it would require creating a new AMI each time a new instance is launched or an existing instance is terminated.
+
+![image](https://user-images.githubusercontent.com/126258837/230425678-b35cce90-ba72-461e-9ab3-f1f9b19e3167.png)
+
+
+A transactional workload on an Amazon Elastic Compute Cloud (Amazon EC2) instance performs high amounts of frequent read and write operations. Which Amazon Elastic Block Store (Amazon EBS) volume type is best for this workload?
+
+A. General purpose solid state drive (SSD)
+B. Cold hard disk drive (HDD)
+C. Provisioned IOPS solid state drive (SSD)
+D. Throughput optimized hard disk drive (HDD) 
+
+For a transactional workload that performs high amounts of frequent read and write operations on an Amazon Elastic Compute Cloud (Amazon EC2) instance, the best Amazon Elastic Block Store (Amazon EBS) volume type is:
+
+C. Provisioned IOPS solid state drive (SSD)
+
+Provisioned IOPS SSD volumes are designed to provide predictable, high-performance storage for I/O-intensive transactional workloads, such as databases. Provisioned IOPS SSD volumes offer the highest performance and lowest latency among all Amazon EBS volume types. The IOPS and throughput can be provisioned independently, allowing you to optimize both performance and cost for your workload.
+
+General Purpose SSD volumes and Throughput Optimized HDD volumes are better suited for mixed-workloads and workloads that require high throughput and large block sizes, respectively.
+
+Cold HDD volumes are designed for infrequently accessed workloads that require low-cost storage.
+
+![image](https://user-images.githubusercontent.com/126258837/230426855-f351b65d-2a5b-4fa1-9f76-0bccacd3efc7.png)
+
+
+## 7. it is possible to create an NFS share on an Amazon EBS-backed Linux instance by installing and configuring an NFS server on the instance. in this way, multiple Linux systems can share the file system of that instance. Which advantages does Amazon Elastic File System (Amazon EFS) provide, compared to this solution? (Select TWO.) 
+
+A. Strong consistency 
+
+B. Automatic scaling 
+
+C. High availability 
+
+D. File locking 
+
+E. No need for backups 
+
+The advantages of using Amazon Elastic File System (Amazon EFS) compared to creating an NFS share on an Amazon EBS-backed Linux instance are:
+
+B. Automatic scaling: Amazon EFS can automatically scale the file system storage capacity and throughput as the number of concurrent clients or file operations increase or decrease.
+
+C. High availability: Amazon EFS is designed to provide high availability and durability, with data stored across multiple availability zones in a region.
+
+A. Strong consistency: Amazon EFS provides strong read-after-write consistency for all file operations, which means that any read operation after a write operation will return the updated data.
+
+D. File locking: Amazon EFS supports file locking, which is important in environments where multiple clients may be accessing the same file simultaneously.
+
+E. Need for backups: While Amazon EFS does provide redundancy and durability, it is still recommended to have backups of important data, as with any storage solution.
+
+![image](https://user-images.githubusercontent.com/126258837/230428397-b249b22c-2e4d-4d5e-9687-fee0330ea76d.png)
+
+
+## 8. Which feature does Amazon FSx for Windows File Server provide? 
+
+A. Fully managed Windows file servers 
+
+B. Microsoft Active Directory (Microsoft AD) server for Windows file servers 
+
+C. Backup solution for on-premises Windows file servers 
+
+D. Amazon management agent for Windows file serve 
+
+So .. Amazon FSx for Windows File Server provides fully managed Windows file servers.
+
+![image](https://user-images.githubusercontent.com/126258837/230429707-d87db088-8d67-4a31-b262-2b43a2baceea.png)
+
+
+Which descriptions of Amazon Elastic Compute Cloud (Amazon EC2) pricing options are correct? (Select TWO.) 
+
+A. On-Demand instances enable you to pay for compute capacity by usage time, with no long-term commitments. 
+B. Reserved Instances are physical servers that are reserved exclusively for your use. 
+C. Savings Plans are budgeting tools that help you manage Amazon EC2 costs. 
+D. Dedicated Hosts are servers that are dedicated to one purpose, such as a firewall. 
+E. Spot Instances offer spare compute capacity at discounted prices, and can be interrupted. 
+The correct descriptions of Amazon Elastic Compute Cloud (Amazon EC2) pricing options are:
+
+A. On-Demand instances enable you to pay for compute capacity by usage time, with no long-term commitments.
+
+E. Spot Instances offer spare compute capacity at discounted prices, and can be interrupted.
+
+![image](https://user-images.githubusercontent.com/126258837/230430865-fb20ff97-9270-4297-ab6c-593c876bb29d.png)
+
+A company has three high-performance computing instances that must communicate with each other. The company would like to achieve maximum network performance between the instances. The most important requirement is that these systems do not share the same rack. Which placement strategy should they use? 
+
+A. Partition 
+B. Spread 
+C. Cluster 
+D. Default 
+The placement strategy that the company should use is "Spread."
+
+In Spread placement groups, instances are placed on distinct underlying hardware to reduce correlated failures. Therefore, it satisfies the requirement that these systems do not share the same rack. Additionally, instances in Spread placement groups can achieve higher network throughput and lower network latency compared to instances outside of a placement group.
+
+![image](https://user-images.githubusercontent.com/126258837/230432083-85dff28c-e668-4355-b154-d96690a1a59b.png)
+
+
+# AWS adalah platform layanan cloud computing yang memungkinkan pelanggan untuk menyewa komputasi, penyimpanan, dan layanan lainnya di lingkungan cloud AWS.
+
+Ada banyak layanan yang disediakan oleh AWS, seperti Amazon Elastic Compute Cloud (EC2), Amazon Simple Storage Service (S3), Amazon RDS, dan masih banyak lagi. Amazon EC2 adalah layanan komputasi awan yang menyediakan kapasitas komputasi skala web dengan menggunakan instance virtual yang disebut EC2 instances. Amazon S3 adalah layanan penyimpanan awan untuk menyimpan dan mengambil data dari internet.
+
+AWS memiliki banyak keuntungan, seperti:
+
+Skala elastis: AWS memungkinkan Anda untuk menambah atau mengurangi kapasitas dengan cepat dan mudah. Anda dapat memulai dengan sumber daya kecil dan menambahkannya saat permintaan meningkat.
+
+Biaya efektif: AWS memungkinkan Anda membayar hanya untuk sumber daya yang Anda gunakan. Anda tidak perlu mengeluarkan biaya awal yang besar atau mengeluarkan biaya operasional yang tinggi.
+
+Keamanan: AWS menyediakan berbagai fitur keamanan untuk melindungi data Anda, seperti firewalls, enkripsi, dan kontrol akses.
+
+Fleksibilitas: AWS menawarkan banyak layanan yang dapat disesuaikan dengan kebutuhan bisnis Anda. Anda dapat memilih layanan dan konfigurasinya sesuai dengan kebutuhan Anda.
+
+Itu hanya beberapa keuntungan dari AWS, tetapi ada banyak lagi. AWS adalah platform yang sangat berguna bagi perusahaan yang ingin meningkatkan efisiensi operasional mereka dan mengurangi biaya infrastruktur teknologi mereka.
+
