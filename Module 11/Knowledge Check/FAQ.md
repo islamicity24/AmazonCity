@@ -24,7 +24,7 @@ C. Static data that is frequently accessed
 D. Specialized data that is needed by a subset of users 
 
 
-C. Static data that is frequently accessed.
+**C. Static data that is frequently accessed**.
 
 Data that is static and frequently accessed is the most appropriate type of data to cache. This includes data that does not change frequently and can be precomputed or pre-fetched, such as website resources like images, CSS files, and JavaScript files. By caching this data, you can reduce the number of requests to the underlying data source, improving performance and response times.
 
