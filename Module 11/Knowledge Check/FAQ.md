@@ -164,6 +164,8 @@ Option D is incorrect, as writing data to ElastiCache every time the application
 
 Option E is also incorrect, as replicating the entire database in ElastiCache is not a practical approach, and would not be effective for improving read performance.
 
+![image](https://user-images.githubusercontent.com/126258837/230878115-e454456d-044b-4b8b-864f-a5e1016268e7.png)
+
 ## Which role does Amazon CloudFront play in protecting against distributed denial of service (DDoS) attacks? 
 
 A. Routes traffic through edge locations 
@@ -182,7 +184,7 @@ A. Amazon CloudFront plays a role in protecting against distributed denial of se
 
 
 
-![image](https://user-images.githubusercontent.com/126258837/230878115-e454456d-044b-4b8b-864f-a5e1016268e7.png)
+
 
 
 
