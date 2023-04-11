@@ -371,7 +371,114 @@ Note: You can choose the refresh  button occasionally to notice more quickly whe
 
 Linux Mount Command
 
- 
+```
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  S3BucketSource:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: my-source-bucket
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Name
+          Value: Source bucket
+  S3BucketDestination:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: my-destination-bucket
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Name
+          Value: Destination bucket
+  S3ReplicationRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - s3.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AmazonS3ReplicationRole
+      Path: "/"
+      Policies:
+        - PolicyName: AllowAllActions
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: "*"
+                Resource: "*"
+  S3ReplicationPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3BucketSource
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: "1"
+            Effect: "Allow"
+            Principal:
+              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:role/S3ReplicationRole"
+            Action:
+              - "s3:GetReplicationConfiguration"
+              - "s3:GetObjectVersion"
+              - "s3:GetObjectVersionAcl"
+            Resource:
+              - !Sub "arn:aws:s3:::${S3BucketSource}"
+              - !Sub "arn:aws:s3:::${S3BucketSource}/*"
+  S3ReplicationConfig:
+    Type: AWS::S3::ReplicationConfiguration
+    Properties:
+      Role: !GetAtt S3ReplicationRole.Arn
+      Rules:
+        - Id: "crr-full-bucket"
+          Status: Enabled
+          Prefix: ""
+          Destination:
+            Bucket: !Ref S3BucketDestination
+            AccessControlTranslation:
+              Owner: Destination
+            EncryptionConfiguration:
+              ReplicaKmsKeyID: alias/aws/s3
+            StorageClass: STANDARD
+          SourceSelectionCriteria:
+            SseKmsEncryptedObjects:
+              Status: Enabled
+          DeleteMarkerReplication:
+            Status: Enabled
+            ReplicationStatus: Enabled
+  FileGatewayEC2Instance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: "ami-0742b4e673072066f"
+      InstanceType: "t2.xlarge"
+      KeyName: "vockey"
+      NetworkInterfaces:
+        - DeviceIndex: "0"
+          AssociatePublicIpAddress: true
+          DeleteOnTermination: true
+          SubnetId: "subnet-xxx"
+          GroupSet:
+            - "sg-xxx"
+            - "sg-xxx"
+          PrivateIpAddresses:
+            - PrivateIpAddress: "xxx.xxx.xxx.xxx"
+      BlockDeviceMappings:
+        - DeviceName: "/dev/sda1"
+          Ebs:
+            VolumeSize: 80
+            VolumeType: "gp2"
+      Tags:
+        - Key: "Name"
+          Value: "File Gateway Appliance
+```
 
 ## Task 5: Mounting the file share to the Linux instance and migrating the data
 Before you can migrate data to the NFS share that you created, you must first mount the share. In this task, you will mount the NFS share on a Linux server, then copy data to the share.
