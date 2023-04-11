@@ -696,6 +696,7 @@ Notice that the command starts with sudo and ends with /mnt/nfs/s3.
 
 For example:
 ```
+sudo mount -t nfs -o nolock,hard 10.10.1.253:/primary-source-s3-bucket /mnt/nfs/s3 
 sudo mount -t nfs -o nolock,hard 10.10.1.33:/lab-nfs-bucket /mnt/nfs/s3
 ``` 
 ![image](https://user-images.githubusercontent.com/126258837/231127109-6d59e9bc-f847-4112-88f6-e2f17575d649.png)
@@ -719,6 +720,7 @@ Now that you created the mount point, you can copy the data that you want to mig
 cp -v /media/data/*.png /mnt/nfs/s3
 ``` 
 
+ 
 ![image](https://user-images.githubusercontent.com/126258837/231128066-62cfaed0-833c-4300-a9e9-e8b45ca06c57.png)
  
  
@@ -738,12 +740,15 @@ Verify that the 20 image files are listed.
 
 Note: You might need to choose the refresh  icon in the S3 console.
 
- 
+![image](https://user-images.githubusercontent.com/126258837/231134525-778626ec-0c94-46ed-bf67-38096044caaa.png) 
 
 Return to the Buckets page and select the bucket that you created in the US West (Oregon) Region. 
 
 Verify that the images files were replicated to this bucket, based on the policy that you created earlier.
 
+![image](https://user-images.githubusercontent.com/126258837/231134807-6d8153f4-4b76-4e79-a71f-6b51d7e2a70e.png)
+
+ 
 Note: S3 Object replication can take up to 15 minutes to complete. Keep refreshing until you see the replicated objects. 
 
 ![image](https://user-images.githubusercontent.com/126258837/231131520-e31ffa7f-f338-4da0-bcfe-498eccbd8751.png)
