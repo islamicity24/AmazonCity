@@ -746,7 +746,8 @@ Verify that the images files were replicated to this bucket, based on the policy
 
 Note: S3 Object replication can take up to 15 minutes to complete. Keep refreshing until you see the replicated objects. 
 
- 
+![image](https://user-images.githubusercontent.com/126258837/231131520-e31ffa7f-f338-4da0-bcfe-498eccbd8751.png)
+
 
 Congratuations, you successfully migrated data to Amazon S3 by using AWS Storage Gateway in File Gateway mode! After your data is stored in Amazon S3, you can act on it like native Amazon S3 data. In this lab, you created a replication policy to copy the data to a secondary Region. You could also perform other operations, such as configuring a lifecycle policy. For example, you could migrate infrequently used data automatically from S3 Standard to Amazon Simple Storage Service Glacier for long-term storage, which can reduce costs. 
 
