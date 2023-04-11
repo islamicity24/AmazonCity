@@ -1,50 +1,50 @@
 # Module 13 – Challenge Lab: Implementing a Serverless Architecture for the Café
 
-Scenario
+## **Scenario**
 The café's business is thriving. Frank and Martha want to get daily sales reports for products that are sold from the café's website. They will use this report to plan ingredient orders and monitor the impact of product promotions. 
 
-Sofía and Nikhil's initial idea is to use one of the Amazon Elastic Compute Cloud (Amazon EC2) web server instances to generate the report. Sofía sets up a cron job on the web server instance, which sends email messages that report daily sales. However, the cron job reduces the performance of the web server because it is resource-intensive.
+Sofía and Nikhil's initial idea is **to use one of the Amazon Elastic Compute Cloud (Amazon EC2) web server instances to generate the report**. Sofía sets up a cron job on the web server instance, which sends email messages that report daily sales. However, the cron job reduces the performance of the web server because it is resource-intensive.
 
-Nikhil mentions the cron job to Olivia, and how it reduces the web application's performance. Olivia advises Sofía and Nikhil to separate non-business-critical reporting tasks from the production web server instance. After Sofía and Nikhil review the advantages and disadvantages of their current approach, they decide that they don't want to slow down the web server. They also consider running a separate EC2 instance, but they are concerned about the cost of running an instance 24/7 when it is only needed for a short time each day. 
+Nikhil mentions the cron job to Olivia, and how it reduces the web application's performance. Olivia advises Sofía and Nikhil **to separate non-business-critical reporting tasks from the production web server instance**. After Sofía and Nikhil review the advantages and disadvantages of their current approach, they decide that they don't want to slow down the web server. They also consider running a separate EC2 instance, but they are concerned about the cost of running an instance 24/7 when it is **only needed for a short time each day**. 
 
 Sofía and Nikhil decide that running the report generation code as an AWS Lambda function would work, and it would also lower costs. The report itself could be sent to Frank and Martha's email address through Amazon Simple Notification Service (Amazon SNS).
 
-In this lab, you will take on the role of Sofía to implement the daily report code as a Lambda function.
+In this lab, you will take on the role of Sofía **to implement the daily report code as a Lambda function**.
 
 
-Lab overview and objectives
-In this lab, you will use AWS Lambda to create a café sales report that is emailed each day through Amazon SNS.
+## Lab overview and objectives
+In this lab, you will **use AWS Lambda to create a café sales report that is emailed each day through Amazon SNS**.
 
 After completing this lab, you should be able to implement a serverless architecture to generate a daily sales report that features:
 
-A Lambda function within a virtual private cloud (VPC) that connects to an Amazon Relational Database Service (Amazon RDS) database with the café's sales data
-A Lambda function that generates and runs the sales report
-A scheduled event that triggers the sales report Lambda function each day
+- A Lambda function within a virtual private cloud (VPC) that connects to an Amazon Relational Database Service (Amazon RDS) database with the café's sales data
+- A Lambda function that generates and runs the sales report
+- A scheduled event that triggers the sales report Lambda function each day
 
 When you start the lab, your architecture will look like the following example:
 
 
 starting architecture
-
+![image](https://user-images.githubusercontent.com/126258837/231150454-65ce05a3-ca55-46a8-b3ac-7d110537286f.png)
 
 At the end of this lab, your architecture should look like the following example:
 
-
 final architecture
+![image](https://user-images.githubusercontent.com/126258837/231151194-3340738b-542f-40e8-ae96-f10cb91c388c.png)
 
 
-Note: In this challenge lab, step-by-step instructions are not provided for most of the tasks. You must figure out how to complete the tasks on your own.
+**Note**: In this challenge lab, step-by-step instructions are not provided for most of the tasks. You must figure out how to **complete the tasks on your own**.
 
 
 Duration
-This lab will require approximately 90 minutes to complete.
+This lab will require approximately **90 minutes** to complete.
 
 
-AWS service restrictions
+# AWS service restrictions
 In this lab environment, access to AWS services and service actions might be restricted to the ones that are needed to complete the lab instructions. You might encounter errors if you attempt to access other services or perform actions beyond the ones that are described in this lab.
 
 
-Accessing the AWS Management Console
+# Accessing the AWS Management Console
 At the top of these instructions, choose Start Lab to launch your lab.
 
 A Start Lab panel opens, and it displays the lab status.
@@ -61,27 +61,28 @@ This opens the AWS Management Console in a new browser tab. The system will auto
 
 Tip: If a new browser tab does not open, a banner or icon is usually at the top of your browser with a message that your browser is preventing the site from opening pop-up windows. Choose the banner or icon and then choose Allow pop ups.
 
-Arrange the AWS Management Console tab so that it displays along side these instructions. Ideally, you will be able to see both browser tabs at the same time so that you can follow the lab steps more easily.
+4. Arrange the AWS Management Console tab so that it displays along side these instructions. Ideally, you will be able to see both browser tabs at the same time so that you can follow the lab steps more easily.
 
 
-A business request for the café: Implementing a serverless architecture to generate a daily sales report (Challenge)
+# A business request for the café: Implementing a serverless architecture to generate a daily sales report (Challenge)
+
 In the next several tasks, you will work as Sofía to create and configure the resources that you need to implement the reporting solution.
 
 
-Task 1: Downloading the source code
+## Task 1: Downloading the source code
 The code for generating the report is already written, packaged, and ready for you to deploy to AWS Lambda. 
 
-Download the following two files to your local machine:
+5. Download the following two files to your local machine:
 
-Code for salesAnalysisReportDataExtractor
-Code for salesAnalysisReport
+![Code for salesAnalysisReportDataExtractor](https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/ILT-TF-200-ACACAD-20-EN/mod13-challenge/salesAnalysisReportDataExtractor.zip)
+![Code for salesAnalysisReport](https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/ILT-TF-200-ACACAD-20-EN/mod13-challenge/salesAnalysisReport.zip)
 Extract each of the .zip files and examine the contents.
 
 
-Answering questions about the lab
+## Answering questions about the lab
 Answers will be recorded when you choose the blue Submit button at the end of the lab.
 
-Access the questions in this lab.
+7. Access the questions in this lab.
 
 Choose the Details 
 menu, and choose Show.
@@ -89,47 +90,49 @@ Choose the Access the multiple choice questions link that appears at the bottom 
 In the page you loaded, answer the first question:
 
 Question 1: Why does the salesAnalysisReportDataExtractor.zip file have a package folder?
-  Note: Leave the questions webpage open in your browser tab. You will return to it later in this lab.
+  **Note**: Leave the questions webpage open in your browser tab. You will return to it later in this lab.
 
+## Task 2: Creating the DataExtractor Lambda function in the VPC
+In this task, you will create the _DataExtractor_ Lambda function that extracts the café's sales data from an Amazon RDS database. So the Lambda function can access the RDS database instance, you must **update the database security group with a rule to allow connections from the Lambda function**. To enable this communication, you will **create a security group for the Lambda function** and add it as an inbound rule (ATURAN MASUK) to the security group of the RDS instance.
 
-Task 2: Creating the DataExtractor Lambda function in the VPC
-In this task, you will create the DataExtractor Lambda function that extracts the café's sales data from an Amazon RDS database. So the Lambda function can access the RDS database instance, you must update the database security group with a rule to allow connections from the Lambda function. To enable this communication, you will create a security group for the Lambda function and add it as an inbound rule to the security group of the RDS instance.
+9.  Create a security group for the Lambda function with the following settings:
 
-Create a security group for the Lambda function with the following settings:
+- Security group name: LambdaSG
+- VPC: Lab VPC
+- Outbound Rules: All traffic to all addresses
 
-Security group name: LambdaSG
-VPC: Lab VPC
-Outbound Rules: All traffic to all addresses
-Update the DatabaseSG security group.
+10. Update the **DatabaseSG** security group.
 
-Add a second inbound rule. For the new rule, configure the Type as MYSQL/Aurora. Then, in the search box to the right of Custom, type sg- and choose your new Lambda function security group as the source. Finally, choose Save rules. 
-Create a Lambda function with the following settings: 
+- Add a second inbound rule. For the new rule, configure the Type as MYSQL/Aurora. Then, in the search box to the right of Custom, type sg- and choose your new Lambda function security group as the source. Finally, choose Save rules. 
 
-Function name: salesAnalysisReportDataExtractor
+11. Create a Lambda function with the following settings: 
 
-Runtime: Python 3.8
+- Function name: salesAnalysisReportDataExtractor
+- Runtime: Python 3.8
 
-Role:  salesAnalysisReportDERole
+- Role:  salesAnalysisReportDERole
 
-VPC:
+- VPC:
 
-VPC: Lab VPC
-Subnets: Private subnet 1 and Private subnet 2
-Security Group: The Lambda function security group that you created
-Tip: It will take several minutes for the function to be created.
+  - VPC: Lab VPC
+  - Subnets: Private subnet 1 and Private subnet 2
+  - Security Group: The Lambda function security group that you created
+ 
+- Tip: It will take several minutes for the function to be created.
 
-Configure the DataExtractor Lambda function as follows:
+12. Configure the DataExtractor Lambda function as follows:
 
-Code: Upload the salesAnalysisReportDataExtractor.zip file
-Description: Lambda function to extract data from database
-Handler: salesAnalysisReportDataExtractor.lambda_handler
-Memory Size: 128 MB
-Timeout (seconds): 30
-Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
+- Code: Upload the salesAnalysisReportDataExtractor.zip file
+- Description: Lambda function to extract data from database
+- Handler: salesAnalysisReportDataExtractor.lambda_handler
+- Memory Size: 128 MB
+- Timeout (seconds): 30
 
-Question 2: Why must the salesAnalysisReportDataExtractor be in a VPC?
+13. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
-Task 3: Creating the salesAnalysisReport Lambda function
+  - Question 2: Why must the salesAnalysisReportDataExtractor be in a VPC?
+
+## Task 3: Creating the salesAnalysisReport Lambda function
 In this task, you will create the Lambda function that generates and sends the daily sales analysis report.
 
 Create a second Lambda function with the following settings:
