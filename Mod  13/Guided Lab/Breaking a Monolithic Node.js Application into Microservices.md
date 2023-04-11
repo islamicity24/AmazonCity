@@ -10,19 +10,17 @@ In this optional lab, you will migrate a monolithic application that runs in a s
 
 After completing this lab, you should be able to:
 
-Migrate a monolithic Node.js application to run in a Docker container
-Refactor a Node.js application from a monolithic design to a microservices architecture
-Deploy a containerized Node.js microservices application to Amazon ECS
+- Migrate a monolithic Node.js application to run in a Docker container
+- Refactor a Node.js application from a monolithic design to a microservices architecture
+- Deploy a containerized Node.js microservices application to Amazon ECS
  
 
 The following diagram illustrates the evolution of the application's design as it moves from monolithic to microservices-based.
 
 Lab architecture
+![image](https://user-images.githubusercontent.com/126258837/231193359-cea35733-5262-45f1-b8b3-f7c7fe7aafcd.png)
 
  
-
- 
-
 The diagram highlights the following differences between the monolithic approach and the microservices design:
 
 In a monolithic design, all the functions of the Node.js application are packaged and run as a single service. If one function fails, the entire application fails. Likewise, if one application function experiences a spike in demand, all functions in the service must be scaled together.
