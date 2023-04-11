@@ -135,12 +135,13 @@ In this task, you will create the _DataExtractor_ Lambda function that extracts 
 ## Task 3: Creating the salesAnalysisReport Lambda function
 In this task, you will create the Lambda function that generates and sends the daily sales analysis report.
 
-Create a second Lambda function with the following settings:
+14. Create a second Lambda function with the following settings:
 
-Function name: salesAnalysisReport
-Runtime: Python 3.8
-Role: salesAnalysisReportRole
-Configure the salesAnalysisReport Lambda function as follows:    
+- Function name: salesAnalysisReport
+- Runtime: Python 3.8
+- Role: salesAnalysisReportRole
+
+15. Configure the salesAnalysisReport Lambda function as follows:    
 
 Code: Upload the salesAnalysisReport.zip file
 Description: Lambda function to generate and send the daily sales report
