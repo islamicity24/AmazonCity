@@ -90,6 +90,36 @@ Bucket name: Create a name you can easily remember. It must be globally unique.
 Region: US West (Oregon) us-west-2
 Versioning: Enable
  
+```
+Resources:
+  PrimaryS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: <primary-source-bucket-name>
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Name
+          Value: PrimarySourceS3Bucket
+
+  SecondaryS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: <secondary-destination-bucket-name>
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Name
+          Value: SecondaryDestinationS3Bucket
+
+```
+
+```
+aws s3api create-bucket --bucket <primary-source-bucket-name> --region us-east-2 --create-bucket-configuration LocationConstraint=us-east-2 --versioning-configuration Status=Enabled --tags Key=Name,Value=PrimarySourceS3Bucket
+
+aws s3api create-bucket --bucket <secondary-destination-bucket-name> --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2 --versioning-configuration Status=Enabled --tags Key=Name,Value=SecondaryDestinationS3Bucket
+```
+
 
 ## Task 3: Enabling cross-Region replication
 Now that you created your two S3 buckets and enabled versioning on them, you can create a replication policy.
