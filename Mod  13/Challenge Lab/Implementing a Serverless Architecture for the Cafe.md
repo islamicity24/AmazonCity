@@ -160,61 +160,66 @@ Variable Name: topicARN
 Variable Value: The ARN of the topic you just created
 Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
-Question 3: Could the topicARN be stored as an AWS Systems Manager parameter instead of as an environment variable (assuming that the code could be updated)?
+- Question 3: Could the topicARN be stored as an AWS Systems Manager parameter instead of as an environment variable (assuming that the code could be updated)?
 
-Task 5: Creating an email subscription to the SNS topic
+## Task 5: Creating an email subscription to the SNS topic
+
 To receive the sales report through email, you must create an email subscription to the topic that you created in the previous task.
 
-Create a new email subscription to the topic. Use an email address that you can easily access for this lab.
+19. Create a new email subscription to the topic. Use an email address that you can easily access for this lab.
 
-Confirm the email subscription from your email client. 
+20. Confirm the email subscription from your email client. 
 Note: If you don't receive an email confirmation, check your Junk or Spam folder.
 
-Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
+21. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
 Question 4: Will you receive an email message if you do not confirm the topic subscription?
 
-Task 6: Testing the salesAnalysisReport Lambda function
+## Task 6: Testing the salesAnalysisReport Lambda function
+
 Before creating the daily reporting event, you must test that the salesAnalysisReport Lambda function works correctly.
 
-Create a test for the salesAnalysisReport Lambda function. 
+22. Create a test for the salesAnalysisReport Lambda function. 
 
 Tip: You don't need to worry about parameters, so enter an event name and accept the default hello-world test event.
 
-Run the salesAnalysisReport test. If the test succeeds, you should have an email report in a couple of minutes.
+23. Run the salesAnalysisReport test. If the test succeeds, you should have an email report in a couple of minutes.
 
-If the Lambda function test execution failed, use the logs to review any errors, address them, and run the test again. Here are some troubleshooting tips that you can try:
+24. If the Lambda function test execution failed, use the logs to review any errors, address them, and run the test again. Here are some troubleshooting tips that you can try:
 
-Review the logs from Amazon CloudWatch Logs for both Lambda functions:
+- Review the logs from Amazon CloudWatch Logs for both Lambda functions:
 
-If you see an error about connecting to the café database, check that your security groups are configured correctly.
-If you see an error about timeout, check that the timeout is set to 30 seconds.
-If you see an error about lambda_function not found, check that you have configured the correct handler.
-Review your work to make sure that you completed all the steps.
+  - If you see an error about connecting to the café database, check that your security groups are configured correctly.
+  - If you see an error about timeout, check that the timeout is set to 30 seconds.
+  - If you see an error about lambda_function not found, check that you have configured the correct handler.
 
-Go to the Submitting your work section and follow the steps to submit your work. The submission report will show whether you completed the previous steps correctly.
+- Review your work to make sure that you completed all the steps.
+
+- Go to the Submitting your work section and follow the steps to submit your work. The submission report will show whether you completed the previous steps correctly.
 
 
-Task 7: Setting up an Amazon EventBridge event to trigger the Lambda function each day
+## Task 7: Setting up an Amazon EventBridge event to trigger the Lambda function each day
+
 The last step in this challenge is to set up a trigger that will run the report each day.
 
-Create a new EventBridge rule that runs the salesAnalysisReport Lambda function each day at a specific time. Make sure to choose Continue to create rule.
+25.`Create a new EventBridge rule that runs the salesAnalysisReport Lambda function each day at a specific time. Make sure to choose Continue to create rule.
   Hint: If you get stuck, see the cron expression examples in the AWS Documentation.
   Tip: Use a time that is close to your current time, but remember that the time must be specified in Coordinated Universal Time (UTC)!
 
-Check your email to see if you received the report.
+26. Check your email to see if you received the report.
 
-Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
+27. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
 Question 5: Frank tells you that he hasn't received an email report in the last few days. What could you do to troubleshoot this issue?
 
-Update from the café
+# Update from the café
+
 After Sofía finishes testing the reporting, she creates an email subscription for Frank and Martha. Frank and Martha are excited to receive the first daily report from the serverless solution. 
 
 Sofía is pleased that she automated sales reporting for the café, which will continue to help Frank and Martha analyze daily sales and plan the café's inventory. She's also happy that she successfully learned how to use AWS Lambda, Amazon SNS, and Amazon EventBridge. In fact, Sofía plans to implement more serverless and automated reporting features into the café's web application to help the café grow and manage their business.
 
 
-Submitting your work
+# Submitting your work
 At the top of these instructions, choose Submit to record your progress and when prompted, choose Yes.
 
 If the results don't display after a couple of minutes, return to the top of these instructions and choose Grades
