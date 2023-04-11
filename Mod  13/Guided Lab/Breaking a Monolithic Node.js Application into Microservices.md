@@ -458,39 +458,39 @@ In this task, you deploy the containerized monolithic application to an Amazon E
 The following diagram shows the deployment architecture of the containerized monolithic application. It also displays the resources that you will create in this task.
 
 Containerized monolith
-
- 
+![image](https://user-images.githubusercontent.com/126258837/231212478-083cf1ec-6d80-41be-b2b3-23af26f9dc63.png)
 
 The steps that you perform in this task are:
 
-Create an Amazon ECS cluster.
-Create a task definition for the application container image.
-Create the Application Load Balancer.
-Deploy the monolithic application as an ECS Service.
-Test the containerized monolithic application.
+- Create an Amazon ECS cluster.
+- Create a task definition for the application container image.
+- Create the Application Load Balancer.
+- Deploy the monolithic application as an ECS Service.
+- Test the containerized monolithic application.
 
-Task 4.1: Creating an Amazon ECS cluster
+### Task 4.1: Creating an Amazon ECS cluster
+
 An Amazon ECS cluster is a logical grouping of EC2 instances where you can run tasks or services that represent your containerized application.
 
 In this subtask, you will create an ECS cluster by using the Amazon ECS console. The console's cluster creation wizard enables you to create all the infrastructure components that are needed to create the ECS cluster environment. These components include the virtual private cloud (VPC), subnets, security groups, internet gateway, and AWS Identity and Access Management (IAM) roles.
 
-Go back to the AWS Management Console browser tab, choose Services, and then select Containers > Elastic Container Service.
+52. Go back to the AWS Management Console browser tab, choose Services, and then select Containers > Elastic Container Service.
 
-In the navigation pane, choose Amazon ECS > Clusters.
+53. In the navigation pane, choose Amazon ECS > Clusters.
 
-In the Clusters page, choose Create Cluster.
+54. In the Clusters page, choose Create Cluster.
 
 In the Select cluster template page, select the EC2 Linux + Networking card.
 
 Choose Next step.
 
-In the Configure cluster wizard, configure the following settings.
-
+57. In the Configure cluster wizard, configure the following settings.
+```
 Cluster name: mb-ecs-cluster
 Provisioning Model: On-Demand Instance
 EC2 instance type: t2.micro
 Number of instances: 2
-VPC: Create a new VPC
+VPC: Create a new VPC  ECS-VPC
 CIDR block: 10.32.0.0/16
 Subnet 1: 10.32.0.0/24
 Subnet 2: 10.32.1.0/24
@@ -498,11 +498,11 @@ Security group: Create a new security group
 Security group inbound rules: Leave it at the default setting, which allows inbound traffic from all IP addresses on port 80.
 Note: The message in the Container instance IAM role section states that you are granting permissions to Amazon ECS to create and use the ecsInstanceRole. This role authorizes the EC2 instances in the cluster to invoke Amazon ECS actions.
 
-Choose Create.
+58. Choose Create.
 
  The Launch Status page opens, and shows the tasks that the wizard performs.
 
-Wait until all tasks have a check mark, which indicates that they are complete.
+59. Wait until all tasks have a check mark, which indicates that they are complete.
 
 Creation complete
 
@@ -510,11 +510,11 @@ Creation complete
 
 The resources that the wizard creates are listed in the Cluster Resources section.
 
-Choose View Cluster.
+60. Choose View Cluster.
 
 The details page for the mb-ecs-cluster opens. The Status field shows a value of ACTIVE.
 
-Choose the ECS Instances tab.
+61. Choose the ECS Instances tab.
 
 The two EC2 instances for the cluster (which the wizard created) are listed.
 
@@ -529,12 +529,13 @@ Choose the Tasks tab.
 No tasks are deployed to the cluster yet. You will create one next.
 
 
-Task 4.2: Creating a task definition for the application container image
+### Task 4.2: Creating a task definition for the application container image
+
 A task definition is a list of configuration settings for how to run a Docker container on Amazon ECS. It tells Amazon ECS various kinds of information, such as:
 
-What container image to run
-How much CPU and memory the container needs
-What ports the container listens to traffic on
+- What container image to run
+- How much CPU and memory the container needs
+- What ports the container listens to traffic on
 In this subtask, you will create a task definition for the container image of the message board application.
 
 In the navigation pane of the Amazon ECS console browser tab, choose Task Definitions.
@@ -578,14 +579,14 @@ Task Definition complete
 You now have a task definition that tells Amazon ECS how to deploy your application container across the cluster.
 
 
-Task 4.3: Creating the Application Load Balancer
+## Task 4.3: Creating the Application Load Balancer
 Next, you will create the Application Load Balancer that distributes incoming requests to the EC2 instances that run in the ECS cluster. This load balancer resides in the same VPC and uses the same security group as the ECS cluster.
 
-In the Amazon ECS console browser tab, choose Services, and then select Compute > EC2.
+72. In the Amazon ECS console browser tab, choose Services, and then select Compute > EC2.
 
-In the navigation pane, scroll down and select Load Balancers.
+73. In the navigation pane, scroll down and select Load Balancers.
 
-Choose Create Load Balancer.
+74. Choose Create Load Balancer.
 
 The Select load balancer type page opens.
 
@@ -593,15 +594,16 @@ In the Application Load Balancer card, choose Create.
 
 The Application Load Balancer creation wizard opens.
 
-In Step 1: Configure Load Balancer, configure the following settings.
+76. In Step 1: Configure Load Balancer, configure the following settings.
 
-Name: mb-load-balancer
+- Name: mb-load-balancer
 
-Scroll to the Availability Zones section and enter these settings.
+- Scroll to the Availability Zones section and enter these settings.
 
-VPC: Select the Amazon ECS cluster VPC ID. This ID be similar to vpc-nnnnnnnnnn (10.32.0.0/16)
-Availability Zones: Select both Availability Zones.
-Choose Next: Configure Security Settings.
+  - VPC: Select the Amazon ECS cluster VPC ID. This ID be similar to vpc-nnnnnnnnnn (10.32.0.0/16)
+  - Availability Zones: Select both Availability Zones.
+
+77. Choose Next: Configure Security Settings.
 
 In Step 2: Configure Security Settings, you can ignore the warning that your load balancer is not using a secure listener. Choose Next: Configure Security Groups.
 
@@ -682,7 +684,7 @@ The security group's inbound rules list shows the new rule that you added.
    
 
 
-Task 4.4: Deploying the monolith as an ECS service
+## Task 4.4: Deploying the monolith as an ECS service
 You have created all the required Amazon ECS infrastructure components. In this subtask, you will deploy the containerized monolithic application to the cluster as an Amazon ECS service.
 
 An ECS service enables you to simultaneously run and maintain a specified number of task definition instances in an ECS cluster. If one of the tasks fails or stops for any reason, the ECS service scheduler launches another task definition instance to replace it. Thus, it will maintain the desired count of tasks that were specified in the service.
@@ -742,7 +744,7 @@ After a few moments, choose Refresh. The task's Last status should show: RUNNING
  You have successfully deployed the containerized monolith as an ECS service into the cluster.
 
 
-Task 4.5: Testing the containerized monolith
+## Task 4.5: Testing the containerized monolith
 You will now validate your deployment by testing the RESTful API methods of the message board application from a web browser.
 
 First, you will find and record the URL of the load balancer.
@@ -807,7 +809,7 @@ Optionally, invoke other resource paths that the application can serve. When you
 You have now successfully containerized the monolithic message board application and deployed it to an Amazon ECS environment.
 
 
-Task 5: Refactoring the monolith
+## Task 5: Refactoring the monolith
 In this task, you will break the containerized monolithic message board application into several interconnected microservices. You will then push each microservice image to an Amazon ECR repository. Each microservice performs a single business capability of the application, and can be scaled independently of the other microservices. The application is divided into the following microservices, which represent the top-level classes of objects that the application's API serves:
 
 Users microservice – A service for all user-related REST paths (/api/users/*)
@@ -1083,7 +1085,7 @@ Paste the value in a text editor and label it as Posts Image URI. You will use i
 You have successfully built container images for the microservices in your application and pushed them to Amazon ECR.
 
 
-Task 6: Deploying the containerized microservices
+## Task 6: Deploying the containerized microservices
 In this task, you will deploy the containerized microservices message board application to the same ECS cluster that you used for the containerized monolith. You will also use the same Application Load Balancer from before. However, in this task, you will configure it to route requests to different target groups (one for each microservice container) based on the request URI path.
 
 The following diagram shows the deployment architecture of the containerized microservices application. It also displays the resources that you will create.
@@ -1373,7 +1375,7 @@ To return to the load balancer details page, choose the Back arrow icon (in the 
 You have completed the required changes to the load balancer configuration.
 
 
-Task 6.3: Deploying the microservices as ECS services
+### Task 6.3: Deploying the microservices as ECS services
 In this subtask, you will deploy the three microservices to the cluster as ECS services.
 
 Creating an ECS service for Users
