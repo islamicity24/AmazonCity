@@ -511,18 +511,20 @@ Because you are using a key pair for authentication, you are not prompted for a 
 
  
 
-You should now be connected to the instance.
-On the Linux instance, to view the data that exists on this server, enter the following command:
+# You should now be connected to the instance.
 
+ 58. On the Linux instance, to view the data that exists on this server, enter the following command:
+```
 ls /media/data
+```
 You should see 20 image files in the .png format.
 
  
 
 Create the directory that will be used to synchronize data with your S3 bucket by using the following command:
-
+```
 sudo mkdir -p /mnt/nfs/s3
- 
+``` 
 
 Mount the file share on the Linux instance by using the command that you located in the Storage Gateway file shares details screen at the end of the last task.
 
@@ -530,34 +532,36 @@ sudo mount -t nfs -o nolock,hard <File-Gateway-appliance-private-IP-address>:/<S
 Notice that the command starts with sudo and ends with /mnt/nfs/s3. 
 
 For example:
-
+```
 sudo mount -t nfs -o nolock,hard 10.10.1.33:/lab-nfs-bucket /mnt/nfs/s3
- 
+``` 
 
 Verify that the share was mounted correctly by entering the following command:
-
+```
 df -h
+``` 
 The output of the command should be similar to the following example:
-
+```
 [ec2-user@ip-10-10-1-210 ~]$ df -h
 Filesystem                  Size  Used Avail Use% Mounted on
 devtmpfs                    483M   64K  483M   1% /dev
 tmpfs                       493M     0  493M   0% /dev/shm
 /dev/xvda1                  7.8G  1.1G  6.6G  14% /
 10.10.1.33:/lab-nfs-bucket  8.0E     0  8.0E   0% /mnt/nfs/s3
- 
+``` 
 
 Now that you created the mount point, you can copy the data that you want to migrate to Amazon S3 into the share by using this command:
-
+```
 cp -v /media/data/*.png /mnt/nfs/s3
+``` 
+
+## Task 6: Verifying that the data is migrated
+
+ You have finished configuring the gateway and copying data into the NFS share. Now, you will verify that the configuration works as intended.
+
  
 
-Task 6: Verifying that the data is migrated
-You have finished configuring the gateway and copying data into the NFS share. Now, you will verify that the configuration works as intended.
-
- 
-
-In the  Services search box, search for and choose S3 to open the S3 console.
+63. In the  Services search box, search for and choose S3 to open the S3 console.
 
  
 
