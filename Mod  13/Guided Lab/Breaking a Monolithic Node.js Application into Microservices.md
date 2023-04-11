@@ -1,5 +1,5 @@
-(Optional) Module 13 - Guided Lab 1: Breaking a Monolithic Node.js Application into Microservices
-Lab overview and objectives
+# (Optional) Module 13 - Guided Lab 1: Breaking a Monolithic Node.js Application into Microservices
+# Lab overview and objectives
 Traditional monolithic architectures can be difficult to scale. As an application's code base grows, it becomes complex to update and maintain. It can be difficult and complicated to introduce new features, languages, frameworks, and technologies, which can then limit innovation and new ideas.
 
 In a microservices architecture, each application component runs as its own service. They are built around business capabilities, and each service performs a single function. Microservices can be written by using different frameworks and programming languages, and they communicate with other services via a well-defined application programming interface (API). Finally, you can deploy them independently—as a single service, or as a group of services.
