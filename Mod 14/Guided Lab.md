@@ -56,6 +56,8 @@ The primary S3 bucket is created in the us-east-2 (Ohio) Region. Data from the L
 The secondary S3 bucket is created in the us-west-2 (Oregon) Region. This secondary bucket is the target for the cross-Region replication policy. It can also be called the destination.
 
 Lab architecture diagram
+![image](https://user-images.githubusercontent.com/126258837/231092874-bbfc3059-b4d3-476d-abd3-ce5e396bf62c.png)
+
 
  
 
@@ -205,6 +207,10 @@ In this task, you will deploy the File Gateway appliance as an Amazon Elastic Co
 
 - Host platform: choose Amazon EC2, then choose the Launch instance button.
 
+![image](https://user-images.githubusercontent.com/126258837/231098829-dd1e0db6-9bc4-480c-be4f-d23226e846b8.png)
+
+
+
 A new tab opens to the EC2 instance launch wizard. This link automatically selects the correct Amazon Machine Image (AMI) that must be used for the File Gateway appliance.
 
  
@@ -267,13 +273,16 @@ Set the size of the EBS volume to 150GiB
 
 - In the Summary panel on the right, keep the number of instances set to 1, and choose Launch instance
 
-A Success message displays.
+A Success message displays. 
+![image](https://user-images.githubusercontent.com/126258837/231103858-da472e22-6402-46e6-b28a-7affe548ae34.png)
+
 
 - Choose View all instances
 
 Your _File Gateway Appliance_ instance will take a few minutes to initialize.
 
- 
+![image](https://user-images.githubusercontent.com/126258837/231104308-c360331d-2e19-48ae-976f-456a477e888e.png)
+
 
 24. Monitor the status of the deployment and wait for **Status Checks** to complete.
 
@@ -305,27 +314,37 @@ You will use this IP address when you complete the File Gateway deployment.
 
 - Choose Next
 
+![image](https://user-images.githubusercontent.com/126258837/231111084-5ab7013a-db05-4547-9106-4518aa352ab4.png)
  
 
 29. In the **Step 3: Review and activate** settings screen choose Next
 
+![image](https://user-images.githubusercontent.com/126258837/231111390-3e5f7362-fae1-4556-a157-9b8f88e7dc64.png)
  
 
 30. Configure the** Step 4: Configure gateway settings**:
 
-CloudWatch log group: Deactivate logging
+- CloudWatch log group: Deactivate logging
 
 CloudWatch alarms: No Alarm
 
 Choose Configure
 
+![image](https://user-images.githubusercontent.com/126258837/231111980-8b1862ba-c8e2-46a9-a5bb-56688caae415.png)
+
 A Successfully activated gateway File Gateway Appliance message displays. 
+
+![image](https://user-images.githubusercontent.com/126258837/231112420-364ffe8c-a09b-49b8-bb99-7f0f10d5c32c.png)
+
 
 In the Configure cache storage panel, you will see that a message the local disks are loading.  
 
 Wait for the local disks status to show that it finished processing (approximately 1 minute).
 
 After the processing is complete, go to Allocated to and select Cache. 
+
+![image](https://user-images.githubusercontent.com/126258837/231113947-f709b22a-e07f-4b5f-970d-0e3be59ac5bf.png)
+
 
 Choose Save changes
 
@@ -339,17 +358,21 @@ Choose Save changes
 
 - Choose Create file share
 
+![image](https://user-images.githubusercontent.com/126258837/231114403-35ed24ef-ef91-4f60-b8eb-e6c78895d2c4.png)
  
 
-32. On the File share settings configuration screen, configure these settings:
+32. On the **File share settings configuration** screen, configure these settings:
 
-- Gateway: Select the name of the File Gateway that you just created (which should be File Gateway Appliance)
+- **Gateway**: Select the name of the File Gateway that you just created (which should be File Gateway Appliance)
 
 - Amazon S3 bucket name: Enter the name of the source bucket that you created in the US East (Ohio) us-east-2 Region in Task 1.
 
 - AWS region: US East (Ohio) us-east-2
 
 - Access objects using: Network File System (NFS)
+
+![image](https://user-images.githubusercontent.com/126258837/231115083-945fe28d-f1c9-4191-98bf-801602f5e884.png)
+
 
 Choose Next
 
@@ -389,6 +412,7 @@ Monitor the status of the deployment and wait for Status to change to Available,
 
 Note: You can choose the refresh  button occasionally to notice more quickly when the status has changed.
 
+![image](https://user-images.githubusercontent.com/126258837/231118818-226df6df-b08d-4367-89a6-f3e4fa3af738.png)
  
 
 36. Select the file share that you just created by choosing the link.
@@ -396,6 +420,9 @@ Note: You can choose the refresh  button occasionally to notice more quickly whe
  
 
 37. At the bottom of the screen, note the command to mount the file share on Linux. You will need it for the next task.
+
+![image](https://user-images.githubusercontent.com/126258837/231119628-4eedb069-0627-4f78-95bf-3b4f5a597a3f.png)
+
 
 Linux Mount Command
 
@@ -513,8 +540,9 @@ Before you can migrate data to the NFS share that you created, you must first mo
 
  
 
-Connect to the On-Prem Linux Server instance.
- Microsoft Windows users
+38. Connect to the On-Prem Linux Server instance.
+
+** For Microsoft Windows users**
  These instructions are specifically for Microsoft Windows users. If you are using macOS or Linux, skip to the next section.
 
  
@@ -670,6 +698,7 @@ For example:
 ```
 sudo mount -t nfs -o nolock,hard 10.10.1.33:/lab-nfs-bucket /mnt/nfs/s3
 ``` 
+![image](https://user-images.githubusercontent.com/126258837/231127109-6d59e9bc-f847-4112-88f6-e2f17575d649.png)
 
 Verify that the share was mounted correctly by entering the following command:
 ```
@@ -690,6 +719,9 @@ Now that you created the mount point, you can copy the data that you want to mig
 cp -v /media/data/*.png /mnt/nfs/s3
 ``` 
 
+![image](https://user-images.githubusercontent.com/126258837/231128066-62cfaed0-833c-4300-a9e9-e8b45ca06c57.png)
+ 
+ 
 ## Task 6: Verifying that the data is migrated
 
  You have finished configuring the gateway and copying data into the NFS share. Now, you will verify that the configuration works as intended.
