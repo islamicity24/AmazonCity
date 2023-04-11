@@ -303,55 +303,55 @@ Choose Save changes
 
  
 
-Start creating a file share.
+31. Start creating a file share.
 
-Wait for the File Gateway status to change to Running (approximately 1–2 minutes)
+- Wait for the File Gateway status to change to Running (approximately 1–2 minutes)
 
-From the left side panel, choose File shares.
+- From the left side panel, choose File shares.
 
-Choose Create file share
+- Choose Create file share
 
  
 
-On the File share settings configuration screen, configure these settings:
+32. On the File share settings configuration screen, configure these settings:
 
-Gateway: Select the name of the File Gateway that you just created (which should be File Gateway Appliance)
+- Gateway: Select the name of the File Gateway that you just created (which should be File Gateway Appliance)
 
-Amazon S3 bucket name: Enter the name of the source bucket that you created in the US East (Ohio) us-east-2 Region in Task 1.
+- Amazon S3 bucket name: Enter the name of the source bucket that you created in the US East (Ohio) us-east-2 Region in Task 1.
 
-AWS region: US East (Ohio) us-east-2
+- AWS region: US East (Ohio) us-east-2
 
-Access objects using: Network File System (NFS)
+- Access objects using: Network File System (NFS)
 
 Choose Next
 
  
 
-On the Amazon S3 storage settings screen, configure these settings:
+33. On the **Amazon S3 storage settings** screen, configure these settings:
 
-Storage class for new objects: S3 Standard
+- Storage class for new objects: S3 Standard
 
-Object metadata:
+- Object metadata:
 
- Guess MIME type
- Give bucket owner full control
- Enable Requester Pays
-Access your S3 bucket: Use an existing IAM role
+  - Guess MIME type
+  - Give bucket owner full control
+  - Enable Requester Pays
+- Access your S3 bucket: Use an existing IAM role
 
-IAM role: Paste the FgwIamPolicyARN, which you can retrieve by following these instructions –
+- IAM role: Paste the FgwIamPolicyARN, which you can retrieve by following these instructions –
 
-Choose the Details dropdown menu above these instructions
-Select Show
-Copy the FgwIamPolicyARN value
+  - Choose the Details dropdown menu above these instructions
+  - Select Show
+ - Copy the _FgwIamPolicyARN_ value
 Choose Next
 
  
 
-In the File access settings screen, accept the default settings.
+34. In the File access settings screen, accept the default settings.
 
 Note: You might get a warning message that the file share is accessible from anywhere. For this lab, you can safely disregard this warning. In a production environment, you should always create policies that are as restrictive as possible to prevent unwanted or malicious connections to your instances.
 
-Choose Next
+ - Choose Next
 
  
 
@@ -363,17 +363,17 @@ Note: You can choose the refresh  button occasionally to notice more quickly whe
 
  
 
-Select the file share that you just created by choosing the link.
+36. Select the file share that you just created by choosing the link.
 
  
 
-At the bottom of the screen, note the command to mount the file share on Linux. You will need it for the next task.
+37. At the bottom of the screen, note the command to mount the file share on Linux. You will need it for the next task.
 
 Linux Mount Command
 
  
 
-Task 5: Mounting the file share to the Linux instance and migrating the data
+## Task 5: Mounting the file share to the Linux instance and migrating the data
 Before you can migrate data to the NFS share that you created, you must first mount the share. In this task, you will mount the NFS share on a Linux server, then copy data to the share.
 
  
