@@ -48,7 +48,7 @@ Arrange the AWS Management Console tab so that it displays alongside these instr
 
  
 
-Task 1: Reviewing the lab architecture
+## Task 1: Reviewing the lab architecture
 This lab environment uses a total of three AWS Regions. A Linux EC2 instance that emulates an on-premises server is deployed to the us-east-1 (N. Virginia) Region. The Storage Gateway virtual appliance is deployed to the same Region as the Linux server. In a real-world scenario, the appliance would be deployed in a VMware vSphere or Microsoft Hyper-V environment, or as a physical Storage Gateway appliance.
 
 The primary S3 bucket is created in the us-east-2 (Ohio) Region. Data from the Linux host is copied to the primary S3 bucket. This bucket can also be called the source.
@@ -59,7 +59,7 @@ Lab architecture diagram
 
  
 
-Task 2: Creating the primary and secondary S3 buckets
+## Task 2: Creating the primary and secondary S3 buckets
 Before you configure the File Gateway, you must create the primary S3 bucket (or the source) where you will replicate the data. You will also create the secondary bucket (or the destination) that will be used for cross-Region replication.
 
  
@@ -91,7 +91,7 @@ Region: US West (Oregon) us-west-2
 Versioning: Enable
  
 
-Task 3: Enabling cross-Region replication
+## Task 3: Enabling cross-Region replication
 Now that you created your two S3 buckets and enabled versioning on them, you can create a replication policy.
 
  
@@ -155,33 +155,33 @@ Note: You may need to refresh  the console for the object to appear.
 
  
 
-Task 4: Configuring the File Gateway and creating an NFS file share
+## Task 4: Configuring the File Gateway and creating an NFS file share
 In this task, you will deploy the File Gateway appliance as an Amazon Elastic Compute Cloud (Amazon EC2) instance. You will then configure a cache disk, select an S3 bucket to synchronize your on-premises files to, and select an IAM policy to use. Finally, you will create an NFS file share on the File Gateway.
 
  
 
-In the search box to the right of  Services, search for and choose Storage Gateway to open the Storage Gateway console.
+17. In the search box to the right of  Services, search for and choose **Storage Gateway** to open the Storage Gateway console.
  
 
-At the top-right of the console, verify that the current Region is N. Virginia.
+18. At the top-right of the console, verify that the current Region is _N. Virginia_.
 
  
 
-Choose Create gateway then begin configuring the Step 1: Set up gateway settings:
+19. Choose Create gateway then begin configuring the Step 1: Set up gateway settings:
 
-Gateway name: File Gateway
+- Gateway name: File Gateway
 
-Gateway time zone: Choose GMT -5:00 Eastern Time (US & Canada), Bogota, Lima
+- Gateway time zone: Choose **GMT -5:00 Eastern Time (US & Canada), Bogota, Lima**
 
-Gateway type: Amazon S3 File Gateway
+- Gateway type: **Amazon S3 File Gateway**
 
-Host platform: choose Amazon EC2, then choose the Launch instance button.
+- Host platform: choose Amazon EC2, then choose the Launch instance button.
 
 A new tab opens to the EC2 instance launch wizard. This link automatically selects the correct Amazon Machine Image (AMI) that must be used for the File Gateway appliance.
 
  
 
-In the Launch an instance screen, begin configuring the gateway as described:
+20. In the Launch an instance screen, begin configuring the gateway as described:
 
 Name: File Gateway Appliance
 
