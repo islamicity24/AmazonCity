@@ -470,6 +470,8 @@ The steps that you perform in this task are:
 
 ### Task 4.1: Creating an Amazon ECS cluster
 
+![image](https://user-images.githubusercontent.com/126258837/231238519-dcd29bf0-7830-4795-85f7-29e4a2cf170d.png)
+
 An Amazon ECS cluster is a logical grouping of EC2 instances where you can run tasks or services that represent your containerized application.
 
 In this subtask, you will create an ECS cluster by using the Amazon ECS console. The console's cluster creation wizard enables you to create all the infrastructure components that are needed to create the ECS cluster environment. These components include the virtual private cloud (VPC), subnets, security groups, internet gateway, and AWS Identity and Access Management (IAM) roles.
