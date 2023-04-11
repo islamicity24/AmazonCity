@@ -199,14 +199,14 @@ Note: This SSH key pair is provided on the Details > Show page for this lab.
 
  
 
-Configure the network and security group settings for the gateway.
+21. Configure the network and security group settings for the gateway.
 
-Next to Network settings, choose Edit, then configure: 
+- Next to _Network settings_, choose Edit, then configure: 
 
-VPC: On-Prem-VPC
-Subnet: On-Prem-Subnet
-Auto-assign public IP: Enable
-Under Firewall (security groups), choose  Select an existing security group.
+  - VPC: On-Prem-VPC
+  - Subnet: On-Prem-Subnet
+  - Auto-assign public IP: Enable
+  - Under Firewall (security groups), choose  **Select an existing security group**.
 For Common security groups: 
 
 Select the security group with FileGatewayAccess in the name
@@ -225,7 +225,7 @@ Tip: You may need to choose Show all selected to see them both.
 
  
 
-Configure the storage settings for the gateway.
+22. Configure the _storage settings_ for the gateway.
 
 In the Configure storage panel, notice there is already an entry to create one 80GiB root volume.
 
@@ -235,54 +235,55 @@ Set the size of the EBS volume to 150GiB
 
  
 
-Finish creating the gateway.
+23. Finish creating the gateway.
 
-In the Summary panel on the right, keep the number of instances set to 1, and choose Launch instance
+- In the Summary panel on the right, keep the number of instances set to 1, and choose Launch instance
 
 A Success message displays.
 
-Choose View all instances
+- Choose View all instances
 
-Your File Gateway Appliance instance will take a few minutes to initialize.
+Your _File Gateway Appliance_ instance will take a few minutes to initialize.
 
  
 
-Monitor the status of the deployment and wait for Status Checks to complete.
+24. Monitor the status of the deployment and wait for **Status Checks** to complete.
 
 Tip: Choose the refresh  button to more quickly learn the status of the instance.
 
  
 
-Select your File Gateway instance, then in the Details tab below, locate the Public IPv4 address and copy it. 
+25. Select your File Gateway instance, then in the Details tab below, locate the Public IPv4 address and copy it. 
 
 You will use this IP address when you complete the File Gateway deployment.
 
  
 
-Return to the AWS Storage Gateway tab in your browser. It should still be at the Set up gateway on Amazon EC2 screen.
+26. Return to the AWS Storage Gateway tab in your browser. It should still be at the Set up gateway on Amazon EC2 screen.
 
  
 
-Check the box next to I completed all the steps above and launched the EC2 instance, then choose Next
+27. Check the box next to I completed all the steps above and launched the EC2 instance, then choose Next
 
  
 
-Configure the Step 2: Connect to AWS settings:
+28. Configure the **Step 2: Connect to AWS settings**:
 
-For the Service endpoint, select Publicly accessible, and then choose Next
+- For the Service endpoint, select Publicly accessible, and then choose Next
 
-In the Gateway connection options:
+- In the Gateway connection options:
 
-For IP address, paste in the IPv4 Public IP address that you copied from your File Gateway Appliance instance
-Choose Next
+  - For IP address, paste in the IPv4 Public IP address that you copied from your File Gateway Appliance instance
 
- 
-
-In the Step 3: Review and activate settings screen choose Next
+- Choose Next
 
  
 
-Configure the Step 4: Configure gateway settings:
+29. In the **Step 3: Review and activate** settings screen choose Next
+
+ 
+
+30. Configure the** Step 4: Configure gateway settings**:
 
 CloudWatch log group: Deactivate logging
 
