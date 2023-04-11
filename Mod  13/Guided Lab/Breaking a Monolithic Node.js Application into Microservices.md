@@ -55,22 +55,23 @@ Arrange the AWS Management Console tab so that it displays alongside these instr
  Do not change the Region unless specifically instructed to do so.
 
 
-Task 1: Preparing the development environment
+# Task 1: Preparing the development environment
+
 An AWS Cloud9 environment was created for you during the process of creating the lab environment. AWS Cloud9 is a cloud-based integrated development environment (IDE) that you can use to write, run, and debug code on a browser. It comes pre-packaged with essential tools for popular programming languages, and provides access to the AWS Command Line Interface (AWS CLI) in a terminal session tab. Your AWS Cloud9 environment has access to the all the AWS resources that are authorized for the user ID that you used to log in to the AWS Management Console.
 
  
 
 To set up your development environment, you will open the AWS Cloud9 IDE, and download and extract the required lab files.
 
-In the AWS Management Console browser tab, expand All services, and then select Developer Tools > Cloud9.
+5. In the AWS Management Console browser tab, expand All services, and then select Developer Tools > Cloud9.
 
-In the Cloud9-IDE card, choose Open IDE
+6. In the Cloud9-IDE card, choose Open IDE
 
 The IDE opens in a new browser tab and displays several tabs, including a Welcome tab.
 
 Next, you will download and extract the required lab files.
 
-In the bottom pane of the IDE, enter the following command in the terminal tab labeled bash - "ip-nnn-nnn-nnn-nnn":
+7. In the bottom pane of the IDE, enter the following command in the terminal tab labeled bash - "ip-nnn-nnn-nnn-nnn":
 
 curl -s https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-200-ACACAD-2-16750/16-lab-mod13-guided-1-ECS/s3/lab-files-ms-node-js.tar.gz | tar -zxv
 This command retrieves a compressed archive file that contains the lab files. It also extracts the file contents in the AWS Cloud9 ~/environment folder. The command output should like the following example:
@@ -87,16 +88,17 @@ Environment window
 
 You can see the following folders:
 
-1-no-container – Contains the files that are related to the monolithic implementation of the application. This implementation is intended to run directly on a Node.js server.
-2-containerized-monolith – Contains the files that are related to the monolithic implementation of the application. This implementation is intended to run in a containerized Docker environment orchestrated by Amazon ECS.
-3-containerized-microservices – Contains the files that are related to the microservices implementation of the application. This implementation is intended to run in a containerized Docker environment orchestrated by Amazon ECS.
+- 1-no-container – Contains the files that are related to the monolithic implementation of the application. This implementation is intended to run directly on a Node.js server.
+- 2-containerized-monolith – Contains the files that are related to the monolithic implementation of the application. This implementation is intended to run in a containerized Docker environment orchestrated by Amazon ECS.
+- 3-containerized-microservices – Contains the files that are related to the microservices implementation of the application. This implementation is intended to run in a containerized Docker environment orchestrated by Amazon ECS.
 Keep the AWS Cloud9 IDE tab opened throughout this lab, because you will use it frequently.
 
 
-Task 2: Running the application on a basic Node.js server
+## Task 2: Running the application on a basic Node.js server
 The base Node.js application is a monolithic service that was designed to run directly on a server, without a container. In this task, you deploy the application to the Node.js server that is installed on the instance running your AWS Cloud9 environment. You then test the application by using the AWS CLI terminal to invoke its RESTful API methods.
 
 The deployment architecture and request flow are illustrated in the following diagram.
+![image](https://user-images.githubusercontent.com/126258837/231197163-b1cae65f-96c3-41d9-a202-329660caee61.png)
 
 Monolith deployment architecture
 
@@ -110,10 +112,11 @@ Install the Node.js modules required by the application
 Review the application design and code
 Run the application
 
-Task 2.1: Installing the required Node.js modules
+### Task 2.1: Installing the required Node.js modules
+
 The message board application uses two modules from the Node.js koa framework in its implementation: koa and koa-router. Koa.js is a widely used Node.js web application framework that facilitates building asynchronous server-side JavaScript applications.
 
-In the terminal tab, enter the following commands to install the koa and koa-router modules:
+8. In the terminal tab, enter the following commands to install the koa and koa-router modules:
 
 cd ~/environment/1-no-container
 npm install koa
@@ -125,62 +128,69 @@ koa installation
 The modules are downloaded and installed in the 1-no-container/node_modules folder of the AWS Cloud9 ~/environment folder. You can ignore the notice, warnings, and update messages in the output.
 
 
-Task 2.2: Reviewing the application design and code
+### Task 2.2: Reviewing the application design and code
+
 The components that implement the monolithic message board application are in the 1-no-container folder. Review them to gain an understanding of the application design and code.
 
-In the Environment window on the left, expand the 1-no-container folder. The components of the application include:
+9. In the Environment window on the left, expand the 1-no-container folder. The components of the application include:
 
 node_modules folder – This folder was created when you installed the required JavaScript modules in the previous subtask. It contains their source code.
-db.json – A JavaScript Object Notation (JSON) object that simulates the message board database. It contains attributes that represent users, threads, and posts, with corresponding sample values.
-index.js – JavaScript program that is the application's entry point.
-package.json – A JSON object that describes the application, its entry point, and its dependencies.
-package-lock.json – A JSON object that was automatically generated when you installed the required JavaScript modules in the node_modules folder. It is used by the installation utility, npm, to track the modifications that are made to the folder.
-server.js – JavaScript program that defines the application's RESTful API methods, and implements their respective handlers.
-Examine the package.json object. In the Environment window, open package.json an editor tab by double-clicking it. Notice the following attributes of the JSON object:
+- db.json – A JavaScript Object Notation (JSON) object that simulates the message board database. It contains attributes that represent users, threads, and posts, with corresponding sample values.
+- index.js – JavaScript program that is the application's entry point.
+- package.json – A JSON object that describes the application, its entry point, and its dependencies.
+- package-lock.json – A JSON object that was automatically generated when you installed the required JavaScript modules in the node_modules folder. It is used by the installation utility, npm, to track the modifications that are made to the folder.
+- server.js – JavaScript program that defines the application's RESTful API methods, and implements their respective handlers.
 
-Lines 2 through 5 – The dependencies attribute defines the JavaScript module dependencies for the application. Note that the koa and koa-router modules that you installed in the previous subtask are listed here.
-Lines 6 through 8 – The scripts attribute declares the index.js program as the entry point to the application.
-Examine the db.json object. In the Environment window, open db.json in an editor tab by double-clicking it. Notice the following attributes of the JSON object:
+10. Examine the package.json object. In the Environment window, open package.json an editor tab by double-clicking it. Notice the following attributes of the JSON object:
 
-Lines 2 through 27 – These lines define a users attribute that represents the registered users of the message board. The attribute value is a list of four sample users with the following names: Marcerline Singer, Finn Alberts, Paul Barium, and Jake Storm.
+- Lines 2 through 5 – The dependencies attribute defines the JavaScript module dependencies for the application. Note that the koa and koa-router modules that you installed in the previous subtask are listed here.
+- Lines 6 through 8 – The scripts attribute declares the index.js program as the entry point to the application.
 
-Lines 29 through 45 – These lines define a threads attribute that represents the current active threads on the message board. The attribute value is a list of three sample threads with the following titles:
+11. Examine the db.json object. In the Environment window, open db.json in an editor tab by double-clicking it. Notice the following attributes of the JSON object:
 
-Did you see the Brazil game?
-New French bakery opening in the neighborhood tomorrow
-In search of a new guitar
-Lines 47 through 78 – These lines define a posts attribute that represents the posted messages on the active threads. The attribute value is a list of six sample message posts.
-Review the code for index.js. In the Environment window, open index.js in an editor tab by double-clicking it. Notice the following information:
+- Lines 2 through 27 – These lines define a users attribute that represents the registered users of the message board. The attribute value is a list of four sample users with the following names: Marcerline Singer, Finn Alberts, Paul Barium, and Jake Storm.
 
-Lines 1 through 3 – These lines import the JavaScript modules that the program requires, specifically: cluster, http, and os.
-Line 3 – This line uses the os module to ask about the number of CPU cores that are available on the server.
-Lines 5 through 15 – These lines are run the first time the program is invoked (when the application is started). They create a Leader thread for the cluster and one worker thread for each CPU core that is  available on the server.
-Lines 16 through 19 – These lines handle each request to the application by invoking the server.js program in the current worker thread.
-Lastly, review the code for server.js. In the Environment window, open server.js in an editor tab by double-clicking it. Use the comments that are provided in the code to facilitate your understanding of the logic. In particular, notice the following information:
+- Lines 29 through 45 – These lines define a threads attribute that represents the current active threads on the message board. The attribute value is a list of three sample threads with the following titles:
 
-Line 3 – This line imports db.json, the JSON object that simulates the database.
+  - Did you see the Brazil game?
+  - New French bakery opening in the neighborhood tomorrow
+  - In search of a new guitar
+  - Lines 47 through 78 – These lines define a posts attribute that represents the posted messages on the active threads. The attribute value is a list of six sample message posts.
 
-Lines 6 through 11 – These lines define a generator function that runs for every request. Its purpose is to print a line that contains the HTTP method, resource path URL, and elapsed time for each request that is processed.
+12. Review the code for index.js. In the Environment window, open index.js in an editor tab by double-clicking it. Notice the following information:
 
-Lines 13 through 47 – These lines define the application's RESTful API methods and their implementation. Specifically, the application can respond to the following RESTful calls.
+ - Lines 1 through 3 – These lines import the JavaScript modules that the program requires, specifically: cluster, http, and os.
+ - Line 3 – This line uses the os module to ask about the number of CPU cores that are available on the server.
+ - Lines 5 through 15 – These lines are run the first time the program is invoked (when the application is started). They create a Leader thread for the cluster and one worker thread for each CPU core that is  available on the server.
+  - Lines 16 through 19 – These lines handle each request to the application by invoking the server.js program in the current worker thread.
 
-GET /api/users: Returns the collection of users in the database
-GET /api/users/:userId: Returns the information for the user that is identified by :userId
-GET /api/threads: Returns the collection of threads in the database
-GET /api/threads/:threadId: Returns the information for the thread that is identified by :threadId
-GET /api/posts/in-thread/:threadId: Returns the collection of post messages for the thread that is identified by :threadId
-GET /api/posts/by-user/:userId: Returns the collection of post messages for the user that is identified by :userId
-GET /api/: Returns the message API ready to receive requests
-GET /: Returns the message Ready to receive requests
-Line 52 – This line defines the port number where the application listens for requests
+13. Lastly, review the code for server.js. In the Environment window, open server.js in an editor tab by double-clicking it. Use the comments that are provided in the code to facilitate your understanding of the logic. In particular, notice the following information:
+
+- Line 3 – This line imports db.json, the JSON object that simulates the database.
+
+- Lines 6 through 11 – These lines define a generator function that runs for every request. Its purpose is to print a line that contains the HTTP method, resource path URL, and elapsed time for each request that is processed.
+
+- Lines 13 through 47 – These lines define the application's RESTful API methods and their implementation. Specifically, the application can respond to the following RESTful calls.
+
+  - GET /api/users: Returns the collection of users in the database
+  - GET /api/users/:userId: Returns the information for the user that is identified by :userId
+  - GET /api/threads: Returns the collection of threads in the database
+  - GET /api/threads/:threadId: Returns the information for the thread that is identified by :threadId
+  - GET /api/posts/in-thread/:threadId: Returns the collection of post messages for the thread that is identified by :threadId
+  - GET /api/posts/by-user/:userId: Returns the collection of post messages for the user that is identified by :userId
+  - GET /api/: Returns the message API ready to receive requests
+  - GET /: Returns the message Ready to receive requests
+
+- Line 52 – This line defines the port number where the application listens for requests
 
 
-Task 2.3: Running the application
+### Task 2.3: Running the application
 In this subtask, you will start the Node.js server and run the message board application. Then, you will test some of its RESTful API methods.
 
 In the terminal tab, start Node.js and the application by entering the following command:
-
+```
 npm start
+```
 NPM start
 
  
@@ -192,8 +202,9 @@ Next, you will leave the current terminal session active and open a second termi
 In the bottom pane, open a new terminal tab by choosing (+) and selecting New Terminal. You now have two terminals where you can enter commands.
 
 In the right terminal tab, retrieve the /api/users resource by entering the following command:
-
+```
 curl localhost:3000/api/users
+```
 The RESTful invocation returns a JSON object that contains the list of users in the message board database.
 
 Users list
@@ -207,8 +218,9 @@ Users GET request
  
 
 Retrieve the information for only the fourth user in database. In the right terminal tab, enter the following command:
-
+```
 curl localhost:3000/api/users/4
+```
 The information for Jake Storm, the fourth user in the database, is returned:
 
  
@@ -218,17 +230,19 @@ Fourth user
  
 
 Next, retrieve all the threads that are currently in the database. In the right terminal tab, enter the following command:
-
+```
 curl localhost:3000/api/threads
+```
 A JSON object that contains all the threads in the database is returned:
 
 Threads
 
  
 
-Lastly, retrieve all the posts for the first thread in the database. In the right terminal tab, enter the following command:
-
+20. Lastly, retrieve all the posts for the first thread in the database. In the right terminal tab, enter the following command:
+```
 curl localhost:3000/api/posts/in-thread/1
+```
 A JSON object that contains two message posts is returned:
 
 Posts
@@ -240,25 +254,27 @@ Stop the Node.js server. In the left terminal tab, press CTRL+C to terminate the
   You have validated that the application responds properly to GET requests. In the next task, you will containerize the application.
 
 
-Task 3: Containerizing the monolith for Amazon ECS
+## Task 3: Containerizing the monolith for Amazon ECS
+
 Containers wrap application code in a unit of deployment, which captures a snapshot of the code and its dependencies. They can help ensure that applications deploy quickly, reliably, and consistently, regardless of the deployment environment.
 
 In this task, you will build a container image for the monolithic message board application and push it to Amazon Elastic Container Registry (Amazon ECR). This step prepares the application for deployment to Amazon ECS.
 
 Specifically, you will perform the following steps:
 
-Prepare the application for Docker containerization
-Provision a repository
-Build and push the Docker image to the repository
+- Prepare the application for Docker containerization
+- Provision a repository
+- Build and push the Docker image to the repository
 
-Task 3.1: Preparing the application for Docker containerization
+### Task 3.1: Preparing the application for Docker containerization
 To put the message board application into a Docker container, the following changes must be made to the application:
 
-Remove the use of the Node.js cluster feature and convert the application to a single-process design. With Docker containers, the goal is to run a single process per container, instead of a cluster of processes.
-Create a Dockerfile for the application. This file is basically a build script that contains instructions about how to build a container image for the application.
+- Remove the use of the Node.js cluster feature and convert the application to a single-process design. With Docker containers, the goal is to run a single process per container, instead of a cluster of processes.
+- Create a Dockerfile for the application. This file is basically a build script that contains instructions about how to build a container image for the application.
+
 A container-ready version of the application is provided to you in the 2-containerized-monolith folder of your AWS Cloud9 environment. Take a few minutes to review the files and understand the changes that were made to prepare the application for containerization.
 
-In the Environment window on the left, expand the 2-containerized-monolith folder, and open the package.json in an editor tab by double-clicking it.
+22. In the Environment window on the left, expand the 2-containerized-monolith folder, and open the package.json in an editor tab by double-clicking it.
 
 In Line 7, notice that the entry point into the application was changed from index.js to server.js. The index.js file is no longer in the application folder. The index.js file contained the initialization logic for the Node.js cluster feature, and you will no longer use that feature.
 
@@ -266,7 +282,7 @@ In the Environment window, expand the 2-containerized-monolith folder, and open 
 
 The only difference from the non-containerized version is the addition of Line 54, which prints the message Worker started when the application is first started.
 
-In the Environment window, expand the 2-containerized-monolith folder, and open the Dockerfile in an editor tab by double-clicking it.
+24. In the Environment window, expand the 2-containerized-monolith folder, and open the Dockerfile in an editor tab by double-clicking it.
 
 This file contains the instructions about how to build the container image for the application.
 
@@ -285,18 +301,19 @@ Line 8 – This line asks Docker to run the command node server.js, which starts
 Now that you understand how the container image for the application will be built, you will next examine where to put the image after it is built.
 
 
-Task 3.2: Provisioning a repository
+### Task 3.2: Provisioning a repository
+
 Docker container images are intended to be stored in a repository for sharing, version control, and easier management purposes. Amazon ECR makes it easy for developers to store, manage, and deploy Docker container images. In addition, Amazon ECR is integrated with Amazon ECS, which enables Amazon ECS to pull container images directly for production deployments.
 
 In this subtask, you will create a repository in Amazon ECR to house the Docker container image for the message board application.
 
-In the Your environments browser tab, choose Services, and then select Container > Elastic Container Registry.
+25. In the Your environments browser tab, choose Services, and then select Container > Elastic Container Registry.
 
 The Amazon ECR console opens.
 
 In Create a repository, choose Get Started.
 
-In the Repository name box, enter mb-repo.
+27. In the Repository name box, enter mb-repo.
 
 Choose Create repository.
 
@@ -305,30 +322,33 @@ A message at the top of the page indicates that the repository was successfully 
 Note: Do not close the window that shows the message. You will use it in the next subtask.
 
 
-Task 3.3: Building and pushing the Docker image
+## Task 3.3: Building and pushing the Docker image
+
 You are now ready to build the container image for the application and push it to the Amazon ECR repository that you created.
 
 One useful feature of the Amazon ECR console is that it provides ready-to-use command templates for building and pushing an image to the new repository. You use these provided AWS CLI commands in the next steps.
 
-Before you can successfully run the next steps, you must upgrade the AWS CLI. To do this, go to the AWS Cloud9 IDE browser tab, and in the left terminal tab, enter the following commands:
-
+29. Before you can successfully run the next steps, you must upgrade the AWS CLI. To do this, go to the AWS Cloud9 IDE browser tab, and in the left terminal tab, enter the following commands:
+```
 pip3 install awscli --upgrade --user
 export PATH=$HOME/.local/bin:$PATH
-Go back to the Amazon ECR console browser tab, and in the message window at the top of the page, choose View push commands.  
+```
+
+30. Go back to the Amazon ECR console browser tab, and in the message window at the top of the page, choose View push commands.  
 
 The Push commands for mb-repo pop-up window opens. This window lists four AWS CLI commands that are customized for the mb-repo, and they are purposely built to:
 
-Authenticate your Docker client to your Amazon ECR registry
-Build your Docker image
-Tag your Docker image
-Push your Docker image to the repository
+- Authenticate your Docker client to your Amazon ECR registry
+- Build your Docker image
+- Tag your Docker image
+- Push your Docker image to the repository
    The pop-up window offers two versions of the commands: one for macOS/linux, and one for Microsoft Windows.
 
-Make sure that the macOS/Linux tab is selected, because you will run these commands in your AWS Cloud9 environment.
+31. Make sure that the macOS/Linux tab is selected, because you will run these commands in your AWS Cloud9 environment.
 
 First, you will copy and run the command to log in your Docker client to your registry.
 
-In the pop-up window, locate the first command and then copy the command to the clipboard by choosing the Copy icon.
+32. In the pop-up window, locate the first command and then copy the command to the clipboard by choosing the Copy icon.
 
 The command looks like the following example:
 
@@ -347,21 +367,23 @@ Next, you will build the Docker image for your application.
 
 Note: When a specific terminal tab is not mentioned in an instruction step, use the left terminal tab.
 
-In the terminal tab, change the directory to the 2-containerized-monolith folder by entering the following command:
-
+35. In the terminal tab, change the directory to the 2-containerized-monolith folder by entering the following command:
+```
 cd ~/environment/2-containerized-monolith
+```
 Switch to the Amazon ECR console browser tab.
 
-In the Push commands for mb-repo window, locate the second command and copy the command by choosing the Copy icon.
+37. In the Push commands for mb-repo window, locate the second command and copy the command by choosing the Copy icon.
 
 The command looks like the following example:
-
+```
 docker build -t mb-repo .
+```
 Make sure to include the period (.) at the end of the command.
 
 Switch to the AWS Cloud9 IDE browser tab.
 
-In the terminal tab, paste the copied command and run it by pressing ENTER:
+39. In the terminal tab, paste the copied command and run it by pressing ENTER:
 
 Build Docker image
 
@@ -371,13 +393,14 @@ The build command produces multiples lines of output as it runs the instructions
 
 Next, you will tag the image with the repository URI so that it can be pushed the repository.
 
-Switch to the Amazon ECR console browser tab.
+40. Switch to the Amazon ECR console browser tab.
 
-In the Push commands for mb-repo window, locate the third command and choose the Copy icon.
+41. In the Push commands for mb-repo window, locate the third command and choose the Copy icon.
 
 The command looks like the following example:
-
+```
 docker tag mb-repo:latest 1234567890.dkr.ecr.us-east-2.amazonaws.com/mb-repo:latest
+```
 Switch to the AWS Cloud9 IDE browser tab.
 
 In the terminal tab, paste and run the copied command:
@@ -409,7 +432,7 @@ The command outputs several messages as each layer of the image is pushed to the
 
 Next, you will verify that the image was successfully uploaded.
 
-Switch to the Amazon ECR console browser tab.
+48. Switch to the Amazon ECR console browser tab.
 
 Close the Push commands for mb-repo window.
 
@@ -421,12 +444,15 @@ Latest image
 
  
 
-Record the Image URI. In the Images list, locate the Image URI of the latest version of the image, and choose the Copy icon. Paste the value in a text editor. You will use it in a subsequent step.
+51. Record the Image URI. In the Images list, locate the Image URI of the latest version of the image, and choose the Copy icon. Paste the value in a text editor. You will use it in a subsequent step.
+
+647651163624.dkr.ecr.us-east-1.amazonaws.com/mb-repo:latest
 
 You have successfully created a container image for the message board application, and you have also pushed it to an Amazon ECR repository.
 
 
-Task 4: Deploying the monolith to Amazon ECS
+## Task 4: Deploying the monolith to Amazon ECS
+
 In this task, you deploy the containerized monolithic application to an Amazon ECS runtime environment. Specifically, you use Amazon ECS to create a managed cluster of Amazon Elastic Compute Cloud (Amazon EC2) instances. You will deploy your application container image to this cluster. The cluster is configured as the target group of an Application Load Balancer, which will provide failover and scalability.
 
 The following diagram shows the deployment architecture of the containerized monolithic application. It also displays the resources that you will create in this task.
