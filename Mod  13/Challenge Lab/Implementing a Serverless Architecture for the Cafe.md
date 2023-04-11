@@ -109,11 +109,9 @@ In this task, you will create the _DataExtractor_ Lambda function that extracts 
 
 - Function name: salesAnalysisReportDataExtractor
 - Runtime: Python 3.8
-
 - Role:  salesAnalysisReportDERole
 
 - VPC:
-
   - VPC: Lab VPC
   - Subnets: Private subnet 1 and Private subnet 2
   - Security Group: The Lambda function security group that you created
@@ -142,14 +140,14 @@ In this task, you will create the Lambda function that generates and sends the d
 - Role: salesAnalysisReportRole
 
 15. Configure the salesAnalysisReport Lambda function as follows:    
+- Code: Upload the salesAnalysisReport.zip file
+- Description: Lambda function to generate and send the daily sales report
+- Handler: salesAnalysisReport.lambda_handler
+- Memory Size: 128 MB
+- Timeout (seconds): 30
 
-Code: Upload the salesAnalysisReport.zip file
-Description: Lambda function to generate and send the daily sales report
-Handler: salesAnalysisReport.lambda_handler
-Memory Size: 128 MB
-Timeout (seconds): 30
+## Task 4: Creating an SNS topic
 
-Task 4: Creating an SNS topic
 The sales analysis report uses an SNS topic to send the report to email subscribers. In this task, you will create an SNS topic and update the environment variables of the salesAnalysisReport Lambda function to store the topic Amazon Resource Name (ARN).
 
 Create a standard SNS topic with the following configuration:
