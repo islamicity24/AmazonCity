@@ -765,11 +765,11 @@ The Launch Status page opens, and shows the tasks that the wizard performs.
 
    
 
-To open the details page for mb-ecs-service, choose View Service.
+To open the details page for mb-ecs-service, choose **View Service**.
 
 The Tasks tab shows that there is now one task that is running the container, with a status of ACTIVATING.
 
-After a few moments, choose Refresh. The task's Last status should show: RUNNING.
+107. After a few moments, choose Refresh. The task's Last status should show: RUNNING.
 
   Service task running
 
@@ -785,13 +785,13 @@ First, you will find and record the URL of the load balancer.
 
 In the Amazon ECS console browser tab, choose Services, and select Compute > EC2.
 
-In the navigation pane, scroll down and choose Load Balancers.
+109. In the navigation pane, scroll down and choose **Load Balancers**.
 
 The load balancer list shows the mb-load-balancer.
 
 In the Description tab at the bottom, go to DNS name and choose the Copy icon.
 
-Paste the DNS name value into a text editor, and label it Load Balancer DNS Name. You will use this value multiple times in later steps.
+111. Paste the DNS name value into a text editor, and label it `**Load Balancer DNS Name**`. You will use this value multiple times in later steps.
 
 Open a new browser tab, paste the DNS name into the address bar, and press ENTER.
 
@@ -799,46 +799,46 @@ Open a new browser tab, paste the DNS name into the address bar, and press ENTER
 
    
 
-The page opens with the message Ready to receive requests. This message is returned by the message board application when no resource path is included in the GET request.
+The page opens with the message _Ready to receive requests_. This message is returned by the message board application when no resource path is included in the GET request.
 
-Troubleshooting tip: If you get a server-related HTTP error code, wait a few moments and then try again. It might take a few minutes for the container to register as healthy and begin receiving traffic.
+**Troubleshooting tip**: If you get a server-related HTTP error code, wait a few moments and then try again. It might take a few minutes for the container to register as healthy and begin receiving traffic.
 
 In the browser address bar, add /api to the end of the URL and press ENTER.
   Containerized monolith API
 
    
 
-  The application should return the message API ready to receive requests.
+  The application should return the message _API ready to receive requests_.
 
-Test the retrieval of all users in the database. In the browser address bar, add /users to the end of the URL and press ENTER.
+114. Test the retrieval of all users in the database. In the browser address bar, add /users to the end of the URL and press ENTER.
   Containerized monolith users
 
    
 
   The application returns a JSON object that lists the four users in the database.
 
-Retrieve the information for the first user in the database. In the browser address bar, add /1 to the end of the URL and press Enter.
+115. Retrieve the information for the first user in the database. In the browser address bar, add /1 to the end of the URL and press **Enter**.
   Containerized monolith user one
 
    
 
 The application returns a JSON object that contains the information for Marcerline Singer, who is the first user in the database.
 
-Next, you will retrieve all the threads in the database. In the browser address bar, change the URI after the load balancer DNS name to /api/threads and press ENTER.
+116. Next, you will _retrieve all the threads in the database_. In the browser address bar, change the URI after the load balancer DNS name to /api/threads and press ENTER.
   Containerized monolith threads
 
    
 
   The application returns a JSON object that contains the three threads in the database.
 
-Finally, retrieve the posts for the second thread in the database. In the browser address bar, change the URI after the load balancer DNS name to /api/posts/in-thread/2 and press ENTER.
+117. Finally, retrieve the posts for the second thread in the database. In the browser address bar, change the URI after the load balancer DNS name to /api/posts/in-thread/2 and press ENTER.
   Containerized monolith thread 2 posts
 
    
 
 The application returns a JSON object that contains the posted messages for the second thread in the database. The messages are bakery-related.
 
-Optionally, invoke other resource paths that the application can serve. When you are finished testing, close the application browser tab.
+Optionally, invoke other resource paths that the application can serve. When you are finished testing, **close the application browser tab**.
 
 You have now successfully containerized the monolithic message board application and deployed it to an Amazon ECS environment.
 
@@ -846,10 +846,11 @@ You have now successfully containerized the monolithic message board application
 ## Task 5: Refactoring the monolith
 In this task, you will break the containerized monolithic message board application into several interconnected microservices. You will then push each microservice image to an Amazon ECR repository. Each microservice performs a single business capability of the application, and can be scaled independently of the other microservices. The application is divided into the following microservices, which represent the top-level classes of objects that the application's API serves:
 
-Users microservice – A service for all user-related REST paths (/api/users/*)
-Threads microservice – A service for all thread-related REST paths (/api/threads/*)
-Posts microservice – A service for all post-related REST paths (/api/posts/*)
-To expedite the refactoring, a microservices version of the application is provided to you in the 3-containerized-microservices folder of your AWS Cloud9 environment.
+- Users microservice – A service for all user-related REST paths (/api/users/*)
+- Threads microservice – A service for all thread-related REST paths (/api/threads/*)
+- Posts microservice – A service for all post-related REST paths (/api/posts/*)
+
+To expedite the refactoring, a microservices version of the application is provided to you in the **3-containerized-microservices folder** of your AWS Cloud9 environment.
 
 The steps that you perform in this task are:
 
@@ -857,10 +858,11 @@ Review the refactored microservices application
 Provision an Amazon ECR repository for each microservice
 Build and push the images for each microservice
 
-Task 5.1: Reviewing the refactored microservices application
+## Task 5.1: Reviewing the refactored microservices application
+
 In this subtask, you will Take a few minutes to review the files to help you understand the changes that were made to refactor the application into microservices.
 
-Switch to the AWS Cloud9 IDE browser tab.
+119. Switch to the AWS Cloud9 IDE browser tab.
 
 In the Environment pane on the left, expand the 3-containerized-microservices folder.
 
@@ -874,7 +876,7 @@ Expand the posts, threads, and users subfolders.
 
 Notice that each subfolder contains a copy of the same application files as those of the containerized monolith application. The db.json, Dockerfile, and package.json files in each subfolder are identical to their containerized monolith counterparts. The server.js file is the only file that changed from the refactoring.
 
-In the users subfolder, open server.js in an editor tab by double-clicking it.
+122. In the users subfolder, open server.js in an editor tab by double-clicking it.
 
 Lines 13 through 20 differ from the containerized monolith version in that the program defines only the API methods and implementations that are related to the users resource paths.
 
@@ -889,39 +891,42 @@ Lines 13 through 21 differ from the containerized monolith version in that the p
 In summary, the only change that is required to refactor the application is to split the RESTful API method handlers in the monolithic version of server.js into three separate server.js files. Each individual server.js file contains a relevant subset of the API method handlers.
 
 
-Task 5.2: Provisioning an Amazon ECR repository for each microservice
+## Task 5.2: Provisioning an Amazon ECR repository for each microservice
+
 Similar to what you did for the containerized monolith version, you will now create an Amazon ECR repository for each application microservice.
 
 You will now create a repository for the Users, Threads, and Posts microservice container images.
 
-To open the Amazon ECR console, go to the AWS Management Console browser tab, choose Services, and then select Containers > Elastic Container Registry.
+125. To open the Amazon ECR console, go to the AWS Management Console browser tab, choose Services, and then select Containers > **Elastic Container Registry**.
 
 Choose Create repository.
 
-In Repository name, enter mb-users-repo.
+In Repository name, enter `mb-users-repo`.
 
 Choose Create repository. A message is displayed at the top of the page indicating that the repository was successfully created.
 
 Repeat the previous steps to create two repositories for the other two microservices, with the following repository information.
 
-Threads repository name: mb-threads-repo
-Posts repository name: mb-posts-repo
+- Threads repository name: mb-threads-repo
+- Posts repository name: mb-posts-repo
+
 When you have created the repositories for all three microservices, the Repositories list should look like the following example:
 
   Microservice repositories
 
 
-Task 5.3: Building and pushing the images for each microservice
+## Task 5.3: Building and pushing the images for each microservice
 Next, you will build each microservice container image and push it to its corresponding repository. In the following steps, you will use the ready-to-use commands that are provided by the Amazon ECR console to complete the task.
 
 
-Building and pushing the Users microservice
+# Building and pushing the Users microservice
 You will start with the container image for the Users microservice.
 
 Switch to the AWS Cloud9 IDE browser tab.
-In the terminal tab, change the directory to the 3-containerized-microservices/users folder by entering the following command:
+131. In the terminal tab, change the directory to the 3-containerized-microservices/users folder by entering the following command:
 cd ~/environment/3-containerized-microservices/users
-Switch to the Amazon ECR console browser tab.
+
+132. Switch to the Amazon ECR console browser tab.
 
 In the Repositories list, select mb-users-repo.
 
@@ -932,8 +937,9 @@ The Push commands for mb-users-repo pop-up window opens.
 First, you will build the Docker image for the microservice.
 
 In the Push commands for mb-users-repo window, copy the second command to the clipboard by selecting the Copy icon next to it. The command should look like:
-
+```
 docker build -t mb-users-repo .
+```
   Note: Make sure to include the period (.) at the end of the command.
 
 Switch to the AWS Cloud9 IDE browser tab.
@@ -947,8 +953,9 @@ Next, you will tag the image with the repository URI so that it can be pushed th
 Switch to the Amazon ECR console browser tab.
 
 In the Push commands for mb-users-repo window, copy the third command to the clipboard by selecting the Copy icon next to it. The command should look like:
-
+```
 docker tag mb-users-repo:latest 1234567890.dkr.ecr.us-east-2.amazonaws.com/mb-users-  repo:latest
+```
 Switch to the AWS Cloud9 IDE browser tab.
 
 In the terminal tab, paste the copied command and run it by pressing ENTER.
@@ -960,9 +967,11 @@ Finally, push the container image to the microservice repository.
 Switch to the Amazon ECR console browser tab.
 
 In the Push commands for mb-users-repo window, copy the fourth command to the clipboard by selecting the Copy icon next to it. The command should look like:
-
+```
 docker push 1234567890.dkr.ecr.us-east-2.amazonaws.com/mb-users-repo:latest
-Switch to the AWS Cloud9 IDE browser tab.
+```
+
+144. Switch to the AWS Cloud9 IDE browser tab.
 
 In the terminal tab, paste the copied command and run it by pressing ENTER.
 
@@ -972,21 +981,23 @@ You will now verify that the image was successfully uploaded.
 
 Switch to the Amazon ECR console browser tab and close the Push commands for mb-users-repo pop-up window.
 
-Choose the Refresh icon.
+147. Choose the Refresh icon.
 
  In the Images list, you see the container image that you pushed identified by the latest tag.
 
-Record the Image URI. In the Images list, locate the Image URI of the latest version of the image and choose the Copy icon next to it.
+148. Record the Image URI. In the Images list, locate the Image URI of the latest version of the image and choose the Copy icon next to it.
 
 Paste the value in a text editor and label it as Users Image URI. You will use it in a later step.
 
 
-Building and pushing the Threads microservice
+# Building and pushing the _Threads_ microservice
 Next, you will build and push the container image for the Threads microservice.
 
 Switch to the AWS Cloud9 IDE browser tab.
 In the terminal tab, change the directory to the 3-containerized-microservices/threads folder by entering the following command:
+```
 cd ~/environment/3-containerized-microservices/threads
+```
 Switch to the Amazon ECR console browser tab.
 
 In the navigation pane, choose Repositories and in the Repositories list, select mb-threads-repo.
@@ -997,9 +1008,10 @@ The Push commands for mb-threads-repo pop-up window opens.
 
 First, you will build the Docker image for the microservice.
 
-In the pop-up window, copy the second command by selecting the Copy icon. The command should look like:
-
+155. In the pop-up window, copy the second command by selecting the Copy icon. The command should look like:
+```
 docker build -t mb-threads-repo .
+```
   Note: Make sure to include the period (.) at the end of the command.
 
 Switch to the AWS Cloud9 IDE browser tab.
@@ -1012,9 +1024,10 @@ Next, you will tag the image with the repository URI so that it can be pushed th
 
 Switch to the Amazon ECR console browser tab.
 
-In the pop-up window, copy the third command by selecting the Copy icon. The command should look like:
-
+159. In the pop-up window, copy the third command by selecting the Copy icon. The command should look like:
+```
 docker tag mb-threads-repo:latest 1234567890.dkr.ecr.us-east-2.amazonaws.com/mb-threads-repo:latest
+```
 Switch to the AWS Cloud9 IDE browser tab.
 
 In the terminal tab, paste the copied command and run it.
@@ -1026,8 +1039,9 @@ Finally, you will push the container image to the microservice repository.
 Switch to the Amazon ECR console browser tab.
 
 In the pop-up window, copy the fourth command by selecting the Copy icon. The command should look like:
-
+```
 docker push 1234567890.dkr.ecr.us-east-2.amazonaws.com/mb-threads-repo:latest
+```
 Switch to the AWS Cloud9 IDE browser tab.
 
 In the Terminal tab, paste the copied command and run it.
@@ -1047,12 +1061,14 @@ Record the Image URI. In the Images list, go to the Image URI for latest version
 Paste the value in a text editor and label it as Threads Image URI. You will use it in a later step.
 
 
-Building and pushing the Posts microservice
+# Building and pushing the Posts microservice
 Lastly, you will build and push the container image for the Posts microservice.
 
 Switch to the AWS Cloud9 IDE browser tab.
 In the terminal tab, change the directory to the 3-containerized-microservices/posts folder by entering the following command:
+```
 cd ~/environment/3-containerized-microservices/posts
+```
 Switch to the Amazon ECR console browser tab.
 
 In the navigation pane, choose Repositories.
@@ -1066,8 +1082,9 @@ The Push commands for mb-posts-repo pop-up window opens.
 First, you will build the Docker image for the microservice.
 
 In the pop-up window, copy the second command. The command should look like:
-
+```
 docker build -t mb-posts-repo .
+```
  Note: Make sure that you include the period (.) at the end of the command.
 
 Switch to the AWS Cloud9 IDE browser tab.
@@ -1120,26 +1137,29 @@ You have successfully built container images for the microservices in your appli
 
 
 ## Task 6: Deploying the containerized microservices
+
 In this task, you will deploy the containerized microservices message board application to the same ECS cluster that you used for the containerized monolith. You will also use the same Application Load Balancer from before. However, in this task, you will configure it to route requests to different target groups (one for each microservice container) based on the request URI path.
 
 The following diagram shows the deployment architecture of the containerized microservices application. It also displays the resources that you will create.
 
 Microservices architecture
+![image](https://user-images.githubusercontent.com/126258837/231498421-fcb1dbaf-1398-48f2-9f75-c198a408ab99.png)
 
  
 
 The steps that you perform in this task are:
 
-Create a task definition for each microservice.
-Configure the Application Load Balancer
-Deploy the microservices as ECS services.
-Validate the deployment.
+- Create a task definition for each microservice.
+- Configure the Application Load Balancer
+- Deploy the microservices as ECS services.
+- Validate the deployment.
 
-Task 6.1: Creating a task definition for each microservice
+## Task 6.1: Creating a task definition for each microservice
+
 Because the microservices in the application are intended to run independently of each other, they each require their own task definition. In this subtask, you will create three task definitions that run the container image of each individual microservice.
 
 
-Creating a task definition for the Users container
+# Creating a task definition for the Users container
 You will start by creating the task definition for the Users microservice container.
 
 In the navigation pane of the Amazon ECR console, choose Task definitions, and then choose Create new Task Definition.
@@ -1193,7 +1213,7 @@ Scroll-down and choose Create.
 A message indicates that the task definition was successfully created. The definition is automatically assigned the version number of 1.
 
 
-Creating a task definition for the Posts container
+# Creating a task definition for the Posts container
 Lastly, you will now create the task definition for the Posts microservice container.
 
 In the navigation pane, select Task Definitions and then choose Create new Task Definition.
@@ -1218,11 +1238,11 @@ Scroll down and choose Create.
 A message indicates that the task definition was successfully created. The definition is automatically assigned the version number of 1.
 
 
-Task 6.2: Configuring the Application Load Balancer
+## Task 6.2: Configuring the Application Load Balancer
 In this subtask, you will create a new load balancer target group for each microservice so that requests can be routed to their container. You also configure the load balancer listener rule to forward requests to the correct target group, based on the request URI path.
 
 
-Creating a target group for the Users microservice
+# Creating a target group for the _Users_ microservice
 In the Amazon ECS console browser tab, choose Services, and then select Compute > EC2.
 
 In the navigation pane, scroll down and choose Target Groups.
@@ -1250,10 +1270,11 @@ Close the message window.
 The mb-lb-users-target-group appears in the target group list.
 
 
-Creating a target group for the Threads microservice
+# Creating a target group for the Threads microservice
+
 Next, you will create a target group for the Threads microservice.
 
-Choose Create target group and in Step 1: Specify group details, configure these settings.
+214. Choose Create target group and in Step 1: Specify group details, configure these settings.
 
 Target group name: mb-lb-threads-target-group
 
@@ -1276,7 +1297,7 @@ The mb-lb-threads-target-group appears in the target group list.
  
 
 
-Creating a target group for the Posts microservice
+# Creating a target group for the Posts microservice
 Lastly, you will create a target group for the Posts microservice.
 
 Choose Create target group and configure these settings.
@@ -1298,7 +1319,7 @@ Close the message window.
 The mb-lb-posts-target-group appears in the target group list.
 
 
-Creating listener rules for the load balancers
+## Creating listener rules for the load balancers
 You have created the target groups for each microservice. You will modify the listener rules for the load balancer. These rules will route traffic to each load balancer, based on the request URI path.
 
 Open the details page for mb-load-balancer by going to the navigation pane and selecting Load Balancers.
@@ -1412,11 +1433,11 @@ You have completed the required changes to the load balancer configuration.
 ### Task 6.3: Deploying the microservices as ECS services
 In this subtask, you will deploy the three microservices to the cluster as ECS services.
 
-Creating an ECS service for Users
+## Creating an ECS service for _Users_
 
 You will now create an ECS service for the Users microservice task definition.
 
-In the Amazon EC2 console browser tab, choose Services, and then select Containers > Elastic Container Service.
+242. In the Amazon EC2 console browser tab, choose Services, and then select Containers > Elastic Container Service.
 
 In the clusters list, choose mb-ecs-cluster.
 
@@ -1458,7 +1479,7 @@ After a few moments, choose the Refresh button.
 The task's Last status should show a value of RUNNING.
 
 
-Creating an ECS service for Threads
+## Creating an ECS service for Threads
 Next, you will create an ECS service for the Threads microservice task definition.
 
 To return to the cluster details page, in the breadcrumb trail at the top of the page, choose mb-ecs-cluster.
@@ -1498,14 +1519,14 @@ The details page for mb-threads-ecs-service opens. The Tasks tab shows that one 
 After a few moments, choose Refresh. The task's Last status shows a value of RUNNING.
 
 
-Creating an ECS service for Posts
+## Creating an ECS service for Posts
 Lastly, create an ECS service for the Posts microservice task definition.
 
-Return to the cluster details page for mb-ecs-cluster.
+265. Return to the cluster details page for mb-ecs-cluster.
 
 In the Services tab, choose Create.
 
-In Step 1: Configure service, configure the following settings.
+267. In **Step 1: Configure service**, configure the following settings.
 
 Launch type: EC2
 Task Definition > Family: mb-posts-task
@@ -1514,7 +1535,7 @@ Service type: REPLICA
 Number of tasks: 1
 Choose Next step.
 
-In Step 2: Configure network, configure the following settings.
+In **Step 2: Configure network**, configure the following settings.
 
 Load balancing > Load balancer type: Application Load Balancer
 Load balancer name: mb-load-balancer
@@ -1523,7 +1544,7 @@ Production listener port: 80:HTTP
 Target group name: mb-lb-posts-target-group
 Choose Next step.
 
-In Step 3L Set Auto Scaling (optional), choose Next step.
+In **Step 3: Set Auto Scaling (optional)**, choose Next step.
 
 In the Review page, make sure that settings are correct and choose Create Service.
 
@@ -1550,7 +1571,7 @@ The three new services that you created are now in the Services list.
 It should only take a few seconds for all your services to start. Double-check that all services and tasks are running and healthy before you proceed.
 
 
-Task 6.4: Validating the deployment
+## Task 6.4: Validating the deployment
 You will now test the RESTful API methods of the message board application from a web browser. You will also validate that the microservices-based implementation works correctly.
 
 First, you will shut down the ECS service for the containerized monolith version of the application. You do not want it to serve any requests.
@@ -1608,13 +1629,13 @@ The request is forwarded to default handler in the load balancer's listener rule
 You have successfully converted a monolithic Node.js application to a microservices architecture. The original application ran, without containerization, directly on an instance. In contrast, microservices-based application is deployed in a containerized environment that is orchestrated by Amazon ECS.
 
 
-Submitting your work
+# Submitting your work
 At the top of these instructions, choose Submit to record your progress and when prompted, choose Yes.
 If the results don't display after a couple of minutes, return to the top of these instructions and choose Grades
 **Tip**: You can submit your work multiple times. After you change your work, choose **Submit** again. Your last submission is what will be recorded for this lab.
 To find detailed feedback on your work, choose Details followed by  View Submission Report.
 
-Lab complete
+# Lab complete
  Congratulations! You have completed the lab.
 
 Choose End Lab at the top of this page, and then select Yes to confirm that you want to end the lab.
