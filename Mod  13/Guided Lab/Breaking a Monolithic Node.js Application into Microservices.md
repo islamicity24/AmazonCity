@@ -1145,6 +1145,7 @@ The following diagram shows the deployment architecture of the containerized mic
 Microservices architecture
 ![image](https://user-images.githubusercontent.com/126258837/231498421-fcb1dbaf-1398-48f2-9f75-c198a408ab99.png)
 
+![image](https://user-images.githubusercontent.com/126258837/231505889-82f7e043-a859-499c-9330-30967c4c3440.png)
  
 
 The steps that you perform in this task are:
