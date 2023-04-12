@@ -117,10 +117,11 @@ Run the application
 The message board application uses two modules from the Node.js koa framework in its implementation: koa and koa-router. Koa.js is a widely used Node.js web application framework that facilitates building asynchronous server-side JavaScript applications.
 
 8. In the terminal tab, enter the following commands to install the koa and koa-router modules:
-
+```
 cd ~/environment/1-no-container
 npm install koa
 npm install koa-router
+```
 koa installation
 
  
@@ -157,7 +158,7 @@ node_modules folder – This folder was created when you installed the required 
   - In search of a new guitar
   - Lines 47 through 78 – These lines define a posts attribute that represents the posted messages on the active threads. The attribute value is a list of six sample message posts.
 
-12. Review the code for index.js. In the Environment window, open index.js in an editor tab by double-clicking it. Notice the following information:
+12. Review the code for index.js. In the **Environment window**, open index.js in an editor tab by double-clicking it. Notice the following information:
 
  - Lines 1 through 3 – These lines import the JavaScript modules that the program requires, specifically: cluster, http, and os.
  - Line 3 – This line uses the os module to ask about the number of CPU cores that are available on the server.
@@ -201,7 +202,7 @@ Next, you will leave the current terminal session active and open a second termi
 
 In the bottom pane, open a new terminal tab by choosing (+) and selecting New Terminal. You now have two terminals where you can enter commands.
 
-In the right terminal tab, retrieve the /api/users resource by entering the following command:
+16. In the right terminal tab, retrieve the /api/users resource by entering the following command:
 ```
 curl localhost:3000/api/users
 ```
@@ -211,13 +212,13 @@ Users list
 
  
 
-Select the left terminal tab. You see an output message from server.js that it processed a GET method request on the resource, which is identified by the path /api/users. The request took 4 milliseconds to process.
+17. Select the **left terminal tab**. You see an output message from server.js that it processed a GET method request on the resource, which is identified by the path /api/users. The request took 4 milliseconds to process.
 
 Users GET request
 
  
 
-Retrieve the information for only the fourth user in database. In the right terminal tab, enter the following command:
+18. Retrieve the information for only the fourth user in database. In the right terminal tab, enter the following command:
 ```
 curl localhost:3000/api/users/4
 ```
@@ -229,7 +230,7 @@ Fourth user
 
  
 
-Next, retrieve all the threads that are currently in the database. In the right terminal tab, enter the following command:
+19. Next, retrieve all the threads that are currently in the database. In the right terminal tab, enter the following command:
 ```
 curl localhost:3000/api/threads
 ```
@@ -270,7 +271,7 @@ Specifically, you will perform the following steps:
 To put the message board application into a Docker container, the following changes must be made to the application:
 
 - Remove the use of the Node.js cluster feature and convert the application to a single-process design. With Docker containers, the goal is to run a single process per container, instead of a cluster of processes.
-- Create a Dockerfile for the application. This file is basically a build script that contains instructions about how to build a container image for the application.
+- _Create a Dockerfile_ for the application. This file is basically a build script that contains instructions about how to build a _container image_ for the application.
 
 A container-ready version of the application is provided to you in the 2-containerized-monolith folder of your AWS Cloud9 environment. Take a few minutes to review the files and understand the changes that were made to prepare the application for containerization.
 
@@ -278,7 +279,7 @@ A container-ready version of the application is provided to you in the 2-contain
 
 In Line 7, notice that the entry point into the application was changed from index.js to server.js. The index.js file is no longer in the application folder. The index.js file contained the initialization logic for the Node.js cluster feature, and you will no longer use that feature.
 
-In the Environment window, expand the 2-containerized-monolith folder, and open the server.js file in an editor tab by double-clicking it.
+23. In the Environment window, expand the 2-containerized-monolith folder, and open the server.js file in an editor tab by double-clicking it.
 
 The only difference from the non-containerized version is the addition of Line 54, which prints the message Worker started when the application is first started.
 
@@ -307,15 +308,15 @@ Docker container images are intended to be stored in a repository for sharing, v
 
 In this subtask, you will create a repository in Amazon ECR to house the Docker container image for the message board application.
 
-25. In the Your environments browser tab, choose Services, and then select Container > Elastic Container Registry.
+25. In the Your environments browser tab, choose Services, and then select Container > **Elastic Container Registry**.
 
 The Amazon ECR console opens.
 
-In Create a repository, choose Get Started.
+In **Create a repository**, choose `Get Started`.
 
 27. In the Repository name box, enter mb-repo.
 
-Choose Create repository.
+28. Choose **Create repository**.
 
 A message at the top of the page indicates that the repository was successfully created.
 
@@ -334,7 +335,7 @@ pip3 install awscli --upgrade --user
 export PATH=$HOME/.local/bin:$PATH
 ```
 
-30. Go back to the Amazon ECR console browser tab, and in the message window at the top of the page, choose View push commands.  
+30. Go back to the Amazon ECR console browser tab, and in the message window at the top of the page, choose **View push commands**.  
 
 The Push commands for mb-repo pop-up window opens. This window lists four AWS CLI commands that are customized for the mb-repo, and they are purposely built to:
 
@@ -342,6 +343,7 @@ The Push commands for mb-repo pop-up window opens. This window lists four AWS CL
 - Build your Docker image
 - Tag your Docker image
 - Push your Docker image to the repository
+
    The pop-up window offers two versions of the commands: one for macOS/linux, and one for Microsoft Windows.
 
 31. Make sure that the macOS/Linux tab is selected, because you will run these commands in your AWS Cloud9 environment.
@@ -351,8 +353,13 @@ First, you will copy and run the command to log in your Docker client to your re
 32. In the pop-up window, locate the first command and then copy the command to the clipboard by choosing the Copy icon.
 
 The command looks like the following example:
-
+```
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 01234567890.dkr.ecr.us-east-1.amazonaws.com
+```
+atau
+```
 $ aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 01234567890.dkr.ecr.us-east-1.amazonaws.com/mb-repo
+```
 Switch to the AWS Cloud9 IDE browser tab.
 
 In the left terminal tab, paste the copied command and run it by pressing ENTER:
@@ -361,7 +368,7 @@ Docker client login
 
  
 
-If the command runs successfully, it returns the message Login Succeeded. You can ignore the displayed warnings.
+If the command runs successfully, it returns the message _Login Succeeded_. You can ignore the displayed warnings.
 
 Next, you will build the Docker image for your application.
 
@@ -371,7 +378,7 @@ Note: When a specific terminal tab is not mentioned in an instruction step, use 
 ```
 cd ~/environment/2-containerized-monolith
 ```
-Switch to the Amazon ECR console browser tab.
+36. Switch to the Amazon ECR console browser tab.
 
 37. In the Push commands for mb-repo window, locate the second command and copy the command by choosing the Copy icon.
 
@@ -381,15 +388,17 @@ docker build -t mb-repo .
 ```
 Make sure to include the period (.) at the end of the command.
 
-Switch to the AWS Cloud9 IDE browser tab.
+38. Switch to the AWS Cloud9 IDE browser tab.
 
 39. In the terminal tab, paste the copied command and run it by pressing ENTER:
 
 Build Docker image
+![image](https://user-images.githubusercontent.com/126258837/231413528-553b3f2e-6ab6-4e3f-bf35-adfe4046dcff.png)
 
  
 
 The build command produces multiples lines of output as it runs the instructions that are in the application's Dockerfile. When it is finished, you see the messages Successfully built nnnnnnnnnn and Successfully tagged mb-repo:latest.
+![image](https://user-images.githubusercontent.com/126258837/231413762-8c49d32e-c792-48ea-b7c2-df24728b3c4a.png)
 
 Next, you will tag the image with the repository URI so that it can be pushed the repository.
 
@@ -398,6 +407,9 @@ Next, you will tag the image with the repository URI so that it can be pushed th
 41. In the Push commands for mb-repo window, locate the third command and choose the Copy icon.
 
 The command looks like the following example:
+```
+docker tag mb-repo:latest 647651163624.dkr.ecr.us-east-1.amazonaws.com/mb-repo:latest
+```
 ```
 docker tag mb-repo:latest 1234567890.dkr.ecr.us-east-2.amazonaws.com/mb-repo:latest
 ```
@@ -415,14 +427,18 @@ Finally, you will push the container image to the application's repository.
 
 Switch to the Amazon ECR console browser tab.
 
-In the Push commands for mb-repo window, locate the fourth command and copy it.
+45. In the Push commands for mb-repo window, locate the fourth command and copy it.
 
 The command looks like the following example:
-
+```
+docker push 647651163624.dkr.ecr.us-east-1.amazonaws.com/mb-repo:latest
+```
+```
 docker push 1234567890.dkr.ecr.us-east-2.amazonaws.com/mb-repo:latest
+```
 Switch to the AWS Cloud9 IDE browser tab.
 
-In the terminal tab, paste and run the copied command:
+47. In the terminal tab, paste and run the copied command:
 
 Push container to repository
 
@@ -434,17 +450,17 @@ Next, you will verify that the image was successfully uploaded.
 
 48. Switch to the Amazon ECR console browser tab.
 
-Close the Push commands for mb-repo window.
+49. `Close` the **Push commands for mb-repo** window.
 
-In the Repositories list, choose mb-repo.
+50. In the Repositories list, choose mb-repo.
 
-In the Images list, you should see the container image that you pushed, which you can identify by the latest tag.
+In the Images list, you should see the container image that you pushed, which you can identify by the _latest_ tag.
 
 Latest image
 
  
 
-51. Record the Image URI. In the Images list, locate the Image URI of the latest version of the image, and choose the Copy icon. Paste the value in a text editor. You will use it in a subsequent step.
+51. Record the _Image URI_. In the Images list, locate the Image URI of the latest version of the image, and choose the Copy icon. Paste the value in a text editor. You will use it in a subsequent step.
 
 647651163624.dkr.ecr.us-east-1.amazonaws.com/mb-repo:latest
 
@@ -453,7 +469,10 @@ You have successfully created a container image for the message board applicatio
 
 ## Task 4: Deploying the monolith to Amazon ECS
 
-In this task, you deploy the containerized monolithic application to an Amazon ECS runtime environment. Specifically, you use Amazon ECS to create a managed cluster of Amazon Elastic Compute Cloud (Amazon EC2) instances. You will deploy your application container image to this cluster. The cluster is configured as the target group of an Application Load Balancer, which will provide failover and scalability.
+In this task, 
+- you **deploy the containerized monolithic application to an Amazon ECS runtime environment**. 
+- Specifically, you use Amazon ECS to create a managed cluster of Amazon Elastic Compute Cloud (Amazon EC2) instances. 
+- You will **deploy your application container image to this cluster**. The cluster is configured as the target group of an Application Load Balancer, which will provide failover and scalability.
 
 The following diagram shows the deployment architecture of the containerized monolithic application. It also displays the resources that you will create in this task.
 
@@ -462,7 +481,7 @@ Containerized monolith
 
 The steps that you perform in this task are:
 
-- Create an Amazon ECS cluster.
+- 4.1 Create an Amazon ECS cluster.
 - Create a task definition for the application container image.
 - Create the Application Load Balancer.
 - Deploy the monolithic application as an ECS Service.
@@ -480,27 +499,29 @@ In this subtask, you will create an ECS cluster by using the Amazon ECS console.
 
 53. In the navigation pane, choose Amazon ECS > Clusters.
 
-54. In the Clusters page, choose Create Cluster.
+54. In the Clusters page, choose **Create Cluster**.
 
-In the Select cluster template page, select the EC2 Linux + Networking card.
+55. In the Select cluster template page, select the EC2 Linux + Networking card.
 
-Choose Next step.
+56. Choose Next step.
 
 57. In the Configure cluster wizard, configure the following settings.
 ```
-Cluster name: mb-ecs-cluster
-Provisioning Model: On-Demand Instance
-EC2 instance type: t2.micro
-Number of instances: 2
-VPC: Create a new VPC  ECS-VPC
-CIDR block: 10.32.0.0/16
+**Cluster name**: mb-ecs-cluster
+Provisioning Model: On-Demand Instance ?
+**EC2 instance type**: t2.micro
+Number of instances: 2  --> ECS Instance 1 & ECS Instance 2
+**VPC**: Create a new VPC  ECS-VPC
+**CIDR block**: 10.32.0.0/16
 Subnet 1: 10.32.0.0/24
 Subnet 2: 10.32.1.0/24
-Security group: Create a new security group
+Security group: Create a new security group --> ecs-sg-1 & ecs-sg-2
 Security group inbound rules: Leave it at the default setting, which allows inbound traffic from all IP addresses on port 80.
-Note: The message in the Container instance IAM role section states that you are granting permissions to Amazon ECS to create and use the ecsInstanceRole. This role authorizes the EC2 instances in the cluster to invoke Amazon ECS actions.
+```
 
-58. Choose Create.
+**Note**: The message in the **Container instance IAM role section** states that you are granting permissions to Amazon ECS to create and use the **ecsInstanceRole**. This role authorizes the EC2 instances in the cluster to invoke Amazon ECS actions.
+
+58. Choose Create. ???
 
  The Launch Status page opens, and shows the tasks that the wizard performs.
 
@@ -512,13 +533,16 @@ Creation complete
 
 The resources that the wizard creates are listed in the Cluster Resources section.
 
-60. Choose View Cluster.
+60. Choose View Cluster.  ???
 
 The details page for the mb-ecs-cluster opens. The Status field shows a value of ACTIVE.
 
 61. Choose the ECS Instances tab.
 
+![image](https://user-images.githubusercontent.com/126258837/231434605-1d9f76aa-9dda-4148-9df3-67df92d58c2a.png)
+
 The two EC2 instances for the cluster (which the wizard created) are listed.
+![image](https://user-images.githubusercontent.com/126258837/231434821-061c16df-1893-46d2-bde3-e7a146348b07.png)
 
 Note: It might take a few minutes for the two EC2 instances to show in the list. If you do not see both instances, choose Refresh.
 
@@ -529,6 +553,8 @@ Note: It might take a few minutes for the two EC2 instances to show in the list.
 Choose the Tasks tab.
 
 No tasks are deployed to the cluster yet. You will create one next.
+
+![image](https://user-images.githubusercontent.com/126258837/231438353-f48ce206-4c0e-43f5-8b3d-59ea77257d27.png)
 
 
 ### Task 4.2: Creating a task definition for the application container image
