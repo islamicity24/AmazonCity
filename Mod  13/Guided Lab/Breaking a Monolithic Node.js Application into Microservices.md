@@ -1,8 +1,9 @@
 # (Optional) Module 13 - Guided Lab 1: Breaking a Monolithic Node.js Application into Microservices
 # Lab overview and objectives
+
 Traditional monolithic architectures can be difficult to scale. As an application's code base grows, it becomes complex to update and maintain. It can be difficult and complicated to introduce new features, languages, frameworks, and technologies, which can then limit innovation and new ideas.
 
-In a microservices architecture, each application component runs as its own service. They are built around business capabilities, and each service performs a single function. Microservices can be written by using different frameworks and programming languages, and they communicate with other services via a well-defined application programming interface (API). Finally, you can deploy them independently—as a single service, or as a group of services.
+In a microservices architecture, each application component runs as its own service. They are built around business capabilities, and each service performs a single function. Microservices can be written by using different frameworks and programming languages, and they **communicate with other services via a well-defined application programming interface (API)**. Finally, you can _deploy them independently—as a single service, or as a group of services_.
 
 In this optional lab, you will migrate a monolithic application that runs in a standard Node.js server to a containerized Docker environment. You will then refactor the application into microservices and deploy it to a containerized environment that is orchestrated by Amazon Elastic Container Service (Amazon ECS). The Node.js application implements the functions of a simple message board where users can create topic threads, and post messages on each thread.
 
@@ -131,7 +132,7 @@ The modules are downloaded and installed in the 1-no-container/node_modules fold
 
 ### Task 2.2: Reviewing the application design and code
 
-The components that implement the monolithic message board application are in the 1-no-container folder. Review them to gain an understanding of the application design and code.
+The components that implement the monolithic **message board application** are in the 1-no-container folder. Review them to gain an understanding of the application design and code.
 
 9. In the Environment window on the left, expand the 1-no-container folder. The components of the application include:
 
@@ -526,6 +527,8 @@ Security group inbound rules: Leave it at the default setting, which allows inbo
  The Launch Status page opens, and shows the tasks that the wizard performs.
 
 59. Wait until all tasks have a check mark, which indicates that they are complete.
+60. 
+(lihat perbandingan ke langkah no. 104)
 
 Creation complete
 
@@ -559,44 +562,45 @@ No tasks are deployed to the cluster yet. You will create one next.
 
 ### Task 4.2: Creating a task definition for the application container image
 
-A task definition is a list of configuration settings for how to run a Docker container on Amazon ECS. It tells Amazon ECS various kinds of information, such as:
+A task definition is a list of configuration settings for **how to run a Docker container on Amazon ECS**. It tells Amazon ECS various kinds of information, such as:
 
 - What container image to run
 - How much CPU and memory the container needs
 - What ports the container listens to traffic on
-In this subtask, you will create a task definition for the container image of the message board application.
 
-In the navigation pane of the Amazon ECS console browser tab, choose Task Definitions.
+In this subtask, you will **create a task definition for the container image of the message board application**.
 
-Choose Create new Task Definition.
+63. In the navigation pane of the Amazon ECS console browser tab, choose **Task Definitions**.
 
-In the Select launch type compatibility page, choose the EC2 card.
+64. Choose **Create new Task Definition**.
 
-Choose Next step.
+65. In the **Select launch type compatibility page**, choose the **EC2 card**.
 
-The Configure task and container definitions page opens.
+66. Choose Next step.
 
-In the Task Definition Name box, enter mb-task.
+The **Configure task and container definitions** page opens.
 
-Scroll down to Container Definitions and choose Add container.
+67. In the **Task Definition Name** box, enter `**mb-task**`.
 
-The Add container window opens.
+68. Scroll down to **Container Definitions** and choose **Add container**.
 
-Configure the following settings.
+The **Add container window** opens.
 
-Container name: mb-container
-Image: Paste the Image URI of the application container image, which you copied to a text editor in a previous step.
-Memory Limits: Select Hard limit and enter 256. (This setting defines the maximum amount of memory that the container is allowed to use.)
-Port mappings > Container port: 3000 (This setting specifies the port where the container receives requests. You do not need to enter a value in Host port.)
-The Add container window should look similar to the following example:
+69. Configure the following settings :
+
+- **Container name**: `mb-container`
+- **Image**: Paste the **Image URI** of the application container image, which you copied to a text editor in a previous step.
+- **Memory Limits**: Select Hard limit and enter `256`. (This setting defines the **maximum amount of memory** that the container is allowed to use.)
+- **Port mappings > Container port**: 3000 (This setting specifies the port where the container receives requests. You do not need to enter a value in Host port.)
+The **Add container window** should look similar to the following example:
 
 Add container
 
  
 
-Choose Add.
+70. Choose **Add**.
 
-Scroll down and choose Create. You can ignore any warnings.
+71. Scroll down and choose **Create**. You can ignore any warnings.
 
 A message displays, indicating that the task definition was successfully created. Notice that the definition is automatically assigned the version number of 1.
 
@@ -604,21 +608,22 @@ Task Definition complete
 
  
 
-You now have a task definition that tells Amazon ECS how to deploy your application container across the cluster.
+You now have a task definition that tells Amazon ECS **how to deploy your application container across the cluster**.
 
 
 ## Task 4.3: Creating the Application Load Balancer
+
 Next, you will create the Application Load Balancer that distributes incoming requests to the EC2 instances that run in the ECS cluster. This load balancer resides in the same VPC and uses the same security group as the ECS cluster.
 
-72. In the Amazon ECS console browser tab, choose Services, and then select Compute > EC2.
+72. In the Amazon ECS console browser tab, choose Services, and then select Compute > **EC2**.
 
 73. In the navigation pane, scroll down and select Load Balancers.
 
-74. Choose Create Load Balancer.
+74. Choose **Create Load Balancer**.
 
 The Select load balancer type page opens.
 
-In the Application Load Balancer card, choose Create.
+75. In the Application Load Balancer card, choose **Create**.
 
 The Application Load Balancer creation wizard opens.
 
@@ -633,43 +638,40 @@ The Application Load Balancer creation wizard opens.
 
 77. Choose Next: Configure Security Settings.
 
-In Step 2: Configure Security Settings, you can ignore the warning that your load balancer is not using a secure listener. Choose Next: Configure Security Groups.
+78. In Step 2: Configure Security Settings, you can ignore the warning that your load balancer is not using a secure listener. Choose Next: Configure Security Groups.
 
-In Step 3: Configure Security Groups, configure these settings.
+79. In Step 3: Configure Security Groups, configure these settings.
 
-Assign a security group: Select an existing security group
+- Assign a security group: Select an existing security group
 
-Security Group ID:
+- Security Group ID:
 
 Clear default.
 Select EC2ContainerService-mb-ecs-cluster-EcsSecurityGroup. (This is the security group of your ECS cluster.)
-Choose Next: Configure Routing.
 
-In Step 4: Configure Routing, configure the following settings.
+80.Choose Next: Configure Routing.
 
-Target group: New target group (You want the wizard to create a new target group for the load balancer.)
+81. In Step 4: Configure Routing, configure the following settings.
+- Target group: New target group (You want the wizard to create a new target group for the load balancer.)
+- Name: mb-load-balancer-target-group
+- **Protocol** and **Port**: Leave these setting at their default values of _**HTTP and 80**_. The application expects to be accessed through RESTful HTTP requests.
+- Expand **Advanced health check settings** and enter the following settings.
+  - Healthy threshold: 2 (This setting tells the load balancer that the target is considered healthy if it receives two consecutive successful health checks from it.)
+  - Interval: 6 (This setting increases the frequency of health checks to once every 6 seconds.)
 
-Name: mb-load-balancer-target-group
+82. Choose **Next: Register Targets**.
 
-Protocol and Port: Leave these setting at their default values of HTTP and 80. The application expects to be accessed through RESTful HTTP requests.
+83. You can skip Step 5: Register Targets because you will register an ECS service as a target in a later step. Choose **Next: Review**.
 
-Expand Advanced health check settings and enter the following settings.
-
-Healthy threshold: 2 (This setting tells the load balancer that the target is considered healthy if it receives two consecutive successful health checks from it.)
-Interval: 6 (This setting increases the frequency of health checks to once every 6 seconds.)
-Choose Next: Register Targets.
-
-You can skip Step 5: Register Targets because you will register an ECS service as a target in a later step. Choose Next: Review.
-
-In the Review page, make sure that the settings are correct, and then choose Create.
+84. In the **Review** page, make sure that the settings are correct, and then choose **Create**.
 
 A message should indicate that the load balancer was successfully created.
 
-Choose Close.
+85. Choose Close.
 
 The mb-load-balancer is now in the load balancer list.
 
-Wait a few moments, then choose the Refresh icon. The State of the load balancer should change to active.
+86. Wait a few moments, then choose the Refresh icon. The State of the load balancer should change to active.
 
 Load balancer created
 
@@ -677,33 +679,34 @@ Load balancer created
 
 To complete the load balancer configuration, you will modify its security group to open the ports that allow internal communication between the load balancer and the instances in the ECS cluster.
 
-In the Description tab at the bottom, scroll down to the Security section.
+87. In the **Description** tab at the bottom, scroll down to the **Security section**.
 
-Next to Security Groups, choose the security group ID link, which should be similar to sg-nnnnnnnnnn.
+88. Next to **Security Groups**, choose the security group ID link, which should be similar to sg-nnnnnnnnnn.
 
 The details page of the load balancer's security group opens.
 
-To copy the security group ID to the clipboard, go to the Details tab (in the bottom pane), hover your pointer over the security group ID, and choose the Copy icon.
+89. To copy the security group ID to the clipboard, go to the Details tab (in the bottom pane), hover your pointer over the security group ID, and choose the Copy icon.
 
 You will use this ID in a subsequent step.
 
-In the bottom pane, select the Inbound rules tab.
+90. In the bottom pane, select the **Inbound rules ta**b.
 
 The inbound rules for the security group are displayed.
 
-Choose Edit inbound rules.
+90. Choose **Edit inbound rules**.
 
-The Edit inbound rules dialog window opens.
+91. The Edit inbound rules dialog window opens.
 
-Choose Add rule.
+92. Choose Add rule.
 
-A new line appears in the rules list so that you can add a new rule. It is already preconfigured for a Custom TCP Rule, which is the type that you want to add.
+A new line appears in the rules list so that you can add a new rule. It is already preconfigured for a _**Custom TCP Rule**_, which is the type that you want to add.
 
-In the new line, add the following configuration.
+93. In the new line, add the following configuration.
 
-Port Range: 31000-61000
-Source > Custom: Paste the security group ID from the clipboard.
-Choose Save rules.
+- Port Range: 31000-61000
+- **Source > Custom**: Paste the security group ID from the clipboard.
+
+94. Choose **Save rules**.
 
 The security group's inbound rules list shows the new rule that you added.
 
@@ -713,47 +716,50 @@ The security group's inbound rules list shows the new rule that you added.
 
 
 ## Task 4.4: Deploying the monolith as an ECS service
-You have created all the required Amazon ECS infrastructure components. In this subtask, you will deploy the containerized monolithic application to the cluster as an Amazon ECS service.
+
+You have _**created all the required Amazon ECS infrastructure components**_. In this subtask, you will deploy the containerized monolithic application to the cluster as an Amazon ECS service.
 
 An ECS service enables you to simultaneously run and maintain a specified number of task definition instances in an ECS cluster. If one of the tasks fails or stops for any reason, the ECS service scheduler launches another task definition instance to replace it. Thus, it will maintain the desired count of tasks that were specified in the service.
 
-You will now create an ECS service for the message board application's task definition by using the Amazon ECS console.
+You will now **create an ECS service for the message board application's task definition by using the Amazon ECS console**.
 
-In the AWS Management Console browser tab, choose Services, and select Containers > Elastic Container Service.
+95. In the AWS Management Console browser tab, choose Services, and select Containers > **Elastic Container Service**.
 
-In the navigation pane, choose Task Definitions.
+96. In the navigation pane, choose Task Definitions.
 
-In the Task Definition list, choose the mb-task link.
+97. In the **Task Definition list**, choose the **mb-task link**.
 
 A page opens with the available revisions of the task definition.
 
-Select mb-task:1 and choose Actions > Create Service.
+98. Select mb-task:1 and choose **Actions > Create Service**.
 
-In Step 1: Configure service, configure these settings.
+99. In **Step 1: Configure service**, configure these settings:
 
-Launch type: EC2 (You are running the containerized application directly on a cluster of EC2 instances.)
-Service name: mb-ecs-service
-Service type: REPLICA (This setting establishes a scheduling strategy that places and maintains the desired number of tasks across the ECS cluster.)
-Number of tasks: 1 (Normally, to take full advantage of the cluster, you would enter a higher number, depending on the request load that you expect. However, to keep things simple in this exercise, you specify that you want to launch and maintain one task on the cluster at all times.)
+- Launch type: EC2 (You are running the containerized application directly on a cluster of EC2 instances.)
+- Service name: mb-ecs-service
+- Service type: REPLICA (This setting establishes a scheduling strategy that places and maintains the desired number of tasks across the ECS cluster.)
+- Number of tasks: 1 (Normally, to take full advantage of the cluster, you would enter a higher number, depending on the request load that you expect. However, to keep things simple in this exercise, you specify that you want to launch and maintain one task on the cluster at all times.)
+
+100. Choose Next step.
+
+In **Step 2: Configure network**, configure the following settings.
+
+- Load balancer type: Application Load Balancer (You want the tasks in your service to be load balanced by the mb-load-balancer that you set up earlier)
+- Service IAM role: Create new role
+- Load balancer name: mb-load-balancer
+- Container name:port: This field is already populated with the correct container information that is associated with the task definition. Choose Add to load balancer. (This setting will associate the container with one of the load balancer's listeners.)
+- Production listener port: 80:HTTP (This setting associates the container with the load balancer listener for HTTP traffic on port 80)
+- Target group name: mb-load-balancer-target-group
+
 Choose Next step.
 
-In Step 2: Configure network, configure the following settings.
+103. In **Step 3: Set Auto Scaling (optional)**, choose Next step. You do not want to configure any additional automatic scaling.
 
-Load balancer type: Application Load Balancer (You want the tasks in your service to be load balanced by the mb-load-balancer that you set up earlier)
-Service IAM role: Create new role
-Load balancer name: mb-load-balancer
-Container name:port: This field is already populated with the correct container information that is associated with the task definition. Choose Add to load balancer. (This setting will associate the container with one of the load balancer's listeners.)
-Production listener port: 80:HTTP (This setting associates the container with the load balancer listener for HTTP traffic on port 80)
-Target group name: mb-load-balancer-target-group
-Choose Next step.
-
-In Step 3: Set Auto Scaling (optional), choose Next step. You do not want to configure any additional automatic scaling.
-
-In the Review page, make sure that the settings are correct and choose Create Service.
+104. In the **Review page**, make sure that the settings are correct and choose **Create Service**.
 
 The Launch Status page opens, and shows the tasks that the wizard performs.
 
-Wait until all tasks display check marks, which indicate that they are complete.
+105. Wait until all tasks display check marks, which indicate that they are complete.
 
   Create service complete
 
