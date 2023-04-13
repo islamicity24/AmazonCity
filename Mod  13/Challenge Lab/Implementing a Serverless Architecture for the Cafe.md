@@ -257,6 +257,10 @@ If the results don't display after a couple of minutes, return to the top of the
 
 To find detailed feedback on your work, choose Details followed by  View Submission Report.
 
+![image](https://user-images.githubusercontent.com/126258837/231816841-63e5e301-2352-4e8a-8194-42ab147f4604.png)
+
+![image](https://user-images.githubusercontent.com/126258837/231817417-bcc3e2b9-2bfb-495a-8fe5-de945ff7a182.png)
+
 
 Lab complete
  Congratulations! You have completed the lab.
