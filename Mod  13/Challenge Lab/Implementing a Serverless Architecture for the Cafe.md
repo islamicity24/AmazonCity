@@ -145,7 +145,10 @@ In this task, you will create the _DataExtractor_ Lambda function that extracts 
 
   - **Question 2**: Why must the salesAnalysisReportDataExtractor be in a VPC?
 
-## Task 3: Creating the salesAnalysisReport Lambda function
+![image](https://user-images.githubusercontent.com/126258837/231814753-c0d78d41-0476-42c2-8c2f-26f42be293b2.png)
+
+## Task 3: Creating the salesAnalysisReport Lambda function (a second Lambda function)
+
 In this task, you will create the Lambda function that generates and sends the daily sales analysis report.
 
 14. Create a second Lambda function with the following settings:
@@ -171,8 +174,8 @@ The sales analysis report uses an SNS topic to send the report to email subscrib
 
 17. Update the salesAnalysisReport Lambda function by adding the following environment variable:
 
-Variable Name: topicARN
-Variable Value: The ARN of the topic you just created
+- Variable Name: topicARN
+- Variable Value: The ARN of the topic you just created
 
 ![image](https://user-images.githubusercontent.com/126258837/231790184-9cfa7a5b-0004-41b4-a081-601470950df6.png)
 
@@ -200,6 +203,7 @@ To receive the sales report through email, you must create an email subscription
 21. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
 **Question 4**: Will you receive an email message if you do not confirm the topic subscription?
+![image](https://user-images.githubusercontent.com/126258837/231815812-3e664af0-3e00-403c-ade9-c9510f677152.png)
 
 ## Task 6: Testing the salesAnalysisReport Lambda function
 
