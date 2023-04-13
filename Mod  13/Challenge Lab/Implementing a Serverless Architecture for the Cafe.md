@@ -80,7 +80,7 @@ The code for generating the report is already written, packaged, and ready for y
 6. Extract each of the .zip files and examine the contents.
 
 
-## Answering questions about the lab
+### Answering questions about the lab
 Answers will be recorded when you choose the blue Submit button at the end of the lab.
 
 7. Access the questions in this lab.
