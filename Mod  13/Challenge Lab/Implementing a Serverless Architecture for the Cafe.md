@@ -137,13 +137,13 @@ In this task, you will create the _DataExtractor_ Lambda function that extracts 
 
 - Code: Upload the salesAnalysisReportDataExtractor.zip file
 - Description: Lambda function to extract data from database
-- Handler: salesAnalysisReportDataExtractor.lambda_handler
+- Handler: salesAnalysisReportDataExtractor.lambda_handler   ??? (Scrolldown)
 - Memory Size: 128 MB
 - Timeout (seconds): 30
 
 13. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
-  - Question 2: Why must the salesAnalysisReportDataExtractor be in a VPC?
+  - **Question 2**: Why must the salesAnalysisReportDataExtractor be in a VPC?
 
 ## Task 3: Creating the salesAnalysisReport Lambda function
 In this task, you will create the Lambda function that generates and sends the daily sales analysis report.
@@ -173,18 +173,29 @@ The sales analysis report uses an SNS topic to send the report to email subscrib
 
 Variable Name: topicARN
 Variable Value: The ARN of the topic you just created
-Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
+
+![image](https://user-images.githubusercontent.com/126258837/231790184-9cfa7a5b-0004-41b4-a081-601470950df6.png)
+
+18. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
 - Question 3: Could the topicARN be stored as an AWS Systems Manager parameter instead of as an environment variable (assuming that the code could be updated)?
+![image](https://user-images.githubusercontent.com/126258837/231790800-68fe9f4b-f5dd-405d-83e6-c5b0b301a7a9.png)
 
 ## Task 5: Creating an email subscription to the SNS topic
 
 To receive the sales report through email, you must create an email subscription to the topic that you created in the previous task.
+![image](https://user-images.githubusercontent.com/126258837/231793263-2f0c6619-b271-408f-a95b-a70a9c0ce70c.png)
 
 19. Create a new email subscription to the topic. Use an email address that you can easily access for this lab.
 
 20. Confirm the email subscription from your email client. 
 **Note**: If you don't receive an email confirmation, check your Junk or Spam folder.
+
+![image](https://user-images.githubusercontent.com/126258837/231794154-4b6761fe-eb75-4636-a87c-a916772e3d96.png)
+
+![image](https://user-images.githubusercontent.com/126258837/231794885-6e59b5a0-0436-422b-872c-cc925a04295d.png)
+
+![image](https://user-images.githubusercontent.com/126258837/231794817-971f81cf-b673-4394-a2fd-074b1f300e93.png)
 
 21. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
@@ -194,9 +205,9 @@ To receive the sales report through email, you must create an email subscription
 
 Before creating the daily reporting event, you must test that the salesAnalysisReport Lambda function works correctly.
 
-22. Create a test for the _salesAnalysisReport_ Lambda function. 
+22. Create a test for the _salesAnalysisReport_ Lambda function. (configure it)
 
-**Tip**: You don't need to worry about parameters, so enter an event name and accept the default `hello-world test event`.
+**Tip**: You don't need to worry about parameters, so enter an event name and accept the default `hello-world-test-event`.
 
 23. **Run** the _salesAnalysisReport test_. If the test succeeds, you should have an email report in a couple of minutes.
 
