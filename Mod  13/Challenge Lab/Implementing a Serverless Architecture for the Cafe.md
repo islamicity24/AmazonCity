@@ -74,9 +74,10 @@ The code for generating the report is already written, packaged, and ready for y
 
 5. Download the following two files to your local machine:
 
-![Code for salesAnalysisReportDataExtractor](https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/ILT-TF-200-ACACAD-20-EN/mod13-challenge/salesAnalysisReportDataExtractor.zip)
-![Code for salesAnalysisReport](https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/ILT-TF-200-ACACAD-20-EN/mod13-challenge/salesAnalysisReport.zip)
-Extract each of the .zip files and examine the contents.
+- ![Code for salesAnalysisReportDataExtractor](https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/ILT-TF-200-ACACAD-20-EN/mod13-challenge/salesAnalysisReportDataExtractor.zip)
+- ![Code for salesAnalysisReport](https://aws-tc-largeobjects.s3-us-west-2.amazonaws.com/ILT-TF-200-ACACAD-20-EN/mod13-challenge/salesAnalysisReport.zip)
+
+6. Extract each of the .zip files and examine the contents.
 
 
 ## Answering questions about the lab
@@ -84,15 +85,17 @@ Answers will be recorded when you choose the blue Submit button at the end of th
 
 7. Access the questions in this lab.
 
-Choose the Details 
+- Choose the Details 
 menu, and choose Show.
-Choose the Access the multiple choice questions link that appears at the bottom of the page.
-In the page you loaded, answer the first question:
+- Choose the Access the multiple choice questions link that appears at the bottom of the page.
+
+8. In the page you loaded, answer the first question:
 
 Question 1: Why does the salesAnalysisReportDataExtractor.zip file have a package folder?
   **Note**: Leave the questions webpage open in your browser tab. You will return to it later in this lab.
 
 ## Task 2: Creating the DataExtractor Lambda function in the VPC
+
 In this task, you will create the _DataExtractor_ Lambda function that extracts the café's sales data from an Amazon RDS database. So the Lambda function can access the RDS database instance, you must **update the database security group with a rule to allow connections from the Lambda function**. To enable this communication, you will **create a security group for the Lambda function** and add it as an inbound rule (ATURAN MASUK) to the security group of the RDS instance.
 
 9.  Create a security group for the Lambda function with the following settings:
