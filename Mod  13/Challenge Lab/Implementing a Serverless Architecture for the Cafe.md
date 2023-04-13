@@ -27,6 +27,10 @@ When you start the lab, your architecture will look like the following example:
 starting architecture
 ![image](https://user-images.githubusercontent.com/126258837/231150454-65ce05a3-ca55-46a8-b3ac-7d110537286f.png)
 
+![image](https://user-images.githubusercontent.com/126258837/231773760-86b8b150-3f01-4592-b768-1e3262bbb21f.png)
+
+![image](https://user-images.githubusercontent.com/126258837/231773556-c322eb82-2685-4554-b929-2f4d6cbcfa94.png)
+
 At the end of this lab, your architecture should look like the following example:
 
 final architecture
@@ -93,7 +97,13 @@ menu, and choose Show.
 
 Question 1: Why does the salesAnalysisReportDataExtractor.zip file have a package folder?
   **Note**: Leave the questions webpage open in your browser tab. You will return to it later in this lab.
-
+```  
+Question 1: Why does the salesAnalysisReportDataExtractor.zip file have a package folder? 
+A. It's an optional folder to improve caching within the Lambda function 
+B. The folder contains any Python packages that are used by the Lambda function 
+C. The folder contains debugging information fo Python 
+D. The folder is a required folder for Lambda functions that are deployed to a VPC 
+```
 ## Task 2: Creating the DataExtractor Lambda function in the VPC
 
 In this task, you will create the _DataExtractor_ Lambda function that extracts the café's sales data from an Amazon RDS database. So the Lambda function can access the RDS database instance, you must **update the database security group with a rule to allow connections from the Lambda function**. To enable this communication, you will **create a security group for the Lambda function** and add it as an inbound rule (ATURAN MASUK) to the security group of the RDS instance.
