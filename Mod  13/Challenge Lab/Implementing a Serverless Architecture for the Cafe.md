@@ -31,6 +31,8 @@ starting architecture
 
 ![image](https://user-images.githubusercontent.com/126258837/231773556-c322eb82-2685-4554-b929-2f4d6cbcfa94.png)
 
+![image](https://user-images.githubusercontent.com/126258837/231775908-c759258e-4a1b-4d29-9f2c-b5d84bd8c2d2.png)
+
 At the end of this lab, your architecture should look like the following example:
 
 final architecture
@@ -100,13 +102,13 @@ Question 1: Why does the salesAnalysisReportDataExtractor.zip file have a packag
 ```  
 Question 1: Why does the salesAnalysisReportDataExtractor.zip file have a package folder? 
 A. It's an optional folder to improve caching within the Lambda function 
-B. The folder contains any Python packages that are used by the Lambda function 
+B. **The folder contains any Python packages that are used by the Lambda function** 
 C. The folder contains debugging information fo Python 
 D. The folder is a required folder for Lambda functions that are deployed to a VPC 
 ```
 ## Task 2: Creating the DataExtractor Lambda function in the VPC
 
-In this task, you will create the _DataExtractor_ Lambda function that extracts the café's sales data from an Amazon RDS database. So the Lambda function can access the RDS database instance, you must **update the database security group with a rule to allow connections from the Lambda function**. To enable this communication, you will **create a security group for the Lambda function** and add it as an inbound rule (ATURAN MASUK) to the security group of the RDS instance.
+In this task, you will create the _DataExtractor_ Lambda function that extracts the café's sales data from an **Amazon RDS database**. So the Lambda function can access the RDS database instance, you must **update the database security group with a rule to allow connections from the Lambda function**. To enable this communication, you will **create a security group for the Lambda function** and add it as an inbound rule (ATURAN MASUK) to the security group of the RDS instance.
 
 9.  Create a security group for the Lambda function with the following settings:
 
@@ -118,6 +120,8 @@ In this task, you will create the _DataExtractor_ Lambda function that extracts 
 
 - Add a second inbound rule. For the new rule, configure the Type as MYSQL/Aurora. Then, in the search box to the right of Custom, type sg- and choose your new Lambda function security group as the source. Finally, choose Save rules. 
 
+![image](https://user-images.githubusercontent.com/126258837/231779176-ec3eb064-e0a1-4e5c-bbdd-1a31c95f3238.png)
+
 11. Create a Lambda function with the following settings: 
 
 - Function name: salesAnalysisReportDataExtractor
@@ -127,7 +131,7 @@ In this task, you will create the _DataExtractor_ Lambda function that extracts 
   - VPC: Lab VPC
   - Subnets: Private subnet 1 and Private subnet 2
   - Security Group: The Lambda function security group that you created
-- Tip: It will take several minutes for the function to be created.
+- **Tip**: It will take several minutes for the function to be created.
 
 12. Configure the DataExtractor Lambda function as follows:
 
