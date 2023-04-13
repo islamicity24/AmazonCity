@@ -170,26 +170,25 @@ To receive the sales report through email, you must create an email subscription
 19. Create a new email subscription to the topic. Use an email address that you can easily access for this lab.
 
 20. Confirm the email subscription from your email client. 
-Note: If you don't receive an email confirmation, check your Junk or Spam folder.
+**Note**: If you don't receive an email confirmation, check your Junk or Spam folder.
 
 21. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
-Question 4: Will you receive an email message if you do not confirm the topic subscription?
+**Question 4**: Will you receive an email message if you do not confirm the topic subscription?
 
 ## Task 6: Testing the salesAnalysisReport Lambda function
 
 Before creating the daily reporting event, you must test that the salesAnalysisReport Lambda function works correctly.
 
-22. Create a test for the salesAnalysisReport Lambda function. 
+22. Create a test for the _salesAnalysisReport_ Lambda function. 
 
-Tip: You don't need to worry about parameters, so enter an event name and accept the default hello-world test event.
+**Tip**: You don't need to worry about parameters, so enter an event name and accept the default `hello-world test event`.
 
-23. Run the salesAnalysisReport test. If the test succeeds, you should have an email report in a couple of minutes.
+23. **Run** the _salesAnalysisReport test_. If the test succeeds, you should have an email report in a couple of minutes.
 
-24. If the Lambda function test execution failed, use the logs to review any errors, address them, and run the test again. Here are some troubleshooting tips that you can try:
+24. If the Lambda function test execution failed, use the logs to review any errors, address them, and run the test again. Here are some _troubleshooting tips_ that you can try:
 
 - Review the logs from Amazon CloudWatch Logs for both Lambda functions:
-
   - If you see an error about connecting to the café database, check that your security groups are configured correctly.
   - If you see an error about timeout, check that the timeout is set to 30 seconds.
   - If you see an error about lambda_function not found, check that you have configured the correct handler.
@@ -203,15 +202,15 @@ Tip: You don't need to worry about parameters, so enter an event name and accept
 
 The last step in this challenge is to set up a trigger that will run the report each day.
 
-25.`Create a new EventBridge rule that runs the salesAnalysisReport Lambda function each day at a specific time. Make sure to choose Continue to create rule.
+25.`Create a new EventBridge rule that runs the _salesAnalysisReport Lambda function_ each day at a specific time. Make sure to choose **Continue to create rule**.
   Hint: If you get stuck, see the cron expression examples in the AWS Documentation.
-  Tip: Use a time that is close to your current time, but remember that the time must be specified in Coordinated Universal Time (UTC)!
+  **Tip**: Use a time that is close to your current time, but remember that the time must be specified in Coordinated Universal Time (UTC)!
 
 26. Check your email to see if you received the report.
 
 27. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
-Question 5: Frank tells you that he hasn't received an email report in the last few days. What could you do to troubleshoot this issue?
+- **Question 5**: Frank tells you that he hasn't received an email report in the last few days. What could you do to troubleshoot this issue?
 
 # Update from the café
 
