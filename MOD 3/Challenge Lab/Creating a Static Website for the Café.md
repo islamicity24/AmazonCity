@@ -179,11 +179,11 @@ The next time Olivia comes to the café, you tell her about the updates to the w
 
 
 ##  Task 7: Enabling cross-Region replication
-24. In this task, you will enable cross-Region replication on your source S3 bucket.
+In this task, you will enable cross-Region replication on your source S3 bucket.
 
-25. In a different Region than your source bucket, create a second bucket and enable versioning on it. The second bucket is your destination bucket.
+24. In a different Region than your source bucket, create a second bucket and enable versioning on it. The second bucket is your destination bucket.
 
-On your source S3 bucket, enable cross-Region replication. When you create the replication rule, make sure that you:
+25. On your source S3 bucket, **enable cross-Region replication**. When you create the replication rule, make sure that you:
 
 Replicate the entire source bucket.
 Use the CafeRole for the AWS Identity and Access Management (IAM) role. This IAM role gives Amazon S3 the permissions to read objects from the source bucket and replicate them to the destination bucket.
