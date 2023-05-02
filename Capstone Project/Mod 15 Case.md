@@ -23,44 +23,45 @@ You can continue to develop your solution as you progress through the course mat
 
 Suggestions to avoid overspending:
 
-Launch only the number of EC2 instances you need, sized to your requirements.
+- Launch only the number of EC2 instances you need, sized to your requirements.
 
-Delete no longer needed resources and data.
+- Delete no longer needed resources and data.
 
-Typically, it is compute-type resources, such as EC2, RDS, Cloud9, NAT Gateway instances, that you leave running that most quickly use up your budget. Turn these off when no longer needed, or better yet, delete them.
+- Typically, it is compute-type resources, such as EC2, RDS, Cloud9, NAT Gateway instances, that you leave running that most quickly use up your budget. Turn these off when no longer needed, or better yet, delete them.
 
-Stop any NAT gateways, EC2 instances, and RDS instances when not in use. If you will be building this solution over the course of a few weeks or months, consider deleting these resources entirely to save budget.  You can always recreate them again later.
+- Stop any NAT gateways, EC2 instances, and RDS instances when not in use. If you will be building this solution over the course of a few weeks or months, consider deleting these resources entirely to save budget.  You can always recreate them again later.
 
-Be aware that if you do stop an RDS instance or cluster and leave it stopped for seven days, AWS may start it again automatically, which will increase the cost impact.
-NAT Gateway resources if left in your account, will also use up your budget.
-Use the AWS Simple Monthly Calculator https://calculator.aws/#/?key=new or  AWS Pricing Calculator https://calculator.aws/#/ to estimate cost.  Example: the estimate shown in the screenshot below calculated the cost of running the following resources for a month:
+ - Be aware that if you do stop an RDS instance or cluster and leave it stopped for seven days, AWS may start it again automatically, which will increase the cost impact.
+ - NAT Gateway resources if left in your account, will also use up your budget.
+- Use the AWS Simple Monthly Calculator https://calculator.aws/#/?key=new or  AWS Pricing Calculator https://calculator.aws/#/ to estimate cost.  Example: the estimate shown in the screenshot below calculated the cost of running the following resources for a month:
 
-One t3.medium size Linux EC2 instance running 6 hours per day for a month in the us-east-1 Region.
-One db.t2.small size MySQL RDS database with 20GB of storage, left running for a month in the us-east-1 Region.
-One NAT Gateway left running, processing 1GB per month in the us-east-1 Region
+ - One t3.medium size Linux EC2 instance running 6 hours per day for a month in the us-east-1 Region.
+ - One db.t2.small size MySQL RDS database with 20GB of storage, left running for a month in the us-east-1 Region.
+ - One NAT Gateway left running, processing 1GB per month in the us-east-1 Region
+ - 
 cost estimate
 
 Pricing is subject to change. The calculation above is just an example from a point in time.
 
 ## Environment Navigation
-Use the  Readme link above to return to these instructions at any time.
+Use the  **Readme** link above to return to these instructions at any time.
 
-Use the  AWS Details link above to access information about your environment.
+Use the  **AWS Details** link above to access information about your environment.
 
-After you start the lab, the AWS Details panel will display and you will need to choose Readme to return to these instructions.
+After you start the lab, the AWS Details panel will display and you will need to choose **Readme** to return to these instructions.
 
  Tip: you can resize this panel at anytime by dragging the bar to the left of these instructions to make it wider or narrower.
 
-Use the  Reset link above if you ever want to reset your AWS account back to the way it was in the beginning, before you ever ran sessions of this lab environment.   CAUTION: if you choose reset and then choose Yes to confirm that you do want to reset, you will permanently delete everything that you have created or stored in the AWS account.
+Use the  Reset link above if you ever want to reset your AWS account back to the way it was in the beginning, before you ever ran sessions of this lab environment.   **CAUTION**: if you choose reset and then choose Yes to confirm that you do want to reset, you will permanently delete everything that you have created or stored in the AWS account.
 
 The terminal window to the left of these instructions can be used to run AWS CLI commands or code such as AWS SDK for Python code (details provided below).
 
  
 
-Access the AWS Management Console
+# Access the AWS Management Console
  
 
-At the top of these instructions, choose 
+1. At the top of these instructions, choose 
   Start Lab to start the lab session.
 
 The lab session is started and session information is displayed.
@@ -71,7 +72,7 @@ A timer above shows the time remaining in the session.
 
  
 
-Choose the  Readme link to return to these instructions.
+2. Choose the  Readme link to return to these instructions.
  
 
 Connect to the AWS Management Console by choosing the AWS link above the terminal window.
@@ -84,7 +85,7 @@ Tip: If a new browser tab does not open, a banner or icon is usually at the top 
 
  
 
-Project overview
+## Project overview
 This project provides you with an opportunity to demonstrate the solution design skills that you develop throughout this course. Your assignment is to design and deploy a solution for the following case.
 
  
