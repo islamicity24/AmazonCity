@@ -84,17 +84,17 @@ In this task, you will create an S3 bucket and configure it to host your static 
 ##  Task 3: Uploading content to your S3 bucket
 In this task, you will upload the static files to your S3 bucket.
 
-Upload the index.html file and the css and images folders to your S3 bucket.
-In a separate web browser tab, open the endpoint link for your static website.
+10. Upload the index.html file and the css and images folders to your S3 bucket.
+11. In a separate web browser tab, open the **endpoint link** for your static website.
 
 Answering questions about the lab
 Answers will be recorded when you choose the blue Submit button above at the end of the lab.
 
-Access the questions in this lab.
+12. Access the questions in this lab.
 
 Choose the Details  menu, and choose Show.
 Choose the Access the multiple choice questions link that appears at the bottom of the page.
-In the page you loaded, answer the first question:
+13. In the page you loaded, answer the first question:
 
 Question 1: When viewing the website after Task 3, do you see the page in the browser?
 Note: Leave the questions webpage open in your browser tab. You will return to it later in this lab.
@@ -104,11 +104,45 @@ Note: Leave the questions webpage open in your browser tab. You will return to i
 Frank shares his plan to create many new types of pastries for the café. You realize that you will need to upload an image for each new dessert that he creates, and enable public access on that object. You don't want to do this process manually. Instead, you decide to create a bucket policy that automatically makes each object public when it's uploaded to the folder.
 
 14. Create a bucket policy that grants read-only permission to public anonymous users by using the Bucket Policy editor.
-Hint: If you get stuck, refer to the examples in the AWS Documentation.
+**Hint**: If you get stuck, refer to the examples in the [AWS Documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-bucket-policies.html).
 
 15. Confirm that the website for the café is now publicly accessible.
 
 Congratulations! You now have a static website for the café.
+
+Here are the steps to create a bucket policy that grants public read access to objects uploaded to a folder in an AWS S3 bucket:
+
+Open the AWS Management Console and navigate to the S3 service.
+
+Select the S3 bucket that will store the dessert images.
+
+Click on the "Permissions" tab and then select "Bucket Policy".
+
+In the Bucket Policy editor, add the following JSON code to grant read-only permission to public anonymous users:
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicRead",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::<your-bucket-name>/*"
+        }
+    ]
+}
+```
+Note: Replace <your-bucket-name> with the actual name of your S3 bucket for example "static.website.islamicity.tv/*".
+
+Click on "Save" to apply the bucket policy.
+
+Upload an image of a dessert to the (desserts)image folder in the S3 bucket. The object should now have public read access. ![image](https://user-images.githubusercontent.com/126258837/235601762-b0f3b9c7-8e73-4406-acf5-096061219b40.png).
+
+Confirm that the website for the café is now publicly accessible by visiting the website URL. The dessert image should now be visible on the website.
+
+Congratulations, you have successfully created a bucket policy that grants public read access to objects uploaded to a folder in an AWS S3 bucket!
 
 # New business requirement: Protecting website data (Challenge #2)
 You show Sofía the new website, and she's very impressed. Good job!
