@@ -177,25 +177,27 @@ In your favorite text editor, open the index.html file. For example, you could u
 
 22. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
-  - Question 2: What is another way to ensure maximum protection and prevent the accidental deletion of a preserved version? (Hint: Review the Amazon S3 FAQs.)
+  - Question 2: What is another way to ensure maximum protection and prevent the accidental deletion of a preserved version? (Hint: Review the [Amazon S3 FAQs](https://aws.amazon.com/s3/faqs/).)
 
 
 Architecture best practice
 
-In this task, you used one technique to implement the architecture best practice of protecting your data.
+In this task, you used one technique to implement the architecture best practice of _protecting your data_.
 
 Expand here to learn more about it.
-
+According to the [Well-Architected Framework](https://d1.awsstatic.com/whitepapers/architecture/AWS_Well-Architected_Framework.pdf), versioning can be part of a larger data lifecycle management process. Before you architect any system, foundational practices that influence security should be in place. For example, data classification provides a way to categorize organizational data based on levels of sensitivity. Encryption protects data by rendering it unintelligible to unauthorized access. These tools and techniques are important because they support objectives such as preventing financial loss or complying with regulatory obligations.
+  
 # New business requirement: Optimizing costs of S3 object storage (Challenge #3)
-Now that you enabled versioning, you realize that the size of the S3 bucket will continue to grow as you upload new objects and versions. To save costs, you decide to implement a strategy to retire some of those older versions.
+Now that you enabled versioning, you realize that the size of the S3 bucket will continue to grow as you upload new objects and versions. To save costs, you decide to **implement a strategy to retire some of those older versions**.
 
 
 ##  Task 6: Setting lifecycle policies
+  
 In this task, you will set a lifecycle policy to automatically move older versions of the objects in your source bucket to S3 Standard-Infrequent Access (S3 Standard-IA). The policy should also eventually expire the objects.
 
 23. Configure two rules in the website bucket's lifecycle configuration. To receive full credit, create two separate rules. Do not configure two transitions in a single rule:
 
-In one rule, move previous versions of all source bucket objects to S3 Standard-IA after 30 days
+  - In one rule, move previous versions of all source bucket objects to S3 Standard-IA after 30 days
 In the other rule, delete previous versions of the objects after 365 days
 Hint: If you get stuck, refer to the AWS Documentation for guidance.
 Note: To limit the scope of the replication to a particular bucket object (for example, the index.html file), create a tag for the object before you create the lifecycle rule.
@@ -280,6 +282,46 @@ In this task, you implemented the architecture best practice of automating disas
 
 Expand here to learn more about it.
 
+Here are the step-by-step instructions to complete the task:
+
+Create a new S3 bucket in a different region than your source bucket and enable versioning on it. This bucket will be your destination bucket for cross-region replication.
+
+Go to your source S3 bucket, and click on the "Management" tab.
+
+Click on "Replication" and then click "Add Rule".
+
+On the "Create replication rule" page, enter a name for your replication rule, and then select the source and destination buckets.
+
+Under "Choose a rule scope," select "Entire bucket."
+
+Under "Choose a replication destination," select your destination bucket.
+
+Under "Choose a replication rule action," select "All object changes."
+
+Under "Choose a IAM role," select "CafeRole."
+
+Click "Next," and then "Review."
+
+Review your replication rule settings and then click "Create rule."
+
+Wait for a few minutes for the replication to complete.
+
+Go to the destination bucket, and verify that the objects from the source bucket are present.
+
+Make a minor change to the index.html file and upload the new version to your source bucket.
+
+Verify that the source bucket now has three versions of the index.html file.
+
+Confirm that the new object was replicated to your destination bucket. You might need to reload the browser tab.
+
+Go to your source bucket and delete the latest version.
+
+Verify that the version that you just deleted from your source bucket is also deleted from your destination bucket.
+
+Go back to the browser tab with the multiple-choice questions for this lab, and answer the questions.
+
+By enabling cross-region replication, you have implemented the architecture best practice of automating disaster recovery, which involves having backups and redundant workload components in place and using AWS or third-party tools to automate system recovery and route traffic to the DR site or Region.
+  
 ##  Submitting your work
 
 32. At the top of these instructions, choose Submit to record your progress and when prompted, choose Yes.
