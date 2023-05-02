@@ -188,7 +188,7 @@ In this task, you will enable cross-Region replication on your source S3 bucket.
 Replicate the entire source bucket.
 Use the CafeRole for the AWS Identity and Access Management (IAM) role. This IAM role gives Amazon S3 the permissions to read objects from the source bucket and replicate them to the destination bucket.
 If you encounter the warning The replication rule is saved, but it might not work, you can ignore it and proceed to the next step.
-**Hint**: If you get stuck, refer to the AWS Documentation for guidance.
+**Hint**: If you get stuck, refer to the [AWS Documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-example-walkthroughs.html#enable-replication-add-rule)  for guidance.
 Note: CafeRole has the following permissions:
 
 ```
@@ -204,8 +204,25 @@ Statement:
   - '*'
     Effect: Allow
 ```
-
-This access policy allows the role to perform the replication tasks on all S3 buckets. In a real production environment, you should restrict the policy to apply only to your source and destination S3 buckets. For more information about creating an IAM role, refer to Setting Up Permissions for Replication.
+```
+{
+"Version": "2012-10-17",
+"Id": "PutObjPolicy",
+"Statement": [{
+  "Sid": "DenyObjectsThatAreNotSSEKMS",
+  "Principal": "*",
+  "Effect": "Deny",
+  "Action": "s3:PutObject",
+  "Resource": "arn:aws:s3:::DOC-EXAMPLE-BUCKET/*",
+  "Condition": {
+    "Null": {
+      "s3:x-amz-server-side-encryption-aws-kms-key-id": "true"
+    }
+  }
+}]
+}
+```
+This access policy allows the role to perform the replication tasks on all S3 buckets. In a real production environment, you should restrict the policy to apply only to your source and destination S3 buckets. For more information about creating an IAM role, refer to [Setting Up Permissions for Replication](https://docs.aws.amazon.com/AmazonS3/latest/userguide/setting-repl-config-perm-overview.html).
 
 26. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question:
 
