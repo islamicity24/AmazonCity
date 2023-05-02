@@ -33,7 +33,7 @@ Stop any NAT gateways, EC2 instances, and RDS instances when not in use. If you 
 
 Be aware that if you do stop an RDS instance or cluster and leave it stopped for seven days, AWS may start it again automatically, which will increase the cost impact.
 NAT Gateway resources if left in your account, will also use up your budget.
-Use the AWS Simple Monthly Calculator or  AWS Pricing Calculator to estimate cost.  Example: the estimate shown in the screenshot below calculated the cost of running the following resources for a month:
+Use the AWS Simple Monthly Calculator https://calculator.aws/#/?key=new or  AWS Pricing Calculator https://calculator.aws/#/ to estimate cost.  Example: the estimate shown in the screenshot below calculated the cost of running the following resources for a month:
 
 One t3.medium size Linux EC2 instance running 6 hours per day for a month in the us-east-1 Region.
 One db.t2.small size MySQL RDS database with 20GB of storage, left running for a month in the us-east-1 Region.
