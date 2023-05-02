@@ -1,4 +1,6 @@
-AWS Academy Cloud Architecting 2.x - Capstone Project
+# AWS Academy Cloud Architecting 2.x - Capstone Project
+
+```
 Environment Overview
 Environment Navigation 
 Access the AWS Management Console 
@@ -7,15 +9,16 @@ Introducing the Example Social Research Organization
 Solution requirements
 Project deliverables
 Assets for completing the project
+```
 
-Environment Overview
+## Environment Overview
 This environment is long-lived. When the session timer runs to 0:00, the session will end, but any data and resources that you created in the AWS account will be retained. Running EC2 instances will be stopped for you if you did not already stop them before the session ends.
 
 If you later launch a new session (for example, the next day), you will find that your work is still in the lab environment. Any existing EC2 instances may be started up again when you start the new session, but may be assigned new IPv4 public IP addresses.
 
 You can continue to develop your solution as you progress through the course materials.
 
-Preserving your budget
+## Preserving your budget
  IMPORTANT: Monitor your lab budget in the lab interface above. Whenever you have an active lab session, the latest known remaining budget information will display at the top of this screen. This data comes from AWS Budgets which typically updates every 8 to 12 hours. Therefore the remaining budget that you see may not reflect your most recent account activity.  If you exceed your lab budget your lab account will be disabled and all progress and resources will be lost. Therefore, it is important for you to manage your spending.
 
 Suggestions to avoid overspending:
@@ -39,7 +42,7 @@ cost estimate
 
 Pricing is subject to change. The calculation above is just an example from a point in time.
 
-Environment Navigation
+## Environment Navigation
 Use the  Readme link above to return to these instructions at any time.
 
 Use the  AWS Details link above to access information about your environment.
