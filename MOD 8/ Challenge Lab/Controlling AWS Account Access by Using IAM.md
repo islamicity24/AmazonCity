@@ -14,7 +14,7 @@ Notice that instead of assigning permissions directly to users, Sofía decided t
 Now that Sofía knows what access rights she wants to assign to which users, she's ready to get started!
 
 
-Lab overview and objectives
+## Lab overview and objectives
 In this lab, you will use AWS Identity and Access Management (IAM) to define different access rights for different users. You will test access and adjust access. You will also observe how the access rights that you grant affect what actions the IAM users can perform on AWS account resources.
 
 After completing this lab, you should be able to:
@@ -158,11 +158,11 @@ Note: Using an incognito session, a private session, or a different browser is c
 
 10. As Nikhil, log in to the AWS Management Console.
 
-In the browser tab where you are logged in as the voclabs user (Sofía), open the IAM console, choose Users, and then choose Nikhil.
+- In the browser tab where you are logged in as the voclabs user (Sofía), open the IAM console, choose Users, and then choose Nikhil.
 
-Choose the Security credentials tab, and in the Sign-in credentials section, copy the Console sign-in link.
+- Choose the Security credentials tab, and in the Sign-in credentials section, copy the Console sign-in link.
 
-Paste the link into an incognito or private browser tab (or other browser as explained in the previous tip).
+- Paste the link into an incognito or private browser tab (or other browser as explained in the previous tip).
 
 In the Sign in as IAM user screen, enter Nikhil's credentials and choose Sign in.
 
@@ -178,7 +178,7 @@ Verify that you are in the correct Region (for example, N. Virginia) and switch 
 
 You should be able to view all the details of the EC2 instances.
 
-Locate and copy the IPv4 Public IP address of the aws-cloud9-DEVCafeServer instance.
+Locate and copy the IPv4 Public IP address of the aws-cloud9-DEVCafeServer instance.  => aws-cloud9-DEVCafeServer-82aece597e0d4b06a90dc64bc56a2800, 44.201.15.41
 
 In a new browser tab, load http://<dev-public-ip-address>/cafe, where <dev-public-ip-address> is the IP address that you copied.
 
@@ -194,24 +194,25 @@ Try to reboot the aws-cloud9-DEVCafeServer instance
 
 
 
-  Answering questions about Nikhil's Amazon EC2 access
+## Answering questions about Nikhil's Amazon EC2 access
+ 
 Answers will be checked when you choose the blue Submit button at the end of the lab.
 
-Access the questions in this lab.
+13. Access the questions in this lab.
 
-Above these instructions, choose the Details  menu, and then choose Show.
+- Above these instructions, choose the Details  menu, and then choose Show.
 
-At the bottom of the page, choose the Access the multiple choice questions link.
+- At the bottom of the page, choose the Access the multiple choice questions link.
 
 The questions should load in a new browser tab.
 
  
 
-In the webpage that you just opened, answer the first two questions:
+14. In the webpage that you just opened, answer the first two questions:
 
-Question 1: What happened when Nikhil tried to reboot the EC2 instance?
+- Question 1: What happened when Nikhil tried to reboot the EC2 instance?
 
-Question 2: Which IAM policy allowed Nikhil to access the AWS Cloud9 environment?
+- Question 2: Which IAM policy allowed Nikhil to access the AWS Cloud9 environment?
 
 Note: Leave the questions webpage open in your browser tab. You will return to it later in this lab.
 
@@ -239,12 +240,12 @@ Choose Open IDE.
 
 17. On the development instance of the café website, modify the main heading for the webpage.
 
-Open the main webpage in the editor by going to the file browser, navigating to the DEVCafeServer/www/html/cafe directory, and double-clicking index.php.
+- Open the main webpage in the editor by going to the file browser, navigating to the DEVCafeServer/www/html/cafe directory, and double-clicking index.php.
 
-Modify line 13 So that it reads:
+- Modify line 13 So that it reads:
 
 <div class="center">Caf&eacute; DEV Site</div>
-To save the change, choose File > Save and in the browser, refresh the http://dev-public-ip-address/cafe/ webpage.
+- To save the change, choose File > Save and in the browser, refresh the http://dev-public-ip-address/cafe/ webpage. (belum muncul ?)
 
 Notice that, while acting as Nikhil, you changed the main heading of the webpage in the development environment.
 
@@ -260,7 +261,7 @@ Notice that, while acting as Nikhil, you changed the main heading of the webpage
 
 19. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question.
 
-Question 3: Which message was displayed on the Menu page of the café website's development instance?
+- Question 3: Which message was displayed on the Menu page of the café website's development instance?
 
  Nikhil recalls that the database connection parameters are stored in the AWS Systems Manager Parameter Store.
 
@@ -273,16 +274,15 @@ In the console, open the Systems Manager service.
 From the menu on the left, choose Application Management > Parameter Store.
 
 What message displays?
-
- 
+![image](https://user-images.githubusercontent.com/126258837/235825424-1222eeda-6461-4e4d-8750-ee376ad4066e.png)
 
 21. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question.
 
-Question 4: Which message was displayed when Nikhil opened the Systems Manager Parameter Store page in the console?
-Nikhil alerts Sofía about the issue on the development server that's preventing him from improving the café web application. Sofía is concerned. She asks Nikhil to check if the production version of the website is experiencing the same issue.
+- Question 4: Which message was displayed when Nikhil opened the Systems Manager Parameter Store page in the console?
+
+Nikhil alerts Sofía about the issue on the development server that's preventing him from improving the café web application. Sofía is concerned. She asks Nikhil to check if the _production_ version of the website is experiencing the same issue.
 
  
-
 22. As Nikhil, verify that the production café web application is working correctly.
 
 - Open the Amazon EC2 console and copy the IPv4 Public IP address of the PRODCafeServer instance.
@@ -325,7 +325,7 @@ Clear the requirement to reset the password
   
 In this task, you will work as Olivia to resolve the database issue that Nikhil identified. You will also work as Sofía to help Olivia resolve some issues.
 
-As Olivia, log in to the AWS Management Console.
+26. As Olivia, log in to the AWS Management Console.
 
  Tip: Use the incognito session, private session, or other browser type that you used to log in as Nikhil. To do this:
 
@@ -351,7 +351,11 @@ Password: Db@dministrat0r2020!
 - Verify that the Status of the database instance is Available.
 Olivia observes that the database is running.
 ![image](https://user-images.githubusercontent.com/126258837/235718983-c9159709-b0af-48f0-b568-ca2ddc169a90.png)
+ 
+ c76965a1585988l4039772t1w329388341574-cafedatabase-e49g2usnyotk
+![image](https://user-images.githubusercontent.com/126258837/235829313-772eb2a4-59a2-47a7-8314-33ddc6980681.png)
 
+ 
 She recalls that the development environment connects to the database by using parameters that are stored in the Systems Manager Parameter Store. Olivia wonders if the DEVCafeServer EC2 instance has permissions to read the parameters out of the Parameter Store.
 
  
@@ -362,7 +366,7 @@ She recalls that the development environment connects to the database by using p
 
 29. Return to the browser tab with the multiple-choice questions for this lab, and answer the following question.
 
-Question 5: Why can't Olivia access the EC2 instance details?
+- Question 5: Why can't Olivia access the EC2 instance details?
 Olivia tells Sofía that she can't access the EC2 instances, and Sofía goes back to the console to troubleshoot this issue.
   
 You will now work as Sofia to review and update Olivia's access to AWS resources.
@@ -428,9 +432,11 @@ If this webpage isn't already open, load http://<dev-public-ip-address>/cafe/men
 Does the full page of content display correctly now? Can you successfully submit an order?
 Congratulations! You acted as a member of the DBAdministrators group, and you fixed the website. Nikhil thanks Olivia for resolving the issue, and Olivia also informs Sofía that the issue is resolved.
   
+![image](https://user-images.githubusercontent.com/126258837/235831065-124dc1c8-14d2-458c-a45d-f7ddde1a3f22.png)
   
   
-New business requirement: Refining IAM user access (Challenge #3)
+# New business requirement: Refining IAM user access (Challenge #3)
+ 
 Frank and Martha are happy that Sofía and the team improved the security of the AWS account. Meanwhile, Sofía is happy that she was able to configure different permissions for her application developers and database administrators. She likes that assigning separate permissions to each role results in team members working together—each within their area of core competency and assigned responsibility—to do development and to troubleshoot issues.
 
 Sofía takes a minute to relax with her friends. However, she's already thinking about further customizing the security settings that she assigned to the different users. Some of the permissions are still too open and don't fully follow the principle of least privilege. In this final challenge in the lab, you will take on the role of Sofía. You will work to define a custom IAM policy that reduces the number of allowed IAM actions that are granted to members of the database administrators group. However, you must also grant them enough IAM access to accomplish their job responsibilities.
@@ -438,25 +444,26 @@ Sofía takes a minute to relax with her friends. However, she's already thinking
  
 
 Task 5: Using the IAM Policy Simulator and creating a custom IAM policy with the visual editor
-Return to the browser window where you are logged in as the voclabs user (Sofía), and load this URL in a new browser tab: https://policysim.aws.amazon.com/
+
+37.  Return to the browser window where you are logged in as the voclabs user (Sofía), and load this URL in a new browser tab: https://policysim.aws.amazon.com/
 
 The IAM Policy Simulator page should open.
 
  
 
-Choose the Olivia user.
+38. Choose the Olivia user.
 
  
 
-In the IAM Policies list, make sure that the IAMReadOnlyAccess policy is selected. However, clear the check boxes of the other policies.
+39. In the IAM Policies list, make sure that the IAMReadOnlyAccess policy is selected. However, clear the check boxes of the other policies.
 
  
 
-In the Policy Simulator section, choose Select service. In the Filter search box, enter Ident and select Identity and Access Management.
+40. In the Policy Simulator section, choose Select service. In the Filter search box, enter Ident and select Identity and Access Management.
 
  
 
-Choose the Select All option (to the right of the Select actions menu), and then choose Run Simulation.
+41. Choose the Select All option (to the right of the Select actions menu), and then choose Run Simulation.
 
 In the Action Settings and Results panel, a list of actions should display.
 The Permission column displays Olivia's permissions for each action.  The IAMReadOnlyAccess policy denies Olivia the permissions to perform Add or Create actions. However, scroll to find the actions that she can take.
@@ -471,24 +478,25 @@ In the next steps, you will work as Sofía to create this new policy.
 
  
 
-Return to the browser tab where you are logged in as the voclabs user (Sofía).
+42. Return to the browser tab where you are logged in as the voclabs user (Sofía).
 
  
 
-In the IAM console, choose Policies and then choose Create Policy.
+43. In the IAM console, choose Policies and then choose Create Policy.
 
  
 
-In the Visual editor tab, configure the following settings.
+44. In the Visual editor tab, configure the following settings.
 
 Select Choose a service. Search for and choose EC2.
 
 In the Actions search box, search for IAM and select DescribeIamInstanceProfileAssociations.
 IAM visual editor
+![image](https://user-images.githubusercontent.com/126258837/235834907-00a598a5-74ee-4a2d-b06d-f83df407da3c.png)
 
-At the bottom of the screen, choose Add additional permissions.
+- At the bottom of the screen, choose Add additional permissions.
 
-Select Choose a service. Search for and choose IAM.
+- Select Choose a service. Search for and choose IAM.
 
 In the Actions search box, search for Get and select the following actions –
 
@@ -504,15 +512,18 @@ ListInstanceProfilesForRole
 ListPolicies
 ListRolePolicies
 ListRoles
-Expand the Resources section and for all three resource types (instance-profile, policy, and role) select Any in this account.
 
-Back at the top of the screen, choose the JSON tab
+- Expand the Resources section and for all three resource types (instance-profile, policy, and role) select Any in this account.
+
+- Back at the top of the screen, choose the JSON tab
 
 This view shows the JSON document that you just composed by using the visual editor.
 
-Verify that the policy document details match what is shown in the following example:
+- Verify that the policy document details match what is shown in the following example:
 
  IAM policy
+ ![image](https://user-images.githubusercontent.com/126258837/235835079-ca6a574a-d838-45c3-94c7-43e36b41cd2f.png)
+
 
 Unfortunately, in this lab environment, we can't grant you the permissions to create an IAM policy. You will get a permissions error if you choose Review policy, give the policy a name, and then choose Create policy.
 
@@ -520,11 +531,11 @@ However, a policy that exactly matches the example policy was created for you wh
 
  
 
-Exit the Create policy wizard by choosing Cancel.
+45. Exit the Create policy wizard by choosing Cancel.
 
  
 
-In the Policies search box, search for LimitedIamPolicy.
+46. In the Policies search box, search for LimitedIamPolicy.
 
 Observe that the policy details match the one you worked to build, as shown in the previous screen capture.
 
@@ -532,7 +543,7 @@ Note: The Sid elements in a policy are optional. Also, the order in which Effect
 
  
 
-Edit the DBAdministrators IAM group.
+47. Edit the DBAdministrators IAM group.
 
 Attach the LimitedIamPolicy policy
 Remove the IAMReadOnlyAccess policy
@@ -540,21 +551,21 @@ Sofía asks Olivia to confirm that she can still access the details of the CafeR
 
  
 
-Return to the browser tab where you are logged in as Olivia, and verify that you can still access the details of CafeRole.
+48. Return to the browser tab where you are logged in as Olivia, and verify that you can still access the details of CafeRole.
 
-In the Amazon EC2 console, select the aws-cloud9-DEVCafeServer instance.
+- In the Amazon EC2 console, select the aws-cloud9-DEVCafeServer instance.
 
-In the Details tab, notice that you can now see that the IAM role attached is named CafeRole.
+- In the Details tab, notice that you can now see that the IAM role attached is named CafeRole.
 
-Still as Olivia, go to the IAM console and choose Roles.
+- Still as Olivia, go to the IAM console and choose Roles.
 
-Search for and select the CafeRole. 
+- Search for and select the CafeRole. 
 
-In the Permissions tab, expand the AmazonSSMManagedInstanceCore policy and verify that you can still see the JSON document details.
+- In the Permissions tab, expand the AmazonSSMManagedInstanceCore policy and verify that you can still see the JSON document details.
 
  
 
-(Optional) Return to the IAM Policy Simulator browser tab where you are logged in as the voclabs user (Sofía). Run the simulation again (for what IAM actions Olivia can take).
+49. (Optional) Return to the IAM Policy Simulator browser tab where you are logged in as the voclabs user (Sofía). Run the simulation again (for what IAM actions Olivia can take).
 
  Tip:  To display the new IAM policies that apply to Olivia, refresh the browser page.
 Before the change to the DBAdministrators IAM group, Olivia was allowed to perform 57 actions that are related to the IAM service. However, after the change, her access to the IAM service is now much more limited.
@@ -571,7 +582,7 @@ She knows how to use AWS managed IAM policies to control access, and she also kn
  
 
 Submitting your work
-At the top of these instructions, choose Submit to record your progress and when prompted, choose Yes.
+50. At the top of these instructions, choose Submit to record your progress and when prompted, choose Yes.
 
  
 
