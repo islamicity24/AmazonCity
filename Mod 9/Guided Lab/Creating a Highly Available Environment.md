@@ -687,34 +687,35 @@ After a minute, choose the  refresh icon to update the display. It should show t
 The application you deployed is a three-tier architecture. You will now configure the security groups to enforce these tiers:
 
 Task 4
+![image](https://user-images.githubusercontent.com/126258837/235888905-37e3e508-62fc-473b-8969-1adfd55f52d4.png)
 
 
-Load balancer security group
+## Load balancer security group
 You already configured the load balancer security group when you created the load balancer. It accepts all incoming HTTP and HTTPS traffic.
 
 The load balancer has been configured to forward incoming requests to a target group. When Auto Scaling launches new instances, it will automatically add those instances to the target group.
 
 
-Application security group
+## Application security group
 The application security group was provided as part of the lab setup. You will now configure it to only accept incoming traffic from the load balancer.
 
  
 
-In the left navigation pane, choose Security Groups.
+67. In the left navigation pane, choose Security Groups.
  
 
-Select  Inventory-App.
+68. Select  Inventory-App.
  
 
-In the lower half of the page, choose the Inbound rules tab.
+69. In the lower half of the page, choose the Inbound rules tab.
 The security group is currently empty. You will now add a rule to accept incoming HTTP traffic from the load balancer. You do not need to configure HTTPS traffic because the load balancer was configured to forward HTTPS requests via HTTP. This practice offloads security to the load balancer, reducing the amount of work that is required by the individual application servers.
 
  
 
-Choose Edit inbound rules.
+70. Choose Edit inbound rules.
  
 
-On the Edit inbound rules page, choose Add rule and configure these settings:
+71. On the Edit inbound rules page, choose Add rule and configure these settings:
 Type: HTTP
 
 Source:
@@ -730,28 +731,28 @@ Choose Save rules
 The application servers can now receive traffic from the load balancer. This includes health checks that the load balancer performs automatically.
 
 
-Database security group
+##  Database security group
 You will now configure the database security group to only accept incoming traffic from the application servers.
 
  
 
-In the Security groups list, choose  Inventory-DB (and make sure that no other security groups are selected).
+72. In the Security groups list, choose  Inventory-DB (and make sure that no other security groups are selected).
 
 The existing rule permits traffic on port 3306 (used by MySQL) from any IP address within the VPC. This is a good rule, but security can be restricted further.
 
  
 
-In the Inbound rules tab, choose Edit inbound rules and configure these settings:
+73. In the Inbound rules tab, choose Edit inbound rules and configure these settings:
 
-Delete the existing rule.
-Choose Add rule.
-For Type, choose MYSQL/Aurora
-Choose the search box to the right of Custom
-Enter sg
-From the list that appears, select Inventory-App
-Description: Traffic from application servers
-Choose Save rules
-You have now configured three-tier security. Each element in the tier only accepts traffic from the tier above.
+- Delete the existing rule.
+- Choose Add rule.
+- For Type, choose MYSQL/Aurora
+- Choose the search box to the right of Custom
+- Enter sg
+- From the list that appears, select Inventory-App
+- Description: Traffic from application servers
+- Choose Save rules
+You have now configured _three-tier security_. Each element in the tier only accepts traffic from the tier above.
 
 In addition, the use of private subnets means that you have two security barriers between the internet and your application resources. This architecture follows the best practice of applying multiple layers of security.
 
@@ -764,7 +765,7 @@ In this task, you will confirm that your web application is running. You will al
 
  
 
-In the left navigation pane, choose Target Groups.
+74. In the left navigation pane, choose **Target Groups**.
 
 The Inventory-App group of instances will be displayed.
 
