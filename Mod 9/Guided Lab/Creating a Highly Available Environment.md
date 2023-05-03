@@ -1189,5 +1189,8 @@ Choose Save associations
 ![image](https://user-images.githubusercontent.com/126258837/235985235-cf20186d-4ff0-4043-ad13-cd091ef811b9.png)
 
 This action now sends internet-bound traffic from Private Subnet 2 to the NAT gateway that is in the same Availability Zone.
+![image](https://user-images.githubusercontent.com/126258837/235987982-701ad8ca-1a77-4347-902e-7191872f9e25.png)
 
 Your NAT gateways are now highly available. A failure in one Availability Zone will not impact traffic in the other Availability Zone.
+
+![image](https://user-images.githubusercontent.com/126258837/235988145-804d34a1-b1d7-4074-aa53-0706d3433b37.png)
