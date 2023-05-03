@@ -57,7 +57,7 @@ Arrange the AWS Management Console tab so that it displays alongside these instr
  Do not change the Region unless specifically instructed to do so.
 
 
-## Task 1: Inspecting your VPC
+## Task 1: Inspecting your provided VPC
 This lab begins with an environment that is already deployed via AWS CloudFormation. It includes:
 
 - A VPC
@@ -94,8 +94,10 @@ The IPv4 CIDR column has a value of 10.0.0.0/16, which means that this VPC inclu
 Here, you can access information about Public Subnet 1:
 
 The VPC column shows that this subnet exists inside of Lab VPC.
-The IPv4 CIDR column has a value of 10.0.0.0/24, which means that this subnet includes the 256 IP addresses between 10.0.0.0 and 10.0.0.255. Five of these addresses are reserved and unusable.
-The Availability Zone column lists the Availability Zone where this subnet resides.
+The IPv4 CIDR column has a value of 10.0.0.0/24, which means that this subnet includes the 256 IP addresses between 10.0.0.0 and 10.0.0.255. Five of these addresses are reserved and unusable. ==> Available IPv4 addresses
+249
+The Availability Zone column lists the Availability Zone where this subnet resides. ==> Availability Zone
+us-east-1a
  
 
 9. To reveal more details at the bottom of the page, select  Public Subnet 1.
@@ -110,11 +112,178 @@ This tab includes details about the routing for this subnet:
 
 The first entry specifies that traffic destined within the Classless Inter-Domain Routing (CIDR) range for the VPC (10.0.0.0/16) will be routed within the VPC (local).
 The second entry specifies that any traffic destined for the internet (0.0.0.0/0) is routed to the internet gateway (igw-). This setting makes the subnet a public subnet.
- 
+![image](https://user-images.githubusercontent.com/126258837/235948743-98b65be3-90f3-473b-82b6-4ef1e5c858b4.png)
+
 
 11. Choose the Network ACL tab.
 
 This tab has information about the network access control list (network ACL) that is associated with the subnet. The rules currently permit all traffic to flow in and out of the subnet, but the rules can be further restricted by using security groups.
+![image](https://user-images.githubusercontent.com/126258837/235949743-b67b435c-19a4-41ff-ae7b-bc78f7d74495.png)
+
+
+
+
+12. In the left navigation pane, choose Internet Gateways.
+
+Notice that an internet gateway is already associated with Lab VPC.
+![image](https://user-images.githubusercontent.com/126258837/235950567-50523918-aca1-4b43-95b1-e2780e51537d.png)
+ 
+
+In the left navigation pane, choose Security Groups.
+![image](https://user-images.githubusercontent.com/126258837/235951742-9e8ffb82-97fe-4a05-9424-756c31c49495.png)
+
+
+14. Select  Inventory-DB.
+
+This security group controls incoming traffic to the database.
+![image](https://user-images.githubusercontent.com/126258837/235952251-b7172839-5a08-447f-8782-82cce2ee8952.png)
+
+ 
+
+15. In the lower half of the page, choose the Inbound rules tab.
+
+These rules permit inbound MySQL or Aurora traffic (port 3306) from anywhere in the VPC (10.0.0.0/16). You will later modify this setting so it only accepts traffic from the application servers.
+![image](https://user-images.githubusercontent.com/126258837/235952676-88a5376b-f66f-49ab-8fbf-23d7ec8cf427.png)
+
+ 
+
+16. Choose the Outbound rules tab.
+
+By default, security groups **allow all outbound traffic**. However, this setting can be modified as needed.
+![image](https://user-images.githubusercontent.com/126258837/235953059-4075dd29-225e-4cfb-a2c4-7238e395b561.png)
+
+ 
+
+
+##  Task 2: Creating an Application Load Balancer
+To build a highly available application, it is a best practice to launch resources in multiple Availability Zones. Availability Zones are physically separate data centers (or groups of data centers) in the same Region. If you run your applications across multiple Availability Zones, you can provide greater availability if a data center experiences a failure.
+
+Because the application runs on multiple application servers, you will need a way to distribute traffic amongst those servers. You can accomplish this goal by using a load balancer. This load balancer will also perform health checks on instances and only send requests to healthy instances.
+
+Task 2
+
+ 
+
+17. On the Services menu, choose EC2.
+ 
+
+In the left navigation pane, choose Load Balancers (you might need to scroll down to find it).
+ 
+
+19. Choose Create Load Balancer
+
+Several types of load balancers are displayed. Read the descriptions of each type to understand their capabilities.
+
+ 
+
+Under Application Load Balancer, choose Create.
+ 
+
+21. For Load balancer name, enter: Inventory-LB
+ 
+
+Scroll down to the Network mapping section, then for VPC, select Lab VPC.
+
+Important: Be sure to choose Lab VPC. It is likely not the default selection.
+
+You will now specify which subnets the load balancer should use. It will be a public load balancer, so you will select both public subnets.
+
+ 
+
+23. Under Mappings, choose the first Availability Zone, then choose the Public Subnet that displays.
+ 
+
+Choose the second Availability Zone, then choose the Public Subnet that displays.
+
+You should now have selected two subnets: Public Subnet 1 and Public Subnet 2. (If not, go back and try the configuration again.)
+
+ 
+
+In the Security groups section, select Create new security group, then configure:
+
+Security group name: Inventory-LB
+Description: Enable web access to load balancer
+VPC: Remove the default VPC by choosing the X to the right of it. Then select  Lab VPC.
+ 
+
+Under Inbound rules, choose Add rule and configure as described:
+
+Type: HTTP
+Source: Anywhere-IPv4
+ 
+
+Still under Inbound rules, choose Add rule again and configure:
+
+Type: HTTPS
+Source: Anywhere-IPv4
+ 
+![image](https://user-images.githubusercontent.com/126258837/235956667-8ad11a26-d4b0-40f9-a070-53d31ac88a72.png)
+ 
+
+28. Choose Create security group.
+ 
+
+29. Assign the security group to the load balancer:
+
+Return to the browser tab where you are still configuring the load balancer.
+Scroll down to the Security groups area and choose the  refresh icon.
+For Security groups, select the Inventory-LB security group.
+Next, below the Security groups dropdown menu, select the X next to the default security group so that the Inventory-LB is now the only security group chosen.
+ 
+
+30. In the Listeners and routing section, choose Create target group.
+
+Analysis: Target groups define where to send traffic that comes into the load balancer. The Application Load Balancer can send traffic to multiple target groups based upon the URL of the incoming request, such as having requests from mobile apps going to a different set of servers. Your web application will use only one target group.
+
+ 
+
+ 
+
+31. A new browser tab will open. Configure the target group as described here:
+
+Choose a target type: Instances
+
+Target group name: Inventory-App
+
+VPC: Ensure that Lab VPC is chosen.
+
+Scroll down and expand  Advanced health check settings.
+
+Note: The Application Load Balancer automatically performs health checks on all instances to ensure that they are responding to requests. The default settings are recommended, but you will make them slightly faster for use in this lab.
+
+Healthy threshold: 2
+
+Interval: 10 (seconds)
+
+This means that the health check will be performed every 10 seconds, and if the instance responds correctly twice in a row, it will be considered healthy.
+![image](https://user-images.githubusercontent.com/126258837/235958999-a5ac32a8-a82f-4830-aa81-ad27ae09b896.png)
+
+Choose Next. The **Register targets** screen appears.
+
+Note: Targets are the individual instances that will respond to requests from the load balancer.
+
+You do not have any web application instances yet, so you can skip this step.
+
+Review the settings and choose Create target group.
+
+ 
+
+32. Return to the browser tab where you already started defining the load balancer.
+![image](https://user-images.githubusercontent.com/126258837/235959801-c39e560f-bd11-403c-8d38-e716425e5456.png)
+ 
+
+In the Listeners and routing section, choose the  refresh icon.
+ 
+
+For the Listener HTTP:80 row, set the Default action to forward to Inventory-app.
+ 
+
+Scroll to the bottom of the page, and choose Create load balancer.
+![image](https://user-images.githubusercontent.com/126258837/235959916-10988b76-fe85-4c1a-a7b0-741789626738.png)
+
+The load balancer is successfully created.
+Choose View load balancer.
+![image](https://user-images.githubusercontent.com/126258837/235960449-189470f4-bc09-4233-97a5-4c6f5cb25c39.png)
 
 ## Task 3: Creating an Auto Scaling group
 
@@ -153,13 +322,16 @@ You will now create an AMI based upon this instance.
 
   - **Image name**: Web Server AMI
   - **Image description**: Lab AMI for Web Server
+![image](https://user-images.githubusercontent.com/126258837/235961400-7d67bfc1-a6b8-4f25-b7a8-d935886ee1c2.png)
  
 
 41. Choose Create image
 
 A banner at the top of the screen displays the **AMI ID** for your new AMI.
+![image](https://user-images.githubusercontent.com/126258837/235961915-383f4e47-b302-402e-a9aa-75092e48b8cc.png)
 
-You will use this AMI when launching the Auto Scaling group later in the lab.
+ami-065930cf158abc23b
+You will use this AMI when launching the Auto Scaling group later in the lab. 
 
 
 ## Create a launch configuration and an Auto Scaling group
@@ -172,7 +344,8 @@ You will first create a _launch configuration_, which defines the type of instan
  
 
 43. Choose Create launch configuration
- 
+ ![image](https://user-images.githubusercontent.com/126258837/235962717-541af8a5-1c6a-4513-a5e5-3f31eaf4be9d.png)
+
 
 44. Configure these settings:
 
@@ -213,6 +386,7 @@ unzip aws -d /var/www/html
 chkconfig httpd on
 service httpd start
 ```
+![image](https://user-images.githubusercontent.com/126258837/235964196-c36ec732-29a4-463f-9fd7-c4b6c086a7b5.png)
 
 46. Under Security groups, for Select an existing security group, choose Inventory-App.
    You will receive a warning that You will not able to connect to the instance. You can ignore this warning because you will not need connect to the instance. All configuration is done via the user data script.
@@ -224,6 +398,8 @@ service httpd start
   - Key pair options: Proceed without a key pair
   - Select  I acknowledge that...
  
+![image](https://user-images.githubusercontent.com/126258837/235964341-55cd9efd-ccb0-4c20-b6d9-ac4cc940c682.png)
+
 
 48. Choose Create launch configuration
 
@@ -251,6 +427,7 @@ The launch configuration defined what to launch, but the Auto Scaling group defi
 
 This will launch EC2 instances in private subnets across both Availability Zones.
 
+![image](https://user-images.githubusercontent.com/126258837/235965207-8f73461d-7e0d-466e-8d76-4a632067b1c3.png)
  
 
 54. Choose Next
@@ -273,7 +450,9 @@ Health check grace period: 90
  
 
 57. Under Additional settings, select  Enable group metrics collection within CloudWatch.
- 
+
+![image](https://user-images.githubusercontent.com/126258837/235966007-36ea3d42-8e96-4dab-97f6-fe9e0f7dafc8.png)
+
 
 58. Choose Next
  
@@ -287,8 +466,9 @@ Maximum capacity: 2
 
 60. Under **Scaling policies**, choose None.
 
-For this lab, you will maintain two instances at all times to ensure high availability. If the application is expected to receive varying loads of traffic, you can also create scaling policies that define when to launch or terminate instances. However, you do not need to create scaling policies for the Inventory application in this lab.
+For this lab, you will maintain two instances at all times to ensure high availability. If the application is expected to receive varying loads of traffic, you can also create scaling policies that define when to launch or terminate instances. However, _you do not need to create scaling policies_ for the Inventory application in this lab.
 
+![image](https://user-images.githubusercontent.com/126258837/235966671-ed82d15c-4d9c-4237-89b3-64cdacd2c2d0.png)
  
 
 61. Choose Next
@@ -308,6 +488,7 @@ These settings will tag the Auto Scaling group with a Name, which will also appe
  
 
 64. On the **Review page**, choose Create Auto Scaling group
+![image](https://user-images.githubusercontent.com/126258837/235967479-21e61caf-78a5-4390-a91d-84ef36e54eef.png)
 
 The Inventory-ASG will appear in the console:
 
@@ -315,8 +496,9 @@ The Inventory-ASG will appear in the console:
 ![image](https://user-images.githubusercontent.com/126258837/235885508-578ed7ae-cece-4a60-9a0d-1ce4580a8067.png)
 
   The review shows that:
+![image](https://user-images.githubusercontent.com/126258837/235967880-24461db3-6d51-4fad-9fdb-40f801e9da9a.png)
 
-The group currently has no instances, but the Status column indicates Updating capacity.
+The group currently has _no instance_s, but the Status column indicates Updating capacity.
 
 The Desired quantity is 2 instances. Amazon EC2 Auto Scaling will attempt to launch two instances to reach the desired quantity.
 
