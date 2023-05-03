@@ -951,8 +951,9 @@ In this task, you will confirm that your web application is running. You will al
 
 The Inventory-App group of instances will be displayed.
 
-Select  Inventory-app.
+75. Select  Inventory-app.
 
+![image](https://user-images.githubusercontent.com/126258837/235972833-884ae6c5-f5eb-44e5-a365-01dcd7ad1876.png)
  
 
 In the lower half of the page, choose the Targets tab.
@@ -961,7 +962,8 @@ This tab should show two registered targets. The Status column shows the results
 
  
 
-In the Registered targets area, occasionally choose the  refresh icon until the Status for both instances appears as healthy.
+76. In the Registered targets area, occasionally choose the  refresh icon until the Status for both instances appears as healthy.
+![image](https://user-images.githubusercontent.com/126258837/235973966-840b0eed-bfe7-48ab-bfa5-a2788b5d1c16.png)
 
 If the status does not eventually change to healthy, ask your educator for help with diagnosing the configuration.
 
@@ -972,23 +974,26 @@ You will test the application by connecting to the load balancer, which will the
 In the left navigation pane, choose Load Balancers.
  
 
-In the Description tab in the lower half of the window, copy the DNS name to your clipboard.
+78. In the Description tab in the lower half of the window, copy the DNS name to your clipboard.
 
 It should be similar to: inventory-LB-xxxx.elb.amazonaws.com
 
  
 
-Open a new web browser tab, paste the DNS name from your clipboard and press ENTER.
+79. Open a new web browser tab, paste the DNS name from your clipboard and press ENTER.
 
 The load balancer forwarded your request to one of the EC2 instances. The instance ID and Availability Zone are shown at the bottom of the webpage.
+![image](https://user-images.githubusercontent.com/126258837/235975089-0f4b3d92-7876-4b95-a45d-a0b6c1f3384b.png)
 
  
 
-Reload  the page in your web browser. You should notice that the instance ID and Availability Zone sometimes change between the two instances.
+80. Reload  the page in your web browser. You should notice that the instance ID and Availability Zone sometimes change between the two instances.
 
 When this web application displays, the flow of information is:
 
    Task 5
+![image](https://user-images.githubusercontent.com/126258837/235975548-8bb384f9-e14e-495d-a742-a19625b6c6cd.png)
+
 
 You sent the request to the load balancer, which resides in the public subnets that are connected to the internet.
 The load balancer chose one of the EC2 instances that reside in the private subnets and forwarded the request to it.
@@ -1000,7 +1005,7 @@ Your application was configured to be highly available. You can prove the applic
 
  
 
-Return to the Amazon EC2 console tab in your web browser (but do not close the web application tab—you will return to it soon).
+81. Return to the Amazon EC2 console tab in your web browser (but do not close the web application tab—you will return to it soon).
  
 
 In the left navigation pane, choose Instances.
@@ -1029,14 +1034,15 @@ After a few minutes, Amazon EC2 Auto Scaling will also notice the instance failu
 
  
 
-Return to the Amazon EC2 console tab where you have the instances list displayed. In the top-right area, choose the  refresh icon every 30 seconds or so until a new EC2 instance appears.
+87. Return to the **Amazon EC2 console tab** where you have the instances list displayed. In the top-right area, choose the  refresh icon every 30 seconds or so until a new EC2 instance appears.
 
 After a few minutes, the health check for the new instance should become healthy. The load balancer will resume sending traffic between the two Availability Zones. You can reload your web application tab to see this happen.
 
 This task demonstrates that your application is now highly available.
 
 
-Optional task 1: Making the database highly available
+##  Optional task 1: Making the database highly available
+
  This task is optional. You can work on this task if you have remaining lab time.
 
 The application architecture is now highly available. However, the Amazon RDS database operates from only one database instance.
@@ -1044,11 +1050,12 @@ The application architecture is now highly available. However, the Amazon RDS da
 In this optional task, you will make the database highly available by configuring it to run across multiple Availability Zones (that is, in a Multi-AZ deployment).
 
 Optional task 1
+![image](https://user-images.githubusercontent.com/126258837/235978287-ff29ce52-47dd-4902-9310-45e36f6d0062.png)
 
-On the Services menu, choose RDS.
+88. On the Services menu, choose RDS.
  
 
-In the left navigation pane, choose Databases.
+89. In the left navigation pane, choose Databases.
  
 
 Choose the link for the name of the inventory-db instance.
@@ -1060,29 +1067,30 @@ Feel free to explore the information about the database.
 Choose Modify
  
 
-Scroll down to the Availability & durability section. For Multi-AZ deployment, select  Create a standby instance.
+92. Scroll down to the Availability & durability section. For Multi-AZ deployment, select  Create a standby instance.
 
 Analysis: You only need to reconfigure this one setting to convert the database to run across multiple data centers (Availability Zones).
 
-This option does not mean that the database is distributed across multiple instances. Instead, one instance is the primary instance, which handles all requests. Another instance will be launched as the standby instance, which takes over if the primary instance fails. Your application continues to use the same DNS name for the database. However, the connections will automatically redirect to the currently active database server.
+This option does not mean that the database is distributed across multiple instances. Instead, one instance is the _primary instance_, which handles all requests. Another instance will be launched as the _standby instance_, which takes over if the primary instance fails. Your application continues to use the same DNS name for the database. However, the connections will automatically redirect to the currently active database server.
 
 You can scale an EC2 instance by changing attributes, and you can also scale an RDS database this way. You will now scale up the database.
 
  
 
-Scroll back up and for DB instance class, select db.t3.small.
+93. Scroll back up and for DB instance class, select db.t3.small.
 
 This action doubles the size of the instance.
 
  
 
-For Allocated storage, enter: 10
+94. For Allocated storage, enter: 10
 
 This action doubles the amount of space that is allocated to the database.
 
 Feel free to explore the other options on the page, but do not change any other settings.
 
- 
+ ![image](https://user-images.githubusercontent.com/126258837/235980141-2c16df33-b99e-47c4-a99f-f3ab82f9c6a5.png)
+
 
 At the bottom of the page, choose Continue
 
@@ -1091,14 +1099,17 @@ Database performance will be impacted by these changes. Therefore, these changes
  
 
 Under Scheduling of Modifications, select  Apply immediately.
- 
 
-Choose Modify DB instance
+![image](https://user-images.githubusercontent.com/126258837/235980516-b3f6b7cb-84a7-424f-b90c-21dce030af1e.png)
+
+
+97. Choose Modify DB instance
 
 The database enters a modifying state while it applies the changes. You do not need to wait for it to complete.
 
 
-Optional task 2: Configuring a highly available NAT gateway
+##  Optional task 2: Configuring a highly available NAT gateway
+
  This task is optional. You can work on this task if you have remaining lab time.
 
 The application servers run in a private subnet. If the servers must access the internet (for example, to download data), the requests must be redirected through a Network Address Translation (NAT) gateway. (The NAT gateway must be located in a public subnet).
@@ -1108,10 +1119,11 @@ The current architecture has only one NAT gateway in Public Subnet 1. Thus, if A
 In this optional task, you will make the NAT gateway highly available by launching another NAT gateway in the other Availability Zone. The resulting architecture will be highly available:
 
 Optional task 2
+![image](https://user-images.githubusercontent.com/126258837/235981283-aad47504-7a07-4922-8fe1-dc0b8a1c3d17.png)
 
  
 
-On the Services menu, choose VPC.
+98. On the Services menu, choose VPC.
  
 
 In the left navigation pane, choose NAT Gateways.
@@ -1132,11 +1144,11 @@ You will now create a new route table for Private Subnet 2. This route table wil
 
  
 
-In the left navigation pane, choose Route Tables.
+101.  In the left navigation pane, choose Route Tables.
 
  
 
-Choose Create route table and configure these settings:
+102.  Choose Create route table and configure these settings:
 
 Name: Private Route Table 2
 VPC: Lab VPC
@@ -1149,7 +1161,7 @@ Currently, one route directs all traffic locally. You will now add a route to se
 
  
 
-Choose Edit routes and then configure these settings:
+104.  Choose Edit routes and then configure these settings:
 
 Choose Add route
 
@@ -1163,8 +1175,9 @@ Choose Save changes
 
  
 
-Choose the Subnet Associations tab.
+105.  Choose the Subnet Associations tab.
  
+![image](https://user-images.githubusercontent.com/126258837/235984463-32bf0d7b-dcd7-46f8-83c0-874dc67cdfbf.png)
 
 Choose Edit subnet associations
  
@@ -1173,6 +1186,7 @@ Select  Private Subnet 2.
  
 
 Choose Save associations
+![image](https://user-images.githubusercontent.com/126258837/235985235-cf20186d-4ff0-4043-ad13-cd091ef811b9.png)
 
 This action now sends internet-bound traffic from Private Subnet 2 to the NAT gateway that is in the same Availability Zone.
 
