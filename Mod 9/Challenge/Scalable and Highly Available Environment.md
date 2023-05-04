@@ -177,13 +177,17 @@ Now that the launch template is defined, you will create an Auto Scaling group f
 Now that you web application server instances are deployed in private subnets, you need a way for the outside world to connect to them. In this task, you will create a load balancer to distribute traffic across your private instances.
 
 14. Create an HTTP Application Load Balancer that meets the following criteria:
-
-- VPC: Uses the VPC configured for this lab
-- Subnets: Uses the two public subnets
-- Skips the HTTPS security configuration settings
-- Security group: Creates a new security group that allows HTTP traffic from anywhere
-- Target group: Creates a new target group
-- Skips registering targets
+- Login to your AWS Management Console and navigate to the EC2 service.
+- Click on "Load Balancers" in the left-hand menu.
+- Click on the "Create Load Balancer" button.
+- Choose "Application Load Balancer" and click on the "Create" button.
+- Configure the load balancer as follows:
+  - VPC: Uses the VPC configured for this lab
+  - Subnets: Uses the two public subnets
+  - Skips the HTTPS security configuration settings
+  - Security group: Creates a new security group that allows HTTP traffic from anywhere ==> ( and allow inbound traffic on port 80 from anywhere )
+  - Target group: Creates a new target group ( with a name of your choice, keep the default settings )
+  - Skips registering targets
 Note: Wait until the load balancer is active.
 
 15. Modify the Auto Scaling group that you created in the previous task by adding this new load balancer.
@@ -197,10 +201,26 @@ In the next tasks, you will continue working in the role of Sofía and test whet
 
 
 ## Task 7: Testing the web application
+
 In this task, you will test the café web application.
 
 16. To test the café web application, visit the Domain Name System (DNS) name of your load balancer and append /cafe to the URL.
 The café application should load.
+
+- In the AWS Management Console, navigate to the EC2 service.
+- Click on "Load Balancers" in the left-hand menu.
+- Select the load balancer that you created in Task 6.
+- Copy the DNS name of the load balancer.
+- Open a web browser and paste the DNS name into the address bar.
+- Append "/cafe" to the end of the URL and press Enter.
+- The café application should load. If it doesn't, check the following resources for any issues:
+  - NAT gateway
+  - Route tables
+  - Launch template
+  - Load balancer
+  - Instances
+  - Security groups
+- Once the café application is loaded, test it thoroughly to ensure that it is functioning as expected.
 
 If it does not, go back through the lab tasks and check your work. Pay attention to the following resources:
 
@@ -218,13 +238,14 @@ In this task, you will test whether the café application scales out automatical
 Tip: You will need to modify the CafeSG security group to allow SSH traffic over port 22 from the bastion host.
 
 18. From the web server instance, use the following commands to start a stress test. This test increases the load on the web server CPU:
+
 ```
 sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 sudo yum install stress -y
 stress --cpu 1 --timeout 600
 ```
 
-`9. Verify that the Auto Scaling group deploys new instances.
+19. Verify that the Auto Scaling group deploys new instances.
 
 Continue to observe the Amazon EC2 console.
 During the test, you should observe that more web server instances are deployed.
