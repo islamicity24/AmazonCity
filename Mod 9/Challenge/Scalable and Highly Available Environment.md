@@ -11,23 +11,25 @@ In this lab, you will take on the role of Sofía to implement a scalable and hig
 In this lab, you use `Elastic Load Balancing` and Amazon `EC2 Auto Scaling` to create a **scalable and highly available environment** on AWS.
 
 After completing this lab, you should be able to:
-Inspect a VPC
-Update a network to work across multiple Availability Zones
-Create an Application Load Balancer
-Create a launch template
-Create an Auto Scaling group
-Test load balancing and automatic scaling
+- Inspect a VPC ( must evaluate its current state )
+- Update a network to work across multiple Availability Zones
+- Create an Application Load Balancer
+- Create a launch template
+- Create an Auto Scaling group
+- Test load balancing and automatic scaling
 
 When you start the lab, your architecture will look like the following example:
 
 
 starting architecture
+![image](https://user-images.githubusercontent.com/126258837/236105992-2b47a8c8-cd11-4d8a-8763-965df410128e.png)
 
 
 At the end of this lab, your architecture should look like the following example:
 
 
 final architecture
+![image](https://user-images.githubusercontent.com/126258837/236106107-db3ea64d-82c0-47a8-9596-e904ca0b0d4f.png)
 
 
 Note: In this challenge lab, step-by-step instructions are not provided for most of the tasks. You must figure out how to complete the tasks on your own.
@@ -61,7 +63,7 @@ Tip: If a new browser tab does not open, a banner or icon is usually at the top 
 Arrange the AWS Management Console tab so that it displays along side these instructions. Ideally, you will be able to see both browser tabs at the same time so that you can follow the lab steps more easily.
 
 
-A business request for the café: Implementing a scalable and highly available environment (Challenge)
+# A business request for the café: Implementing a scalable and highly available environment (Challenge)
 Sofía understands that she must complete some tasks to implement high availability and scalability for the café’s web application. However, before changing the café’s application architecture, Sofía must evaluate its current state.
 
 In the next several tasks, you will work as Sofía to create and configure the resources that you need to implement a scalable and highly available application.
@@ -69,7 +71,7 @@ In the next several tasks, you will work as Sofía to create and configure the r
 ## Task 1: Inspecting your environment
 In this task, you will evaluate the current state of your lab environment.
 
-Explore the lab environment, including how the network is set up.
+5.  Explore the lab environment, including how the network is set up.
 Tip: You might want to start in the Amazon VPC console.
 
 To help you explore, continue to the next section and answer the questions about this lab.
@@ -82,14 +84,14 @@ Access the questions in this lab.
 
 Choose the Details  menu, and choose Show.
 Choose the Access the multiple choice questions link that appears at the bottom of the page.
-In the page that you loaded, answer the questions:
+7.  In the page that you loaded, answer the questions:
 
-  Question 1: Which ports are open in the CafeSG security group?
-  Question 2: Can you connect from the internet to instances in Public Subnet 1?
-  Question 3: Should an instance in Private Subnet 1 be able to reach the internet?
-  Question 4: Should an instance in Private Subnet 2 be able to reach the internet?
-  Question 5: Can you connect to the CafeWebAppServer instance from the internet?
-  Question 6: What is the name of the Amazon Machine Image (AMI)?
+-  Question 1: Which ports are open in the CafeSG security group?
+-  Question 2: Can you connect from the internet to instances in Public Subnet 1?
+-  Question 3: Should an instance in Private Subnet 1 be able to reach the internet?
+-  Question 4: Should an instance in Private Subnet 2 be able to reach the internet?
+-  Question 5: Can you connect to the CafeWebAppServer instance from the internet?
+-  Question 6: What is the name of the Amazon Machine Image (AMI)?
 
 ## Task 2: Creating a NAT gateway for the second Availability Zone
 To achieve high availability, the architecture must span at least two Availability Zones. However, before you launch Amazon Elastic Compute Cloud (Amazon EC2) instances for your web application servers in the second Availability Zone, you must create a NAT gateway for them. A NAT gateway will allow instances that do not have a public IP address to access the internet.
@@ -100,31 +102,34 @@ Configure the network to send internet-bound traffic from instances in Private S
 ## Task 3: Creating a bastion host instance in a public subnet
 In this task, you will create a bastion host in a public subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
 
-From the Amazon EC2 console, create an EC2 instance in one of the public subnets of the Lab VPC. It must meet the following criteria:
+10. From the Amazon EC2 console, create an EC2 instance in one of the public subnets of the Lab VPC. It must meet the following criteria:
 
-  Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
-  Instance type: t2.micro
-  Auto-assign Public IP: This setting should be enabled
-  Name: Bastion Host
-
-Only allows the following traffic:
-
-Type: SSH
-Port: 22
-Source: Your IP address
-Uses the vockey key pair
+- Name: Bastion Host
+- Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
+- Instance type: t2.micro
+- Auto-assign Public IP: This setting should be enabled (Network settings )
+- Only allows the following traffic:
+  - Type: SSH
+  - Port: 22
+  - Source: Your IP address
+  - Uses the vockey key pair
 
 
-## Task 4: Creating a launch template
+## Task 4: Creating a launch template (Create launch template) 
 During the lab setup, an Amazon Machine Image (AMI) was created from the CafeWebAppServer instance. In this task, you will create a launch template by using this AMI.
 
-Create a launch template by using the AMI that was created during lab setup. It must meet the following criteria.
+11. Create a launch template by using the AMI that was created during lab setup. It must meet the following criteria.
 
-AMI: Cafe WebServer Image
+  - AMI: Cafe WebServer Image
 Tip: To locate the AMI, go to the the AMI dropdown menu and enter: Cafe
 
-Instance type: t2.micro
+  - Instance type: t2.micro
 Tip: To locate the instance type, go to the Instance Type dropdown menu and enter: t2
+
+![image](https://user-images.githubusercontent.com/126258837/236120006-69ba94ab-2153-4e6e-85cb-c9e28172a432.png)
+
+
+![image](https://user-images.githubusercontent.com/126258837/236111144-3e4bb430-5d0d-42e7-b33d-0affa41d1c9c.png)
 
 Key pair (login): Uses a new key pair Tip: Create a new key pair and select it. Make sure that you download the key pair to your local computer.
 
@@ -143,27 +148,27 @@ Tip: Look in Advanced Details for this setting.
 ## Task 5: Creating an Auto Scaling group
 Now that the launch template is defined, you will create an Auto Scaling group for the instances. In this task, do not create a load balancer when you create the Auto Scaling group. (You will create a load balancer in the next task.)
 
-Create a new Auto Scaling Group that meets the following criteria:
+12. Create a new Auto Scaling Group that meets the following criteria:
 
-Launch template: Uses the launch template that you created in the previous task
+- Launch template: Uses the launch template that you created in the previous task
 
-VPC: Uses the VPC that was configured for this lab
+- VPC: Uses the VPC that was configured for this lab
 
-Subnets: Uses Private Subnet 1 and Private Subnet 2
+- Subnets: Uses Private Subnet 1 and Private Subnet 2
 
-Skips all the advanced options
+- Skips all the advanced options
 
-Has a Group size configured as:
+- Has a Group size configured as:
 
-Desired capacity: 2
-Minimum capacity: 2
-Maximum capacity: 6
-Enables the Target tracking scaling policy configured as:
+  - Desired capacity: 2 
+  - Minimum capacity: 2 
+  - Maximum capacity: 6
+- Enables the Target tracking scaling policy configured as:
+  - Metric type: Average CPU utilization
+  - Target Value: 25
+  - Instances need: 60
 
-Metric type: Average CPU utilization
-Target Value: 25
-Instances need: 60
-To verify that you created the Auto Scaling group correctly, go to the Amazon EC2 console. You should have two instances, both with the name that you configured as resource tags in the previous task.
+13. To verify that you created the Auto Scaling group correctly, go to the Amazon EC2 console. You should have two instances, both with the name that you configured as resource tags in the previous task.
 
 
 ## Task 6: Creating a load balancer
