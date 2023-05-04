@@ -145,7 +145,7 @@ IAM Instance Profile: CafeRole
 Tip: Look in Advanced Details for this setting.
 
 
-## Task 5: Creating an Auto Scaling group
+## Task 5: Creating an (EC2) Auto Scaling group 
 Now that the launch template is defined, you will create an Auto Scaling group for the instances. In this task, do not create a load balancer when you create the Auto Scaling group. (You will create a load balancer in the next task.)
 
 12. Create a new Auto Scaling Group that meets the following criteria:
