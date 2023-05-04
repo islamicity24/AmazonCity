@@ -100,10 +100,29 @@ To achieve high availability, the architecture must span at least two Availabili
 8.  Create a NAT gateway in the Public Subnet in the second Availability Zone.
 9.  Configure the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway you just created.
 
+  1.  Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
+  2.  In the navigation pane, choose "Nat Gateways".
+  3.  Choose "Create NAT Gateway".
+  4.  On the "Create a NAT gateway" page, choose the following configuration settings:
+    - Subnet: Select the Public Subnet in the second Availability Zone.
+    - Elastic IP allocation ID: Choose an existing Elastic IP address, or create a new one.
+    - Click "Create NAT Gateway".
+  5.  Wait for the NAT gateway to become available. This may take a few minutes.
+  6.  Once the NAT gateway is available, note its ID and the ID of the Elastic IP address associated with it.
+  7.  In the navigation pane, choose "Route Tables".
+  8.  Select the route table that is associated with Private Subnet 2.
+  9.  Choose the "Routes" tab, and then choose "Edit routes".
+  10. In the "Edit routes" dialog box, choose "Add another route".
+  11. In the "Destination" field, enter "0.0.0.0/0" to specify that this route applies to all internet-bound traffic.
+  12. In the "Target" field, choose "Nat Gateway", and then select the NAT gateway that you created in step 4.
+  13. Choose "Save routes".
+  
+You have now created a NAT gateway in the second Availability Zone and configured the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway.
+
 ## Task 3: Creating a bastion host instance in a public subnet
 In this task, you will create a bastion host in a public subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
 
-10. From the Amazon EC2 console, create an EC2 instance in one of the public subnets of the Lab VPC. It must meet the following criteria:
+10. From the Amazon EC2 console, create an EC2 instance in one of the _public subnets_ of the _Lab VPC_. It must meet the following criteria:
 
 - Name: Bastion Host
 - Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
@@ -147,20 +166,24 @@ IAM Instance Profile: CafeRole
 Tip: Look in Advanced Details for this setting.
 
 
+
 ## Task 5: Creating an (EC2) Auto Scaling group 
 Now that the launch template is defined, you will create an Auto Scaling group for the instances. In this task, do not create a load balancer when you create the Auto Scaling group. (You will create a load balancer in the next task.)
 
 12. Create a new Auto Scaling Group that meets the following criteria:
 
-- Launch template: Uses the launch template that you created in the previous task
+![image](https://user-images.githubusercontent.com/126258837/236262242-240a8fcf-cd20-41a4-8deb-5ebeedd59d73.png)
 
-- VPC: Uses the VPC that was configured for this lab
+- Step 1  Launch template: Uses the launch template that you created in the previous task
+
+- Step 2  VPC: Uses the VPC that was configured for this lab
 
 - Subnets: Uses Private Subnet 1 and Private Subnet 2
+![image](https://user-images.githubusercontent.com/126258837/236262689-695b654b-7277-49f3-80fb-8b7316565ec0.png)
 
-- Skips all the advanced options
+- Step 3  Skips all the advanced options
 
-- Has a Group size configured as:
+- Step 4  Has a Group size configured as:
 
   - Desired capacity: 2 
   - Minimum capacity: 2 
@@ -170,7 +193,11 @@ Now that the launch template is defined, you will create an Auto Scaling group f
   - Target Value: 25
   - Instances need: 60
 
+![image](https://user-images.githubusercontent.com/126258837/236264073-5766beb7-880b-4f7b-8520-f9daa9176105.png)
+
 13. To verify that you created the Auto Scaling group correctly, go to the Amazon EC2 console. You should have two instances, both with the name that you configured as resource tags in the previous task.
+
+![image](https://user-images.githubusercontent.com/126258837/236265202-260155d2-c014-4536-b67a-cdddf499be8b.png)
 
 
 ## Task 6: Creating a load balancer
@@ -202,12 +229,20 @@ In this task, you will test the café web application.
 16. To test the café web application, visit the Domain Name System (DNS) name of your load balancer and append /cafe to the URL.
 The café application should load.
 
+![image](https://user-images.githubusercontent.com/126258837/236274695-382b0c72-ba43-4c04-9a7f-d2ba065a36ee.png)
+
 If it does not, go back through the lab tasks and check your work. Pay attention to the following resources:
 
 - Network configuration: Did you add the NAT gateway correctly?
+  ![image](https://user-images.githubusercontent.com/126258837/236276079-2db9d75b-9b8d-4b91-824f-8f371c4c07ed.png)
+
 - Route tables: Did you update the route tables with the NAT gateway?
+  ![image](https://user-images.githubusercontent.com/126258837/236276457-3a7f48f5-570e-484e-9f70-1bc54206c5de.png)
+
 - Launch template: Does the instance specify an IAM role?
 - Load balancer: Is the load balancer in the public subnets?
+  ![image](https://user-images.githubusercontent.com/126258837/236276712-fddd8d72-b3d1-494e-a2f3-30d6cff2a320.png)
+
 - Instances: Are the instances deployed from the Auto Scaling group that is in the correct subnets?
 - Security groups: Do the security groups allow HTTP traffic from the internet?
 
