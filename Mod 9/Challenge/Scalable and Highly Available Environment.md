@@ -176,17 +176,17 @@ Now that the launch template is defined, you will create an Auto Scaling group f
 ## Task 6: Creating a load balancer
 Now that you web application server instances are deployed in private subnets, you need a way for the outside world to connect to them. In this task, you will create a load balancer to distribute traffic across your private instances.
 
-Create an HTTP Application Load Balancer that meets the following criteria:
+14. Create an HTTP Application Load Balancer that meets the following criteria:
 
-VPC: Uses the VPC configured for this lab
-Subnets: Uses the two public subnets
-Skips the HTTPS security configuration settings
-Security group: Creates a new security group that allows HTTP traffic from anywhere
-Target group: Creates a new target group
-Skips registering targets
+- VPC: Uses the VPC configured for this lab
+- Subnets: Uses the two public subnets
+- Skips the HTTPS security configuration settings
+- Security group: Creates a new security group that allows HTTP traffic from anywhere
+- Target group: Creates a new target group
+- Skips registering targets
 Note: Wait until the load balancer is active.
 
-Modify the Auto Scaling group that you created in the previous task by adding this new load balancer.
+15. Modify the Auto Scaling group that you created in the previous task by adding this new load balancer.
 
 Hint: Add the target group you created in the Load Balancer configuration.
 
@@ -199,35 +199,37 @@ In the next tasks, you will continue working in the role of Sofía and test whet
 ## Task 7: Testing the web application
 In this task, you will test the café web application.
 
-To test the café web application, visit the Domain Name System (DNS) name of your load balancer and append /cafe to the URL.
+16. To test the café web application, visit the Domain Name System (DNS) name of your load balancer and append /cafe to the URL.
 The café application should load.
 
 If it does not, go back through the lab tasks and check your work. Pay attention to the following resources:
 
-Network configuration: Did you add the NAT gateway correctly?
-Route tables: Did you update the route tables with the NAT gateway?
-Launch template: Does the instance specify an IAM role?
-Load balancer: Is the load balancer in the public subnets?
-Instances: Are the instances deployed from the Auto Scaling group that is in the correct subnets?
-Security groups: Do the security groups allow HTTP traffic from the internet?
+- Network configuration: Did you add the NAT gateway correctly?
+- Route tables: Did you update the route tables with the NAT gateway?
+- Launch template: Does the instance specify an IAM role?
+- Load balancer: Is the load balancer in the public subnets?
+- Instances: Are the instances deployed from the Auto Scaling group that is in the correct subnets?
+- Security groups: Do the security groups allow HTTP traffic from the internet?
 
 ## Task 8: Testing automatic scaling under load
 In this task, you will test whether the café application scales out automatically.
 
-By using Secure Shell (SSH) passthrough through the bastion host instance, use SSH to connect to one of the running web server instances.
+17. By using Secure Shell (SSH) passthrough through the bastion host instance, use SSH to connect to one of the running web server instances.
 Tip: You will need to modify the CafeSG security group to allow SSH traffic over port 22 from the bastion host.
 
-From the web server instance, use the following commands to start a stress test. This test increases the load on the web server CPU:
-
+18. From the web server instance, use the following commands to start a stress test. This test increases the load on the web server CPU:
+```
 sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 sudo yum install stress -y
 stress --cpu 1 --timeout 600
-Verify that the Auto Scaling group deploys new instances.
+```
+
+`9. Verify that the Auto Scaling group deploys new instances.
 
 Continue to observe the Amazon EC2 console.
 During the test, you should observe that more web server instances are deployed.
 
-Update from the café
+## Update from the café
 After Sofía finishes testing the café web application's performance, she tells her parents about the changes—when traffic increases, the café application now successfully scales out. Frank and Martha are impressed that Sofía implemented a highly available and scalable architecture for the application.
 
 Meanwhile, the entire café team is excited! They are busy preparing for the increased volume of orders that they anticipate from being featured on the TV show. As they work on their preparations, they know that they can rely on automatic scaling to help them take orders and delight new customers.
