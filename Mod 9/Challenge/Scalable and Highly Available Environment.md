@@ -116,7 +116,8 @@ In this task, you will create a bastion host in a public subnet. In later tasks,
   - Uses the vockey key pair
 
 
-## Task 4: Creating a launch template (Create launch template) 
+## Task 4: Creating a launch template (Create EC2 launch template) 
+
 During the lab setup, an Amazon Machine Image (AMI) was created from the CafeWebAppServer instance. In this task, you will create a launch template by using this AMI.
 
 11. Create a launch template by using the AMI that was created during lab setup. It must meet the following criteria.
