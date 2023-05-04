@@ -39,11 +39,11 @@ Duration
 This lab will require approximately 90 minutes to complete.
 
 
-AWS service restrictions
+##  AWS service restrictions
 In this lab environment, access to AWS services and service actions might be restricted to the ones that are needed to complete the lab instructions. You might encounter errors if you attempt to access other services or perform actions beyond the ones that are described in this lab.
 
 
-Accessing the AWS Management Console
+##  Accessing the AWS Management Console
 At the top of these instructions, choose Start Lab to launch your lab.
 
 A Start Lab panel opens, and it displays the lab status.
@@ -94,10 +94,11 @@ Choose the Access the multiple choice questions link that appears at the bottom 
 -  Question 6: What is the name of the Amazon Machine Image (AMI)?
 
 ## Task 2: Creating a NAT gateway for the second Availability Zone
+
 To achieve high availability, the architecture must span at least two Availability Zones. However, before you launch Amazon Elastic Compute Cloud (Amazon EC2) instances for your web application servers in the second Availability Zone, you must create a NAT gateway for them. A NAT gateway will allow instances that do not have a public IP address to access the internet.
 
-Create a NAT gateway in the Public Subnet in the second Availability Zone.
-Configure the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway you just created.
+8.  Create a NAT gateway in the Public Subnet in the second Availability Zone.
+9.  Configure the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway you just created.
 
 ## Task 3: Creating a bastion host instance in a public subnet
 In this task, you will create a bastion host in a public subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
