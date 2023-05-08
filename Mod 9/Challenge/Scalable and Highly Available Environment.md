@@ -1,5 +1,5 @@
 # Module 9 - Challenge Lab: Creating a Scalable and Highly Available Environment for the Café
-Scenario
+##  Scenario
 The café will soon be featured in a famous TV food show. When it airs, Sofía and Nikhil anticipate that the café’s web server will experience a temporary spike in the number of users—perhaps even up to tens of thousands of users. Currently, the café’s web server is deployed in one Availability Zone, and they are worried that it won’t be able to handle the expected increase in traffic. They want to ensure that their customers have a great experience when they visit the website, and that they don’t experience any issues, such as lags or delays in placing orders.
 
 To ensure this experience, the website must be **responsive**, able to **scale both up and down** to meet fluctuating customer demand, and be **highly available**. Instead of overloading a single server, the architecture must distribute customer order requests **across multiple application servers** so it can handle the increase in demand.
@@ -98,8 +98,14 @@ Choose the Access the multiple choice questions link that appears at the bottom 
 To achieve high availability, the architecture must span at least two Availability Zones. However, before you launch Amazon Elastic Compute Cloud (Amazon EC2) instances for your web application servers in the second Availability Zone, you must create a NAT gateway for them. A NAT gateway will allow instances that do not have a public IP address to access the internet.
 
 8.  Create a NAT gateway in the Public Subnet in the second Availability Zone.
-9.  Configure the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway you just created.
+```
+aws ec2 create-nat-gateway --subnet-id <Public_Subnet_2_ID> --allocation-id <Elastic_IP_ID>
+```
 
+10.  Configure the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway you just created.
+```
+aws ec2 create-route --route-table-id <Private_Subnet_2_Route_Table_ID> --destination-cidr-block 0.0.0.0/0 --nat-gateway-id <NAT_Gateway_ID>
+```
   1.  Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
   2.  In the navigation pane, choose "Nat Gateways".
   3.  Choose "Create NAT Gateway".
@@ -123,7 +129,9 @@ You have now created a NAT gateway in the second Availability Zone and configure
 In this task, you will create a bastion host in a public subnet. In later tasks, you will create an EC2 instance in a private subnet and connect to it from this bastion host.
 
 10. From the Amazon EC2 console, create an EC2 instance in one of the _public subnets_ of the _Lab VPC_. It must meet the following criteria:
-
+```
+aws ec2 run-instances --image-id ami-0dc2d3e4c0f9ebd18 --count 1 --instance-type t2.micro --key-name <YOUR_KEY_NAME> --security-group-ids <YOUR_SECURITY_GROUP_ID> --subnet-id <PUBLIC_SUBNET_ID> --associate-public-ip-address --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Bastion Host}]'
+```
 - Name: Bastion Host
 - Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
 - Instance type: t2.micro
@@ -134,6 +142,15 @@ In this task, you will create a bastion host in a public subnet. In later tasks,
   - Source: Your IP address
   - Uses the vockey key pair
 
+Wait for the instance to be created. You can check the status of the instance using the following command:
+```
+aws ec2 describe-instances --instance-ids <instance-id>
+```
+
+Allow only SSH traffic to the bastion host instance using the following command:
+```
+aws ec2 authorize-security-group-ingress --group-id <YOUR_SECURITY_GROUP_ID> --protocol tcp --port 22 --cidr <YOUR_IP_ADDRESS>/32
+```
 
 ## Task 4: Creating a launch template (Create EC2 launch template) 
 
