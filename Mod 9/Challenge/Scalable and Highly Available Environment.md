@@ -328,6 +328,38 @@ In this task, you will test whether the café application scales out automatical
 17. By using Secure Shell (SSH) passthrough through the bastion host instance, use SSH to connect to one of the running web server instances.
 Tip: You will need to modify the CafeSG security group to allow SSH traffic over port 22 from the bastion host.
 
+```
+  Connect to instanceInfo
+Connect to your instance i-07a65f8c32d0ed651 (webserver) using any of these options
+
+
+EC2 Instance Connect
+
+Session Manager
+
+SSH client
+
+EC2 serial console
+You may not be able to connect to this instance as ports 22 may need to be open in order to be accessible. The current associated security groups don't have ports 22 open.
+
+Instance ID
+i-07a65f8c32d0ed651 (webserver)
+Open an SSH client.
+
+Locate your private key file. The key used to launch this instance is cafekey.pem
+
+Run this command, if necessary, to ensure your key is not publicly viewable.
+ chmod 400 cafekey.pem
+
+Connect to your instance using its Private IP:
+ 10.0.3.241
+
+Example:
+  **Dari Bastion Host Instance :**
+ ssh -i "cafekey.pem" root@10.0.3.241
+Note: In most cases, the guessed user name is correct. However, read your AMI usage instructions to check if the AMI owner has changed the default AMI user name.
+```
+  
 18. From the web server instance, use the following commands to start a stress test. This test increases the load on the web server CPU:
 ```
 sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
