@@ -102,7 +102,7 @@ To achieve high availability, the architecture must span at least two Availabili
 aws ec2 create-nat-gateway --subnet-id <Public_Subnet_2_ID> --allocation-id <Elastic_IP_ID>
 ```
 
-10.  Configure the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway you just created.
+9.  Configure the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway you just created.
 ```
 aws ec2 create-route --route-table-id <Private_Subnet_2_Route_Table_ID> --destination-cidr-block 0.0.0.0/0 --nat-gateway-id <NAT_Gateway_ID>
 ```
@@ -120,7 +120,7 @@ aws ec2 create-route --route-table-id <Private_Subnet_2_Route_Table_ID> --destin
   9.  Choose the "Routes" tab, and then choose "Edit routes".
   10. In the "Edit routes" dialog box, choose "Add another route".
   11. In the "Destination" field, enter "0.0.0.0/0" to specify that this route applies to all internet-bound traffic.
-  12. In the "Target" field, choose "Nat Gateway", and then select the NAT gateway that you created in step 4.
+  12. In the "Target" field, choose "Nat Gateway", and then select the NAT gateway that you created in step poin 4.
   13. Choose "Save routes".
   
 You have now created a NAT gateway in the second Availability Zone and configured the network to send internet-bound traffic from instances in Private Subnet 2 to the NAT gateway.
@@ -139,8 +139,8 @@ aws ec2 run-instances --image-id ami-0dc2d3e4c0f9ebd18 --count 1 --instance-type
 - Only allows the following traffic:
   - Type: SSH
   - Port: 22
-  - Source: Your IP address
-  - Uses the vockey key pair
+  - Source: Your IP address (my IP)
+  - Uses the **vockey** key pair
 
 Wait for the instance to be created. You can check the status of the instance using the following command:
 ```
@@ -335,7 +335,7 @@ sudo yum install stress -y
 stress --cpu 1 --timeout 600
 ```
 
-`9. Verify that the Auto Scaling group deploys new instances.
+19. Verify that the Auto Scaling group deploys new instances.
 
 Continue to observe the Amazon EC2 console.
 During the test, you should observe that more web server instances are deployed.
