@@ -167,6 +167,7 @@ Tip: To locate the instance type, go to the Instance Type dropdown menu and ente
 aws ec2 create-launch-template --launch-template-name my-launch-template --image-id ami-XXXX --instance-type t2.micro --key-name my-key-pair --security-group-ids sg-XXXX --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=webserver}]' --iam-instance-profile Arn=arn:aws:iam::123456789012:instance-profile/CafeRole
 ```
 Replace ami-XXXX with the AMI ID of the Cafe WebServer Image, sg-XXXX with the security group ID of CafeSG, and arn:aws:iam::123456789012:instance-profile/CafeRole with the ARN of the CafeRole IAM instance profile. Also, replace my-launch-template and my-key-pair with your desired launch template name and key pair name, respectively.
+
 ![image](https://user-images.githubusercontent.com/126258837/236120006-69ba94ab-2153-4e6e-85cb-c9e28172a432.png)
 
 
@@ -191,6 +192,10 @@ Tip: Look in Advanced Details for this setting.
 Now that the launch template is defined, you will create an Auto Scaling group for the instances. In this task, do not create a load balancer when you create the Auto Scaling group. (You will create a load balancer in the next task.)
 
 12. Create a new Auto Scaling Group that meets the following criteria:
+```
+aws autoscaling create-auto-scaling-group --auto-scaling-group-name my-auto-scaling-group --launch-template LaunchTemplateName=my-launch-template --vpc-zone-identifier "subnet-XXXX,subnet-YYYY" --min-size 2 --max-size 6 --desired-capacity 2 --target-tracking-configuration "MetricType=CPUUtilization,TargetValue=25,PredefinedMetricSpecification={PredefinedMetricType=ASGAverageCPUUtilization},ScaleInCooldown=60,ScaleOutCooldown=60"
+```
+Replace subnet-XXXX and subnet-YYYY with the IDs of Private Subnet 1 and Private Subnet 2, respectively. Also, replace my-auto-scaling-group with your desired Auto Scaling group name.
 
 ![image](https://user-images.githubusercontent.com/126258837/236262242-240a8fcf-cd20-41a4-8deb-5ebeedd59d73.png)
 
@@ -222,31 +227,82 @@ Now that the launch template is defined, you will create an Auto Scaling group f
 
 ## Task 6: Creating a load balancer
 Now that you web application server instances are deployed in private subnets, you need a way for the outside world to connect to them. In this task, you will create a load balancer to distribute traffic across your private instances.
+```
+aws ec2 create-security-group --group-name CafeLBSecurityGroup --description "Cafe load balancer security group" --vpc-id <vpc-id>
+
+aws ec2 authorize-security-group-ingress --group-name CafeLBSecurityGroup --protocol tcp --port 80 --cidr 0.0.0.0/0
+```
+
+```
+aws elbv2 create-target-group --name CafeTargetGroup --protocol HTTP --port 80 --vpc-id <vpc-id> --health-check-path /cafe
+```
 
 14. Create an HTTP Application Load Balancer that meets the following criteria:
-
+```
+aws elbv2 create-load-balancer --name my-load-balancer --subnets subnet-AAAA subnet-BBBB --security-groups sg-CCCC --scheme internet-facing --type application
+```
+so ==>
+```
+aws elbv2 create-load-balancer --name CafeLoadBalancer --subnets <public-subnet-1> <public-subnet-2> --security-groups <security-group-id> --type application --scheme internet-facing
+```
+Replace subnet-AAAA and subnet-BBBB with the IDs of the two public subnets, and replace sg-CCCC with the ID of the security group that allows HTTP traffic from anywhere. Also, replace my-load-balancer with your desired load balancer name.
 - VPC: Uses the VPC configured for this lab
 - Subnets: Uses the two public subnets
 - Skips the HTTPS security configuration settings
 - Security group: Creates a new security group that allows HTTP traffic from anywhere
+
 - Target group: Creates a new target group
 - Skips registering targets
 Note: Wait until the load balancer is active.
+```
+aws elbv2 create-target-group --name my-target-group --protocol HTTP --port 80 --vpc-id vpc-XXXX --health-check-protocol HTTP --health-check-path / --health-check-interval-seconds 30 --health-check-timeout-seconds 5 --healthy-threshold-count 2 --unhealthy-threshold-count 2
+```
+Replace vpc-XXXX with the ID of the VPC that was configured for this lab, and replace my-target-group with your desired target group name.
+
+To register the Auto Scaling group as a target for the load balancer, use the following command:
+```
+aws autoscaling attach-load-balancers --auto-scaling-group-name my-auto-scaling-group --load-balancer-names my-load-balancer
+```
+Replace my-auto-scaling-group and my-load-balancer with your desired Auto Scaling group name and load balancer name, respectively.
+
+Create a listener for the load balancer:
+
+```
+aws elbv2 create-listener --load-balancer-arn <load-balancer-arn> --protocol HTTP --port 80 --default-actions Type=forward,TargetGroupArn=<target-group-arn>
+```
+
+Replace <load-balancer-arn> with the ARN of the load balancer that you created in step 4. Replace <target-group-arn> with the ARN of the target group that you created in step 3.
 
 15. Modify the Auto Scaling group that you created in the previous task by adding this new load balancer.
 
 Hint: Add the target group you created in the Load Balancer configuration.
 
+Modify the Auto Scaling group to add the new load balancer:
+```
+aws autoscaling attach-load-balancers --auto-scaling-group-name CafeASG --load-balancer-names CafeLoadBalancer
+```
+  
+Replace CafeASG with the name of the Auto Scaling group that you created in the previous task.
 
 Sofía has now created and configured the resources that the web application needs to be highly available and scalable. However, Sofía knows that she still has more work to do. To complete the process of updating the application architecture, Sofía must test the café’s web application to make sure that it performs as expected.
 
 In the next tasks, you will continue working in the role of Sofía and test whether the café web application automatically scales under load.
 
+  Wait for the load balancer to become active. You can check the status of the load balancer by running the following command:
+```
+aws elbv2 describe-load-balancers --load-balancer-arns <load-balancer-arn>
+```
+Replace <load-balancer-arn> with the ARN of the load balancer that you created in step 4.
 
 ## Task 7: Testing the web application
 In this task, you will test the café web application.
 
 16. To test the café web application, visit the Domain Name System (DNS) name of your load balancer and append /cafe to the URL.
+  
+For example, if your load balancer DNS name is CafeLoadBalancer-1234567890.us-west-2.elb.amazonaws.com, you should visit http://CafeLoadBalancer-1234567890.us-west-2.elb.amazonaws.com/cafe.
+
+To test automatic scaling under load, use SSH to connect to one of the running web server instances and run the stress test commands. Watch the Amazon EC2 console to observe new instances being deployed.
+  
 The café application should load.
 
 ![image](https://user-images.githubusercontent.com/126258837/236274695-382b0c72-ba43-4c04-9a7f-d2ba065a36ee.png)
