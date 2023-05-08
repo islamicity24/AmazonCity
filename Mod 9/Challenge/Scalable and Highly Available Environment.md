@@ -163,7 +163,10 @@ Tip: To locate the AMI, go to the the AMI dropdown menu and enter: Cafe
 
   - Instance type: t2.micro
 Tip: To locate the instance type, go to the Instance Type dropdown menu and enter: t2
-
+```
+aws ec2 create-launch-template --launch-template-name my-launch-template --image-id ami-XXXX --instance-type t2.micro --key-name my-key-pair --security-group-ids sg-XXXX --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=webserver}]' --iam-instance-profile Arn=arn:aws:iam::123456789012:instance-profile/CafeRole
+```
+Replace ami-XXXX with the AMI ID of the Cafe WebServer Image, sg-XXXX with the security group ID of CafeSG, and arn:aws:iam::123456789012:instance-profile/CafeRole with the ARN of the CafeRole IAM instance profile. Also, replace my-launch-template and my-key-pair with your desired launch template name and key pair name, respectively.
 ![image](https://user-images.githubusercontent.com/126258837/236120006-69ba94ab-2153-4e6e-85cb-c9e28172a432.png)
 
 
