@@ -465,6 +465,8 @@ Question 7: Can you add more volumes to an AMI that you create from an instance 
 
 ![image](https://github.com/islamicity24/AmazonCity/assets/126258837/6b26bc4e-8b6d-403c-acc7-04fbd5393d3c)
 
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/c8e8fe55-36c5-42da-ad9a-08b0798ab38c)
+
 
 33. Back in the AWS Management Console, in the Create Image screen, create the new AMI:
 
