@@ -311,7 +311,8 @@ database-client
  
 
 To observe the contents of the database (specifically, the tables that support the café web application), enter the following commands:
-````
+
+```
 show databases;
 use cafe_db;
 show tables;
