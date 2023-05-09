@@ -79,6 +79,8 @@ In this task, you will note details about an existing EC2 instance that was crea
 
 Notice the running instance named aws-cloud9-CafeWebServer-.... This EC2 instance was created when you started the lab.
 
+![image](https://user-images.githubusercontent.com/126258837/237006765-ad35b30b-d099-4024-996a-3c2729cb2509.png)
+
 EC2 console
 ![image](https://user-images.githubusercontent.com/126258837/229841567-8735b30a-8b88-49d7-ad28-4fe04fca3c57.png)
  
@@ -98,6 +100,7 @@ Question 1: Is the instance in a public subnet?
 Question 2: Does the EC2 instance have an IPv4 public IP address assigned to it?
 Question 3: What inbound TCP port numbers are open for this instance?
 Question 4: Does the EC2 instance have an AWS Identity and Access Management (IAM) role associated with it?
+
 Note: Leave the questions webpage open in your browser tab. You will return to it later in this lab.
 ```
  
@@ -136,6 +139,8 @@ In the AWS Cloud9 bash terminal, run this command:
 ```
 cat /proc/version
 ```
+![image](https://user-images.githubusercontent.com/126258837/237007794-a0a01ca3-2591-4434-8678-af69a35ed3fe.png)
+
 Notice how the output indicates it is an Amazon Linux instance, roughly analogous to Red Hat 7.
 
  
@@ -241,6 +246,9 @@ In the Bash terminal, run this command:
 ```
 mv cafe /var/www/html/
 ```
+
+![image](https://user-images.githubusercontent.com/126258837/237016725-01073ae9-3253-4ca1-9e22-a33f42adb10b.png)
+
 
 Observe how the application is designed to work.
 
