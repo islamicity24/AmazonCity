@@ -1,14 +1,14 @@
 # Creating a Dynamic Website for the Cafe
 
 # Module 4 - Challenge Lab: Creating a Dynamic Website for the Café
-Scenario
+## Scenario
 After the café launched the first version of their website, customers told the café staff how nice the website looks. However, in addition to the praise, customers often asked whether they could place online orders.
 
 Sofía, Nikhil, Frank, and Martha discussed the situation. They agreed that their business strategy and decisions should focus on delighting their customers and providing them with the best possible café experience.
 
  
 
-Lab overview and objectives
+## Lab overview and objectives
 In this lab, you will deploy an application on an Amazon Elastic Compute Cloud (Amazon EC2) instance. The application enables the café to accept online orders. After testing that the application works as intended in the first AWS Region (the development environment), you will then create an Amazon Machine Image (AMI) from the EC2 instance. You will also deploy a second instance of the same application as the production environment in another AWS Region.
 
 After completing this lab, you should be able to:
