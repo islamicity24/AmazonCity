@@ -81,6 +81,8 @@ Notice the running instance named aws-cloud9-CafeWebServer-.... This EC2 instanc
 
 ![image](https://user-images.githubusercontent.com/126258837/237006765-ad35b30b-d099-4024-996a-3c2729cb2509.png)
 
+![image](https://user-images.githubusercontent.com/126258837/237017933-02554303-76da-438c-8707-46a751243923.png)
+
 EC2 console
 ![image](https://user-images.githubusercontent.com/126258837/229841567-8735b30a-8b88-49d7-ad28-4fe04fca3c57.png)
  
