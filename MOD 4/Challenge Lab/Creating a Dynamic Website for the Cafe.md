@@ -90,13 +90,13 @@ EC2 console
 Answering questions about the instance
 Answers will be evaluated when you choose the blue Submit button at the end of the lab.
 
-Access the questions in this lab.
+6. Access the questions in this lab.
 
 Choose the Details menu, and choose Show.
 Choose the Access the multiple choice questions link that appears at the bottom of the page.
  
 
-In the page that you loaded, answer the first four questions:
+7. In the page that you loaded, answer the first four questions:
 ```
 Question 1: Is the instance in a public subnet?
 Question 2: Does the EC2 instance have an IPv4 public IP address assigned to it?
@@ -113,13 +113,13 @@ AWS Cloud9 is service that can run on an EC2 instance. It provides an integrated
 
 By using the AWS Cloud9 environment, you don't need to download a key pair and connect to the EC2 instance by using PuTTY or similar Secure Shell (SSH) software. By using AWS Cloud9, you also don't need to use command line text-editing tools (like vi or nano) to edit files on the Linux instance.
 
-From the Services menu, choose AWS Cloud9, then choose Your environments.
+8. From the Services menu, choose AWS Cloud9, then choose Your environments.
 
-Notice the CafeWebServer environment. It indicates that it is of enter EC2.
+Notice the _CafeWebServer_ environment. It indicates that it is of enter EC2.
 
  
 
-Choose Open IDE.
+9. Choose Open IDE.
 
 You are now connected to the AWS Cloud9 IDE that is running on the EC2 instance that you observed earlier.
 
@@ -135,7 +135,7 @@ AWS Cloud9
 ## Task 3: Analyzing the LAMP stack environment and confirming that the web server is accessible
 Recall that the objective of this challenge lab is configure an EC2 instance to host the new dynamic website for the café. In this task, you will analyze what is already installed.
 
-Observe the OS version.
+10. Observe the OS version.
 
 In the AWS Cloud9 bash terminal, run this command:
 ```
@@ -147,7 +147,7 @@ Notice how the output indicates it is an Amazon Linux instance, roughly analogou
 
  
 
-Observe the web server, database, and PHP details and server state.
+11. Observe the web server, database, and PHP details and server state.
 
 In the terminal, run these commands:
 ```
@@ -176,7 +176,7 @@ sudo service mysqld start
 sudo service mysqld status
 ``` 
 
-Configure the EC2 instance so that you can use the AWS Cloud9 editor to edit web server files.
+13. Configure the EC2 instance so that you can use the AWS Cloud9 editor to edit web server files.
 
 Notice that the AWS Cloud9 file browser currently does not display the Apache web server default web directory.
 
@@ -191,7 +191,7 @@ The second command changed ownership of the html subdirectory so that the ec2-us
 
  
 
-## Creating a simple test webpage.
+14.  Creating a simple test webpage.
 
 In the file browser, expand the CafeWebServer > www directory, and highlight the html directory.
 
@@ -204,7 +204,7 @@ Choose File > Save, and save the file in the html directory as index.html.
 
  
 
-Make the website accessible from the internet.
+15. Make the website accessible from the internet.
 
 In this step, you will need to verify and update the configurations that make the webpages (which are hosted on the web server) accessible from the internet.
 
@@ -225,7 +225,7 @@ In the second part of this lab, you will take on the role of Sofía, and install
  
 
 ## Task 4: Installing the café application
-Download and extract the web server application files.
+16. Download and extract the web server application files.
 
 In the Bash terminal, run these commands:
 ```
@@ -243,7 +243,7 @@ You also extracted these archive files, which created the cafe, db, and setup di
 
  
 
-Copy the café files over to the web server document root.
+17. Copy the café files over to the web server document root.
 
 In the Bash terminal, run this command:
 ```
@@ -253,7 +253,7 @@ mv cafe /var/www/html/
 ![image](https://user-images.githubusercontent.com/126258837/237016725-01073ae9-3253-4ca1-9e22-a33f42adb10b.png)
 
 
-Observe how the application is designed to work.
+18. Observe how the application is designed to work.
 
 Open the html/cafe/index.php source code in the AWS Cloud9 editor by double-clicking it.
 Notice that this file has HTML code in it, but it also contains sections that are enclosed in elements. These elements make calls to other systems and resources.
@@ -263,7 +263,7 @@ Notice on line 3 of this file that the AWSSDK is invoked.
 Also, on lines 10–33, the web application creates a client that connects to the ssm service, which is AWS Systems Manager. The application then retrieves seven parameters from Systems Manager. Those parameters have not been created in AWS Systems Manager yet, but you will do that next.
  
 
-In the AWS Systems Manager Parameter Store, configure the application parameters.
+19. In the AWS Systems Manager Parameter Store, configure the application parameters.
 
 In the Bash terminal, run these commands:
 ```
@@ -274,10 +274,10 @@ The shell script that you just ran issued AWS Command Line Interface (AWS CLI) c
 
  
 
-In the AWS Management Console, from the Services menu, choose Systems Manager.
+20. In the AWS Management Console, from the Services menu, choose Systems Manager.
  
 
-From the panel on the left, choose Parameter Store.
+21. From the panel on the left, choose Parameter Store.
 
 Notice how there are now seven parameters stored here.
 
@@ -287,7 +287,7 @@ Choose the /cafe/dbPassword parameter, and copy the Value to your clipboard. You
 
  
 
-Configure the MySQL database to support the café application.
+22. Configure the MySQL database to support the café application.
 
 Back in the AWS Cloud9 bash terminal, run the following commands:
 ```
@@ -296,7 +296,7 @@ cd ../db/
 ./create-db.sh
 ``` 
 
-Observe the database tables that were created.
+23. Observe the database tables that were created.
 
 In the Bash terminal, run this command to connect the terminal-based MySQL client to the database:
 ```
@@ -319,7 +319,7 @@ select * from product;
 exit;
 ``` 
 
-Update the timezone configuration in PHP.
+24. Update the _timezone_ configuration in PHP.
 
 In the Bash terminal, run the following commands:
 ```
@@ -332,7 +332,7 @@ The second command that you ran restarted the web server so that the web server 
 
  
 
-Test whether the café website is working and can be accessed from the internet.
+25. Test whether the café website is working and can be accessed from the internet.
 
 In a new browser tab, try to load the application at http://<public-ip>/cafe where <public-ip> is the IPv4 public IP address of the EC2 instance.
 
@@ -389,7 +389,7 @@ Note: If you still can't solve the issue, you might find it helpful to run the g
  
 
 ## Task 5: Testing the web application
-Test by placing an order.
+27. Test by placing an order.
 
 In the browser tab where you have the http://<public-ip>/cafe page open, choose Menu.
 
@@ -422,7 +422,7 @@ Because the café website already runs well on an existing EC2 instance, Sofía 
 
 You will continue to take on the role of Sofía for this task. Before you create an AMI out of this instance, you should create a new key pair, which might be important to have later in this lab.
 
-Set a static internal hostname and create a new key pair on the EC2 instance.
+28. Set a static internal hostname and create a new key pair on the EC2 instance.
 
 In the bash terminal, run the following commands:
 ```
@@ -436,10 +436,10 @@ To make the new key available to the SSH utilities, in the Bash terminal, run th
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 ``` 
 
-In the AWS Management Console, browse to the EC2 service area and select the instance.
+29. In the AWS Management Console, browse to the EC2 service area and select the instance.
  
 
-Choose Actions > Images and templates > Create Image.
+30. Choose Actions > Images and templates > Create Image.
 
 Tip: Leave the Create Image dialog open in the browser tab while you answer some questions about AMIs.
 
@@ -448,7 +448,7 @@ Tip: Leave the Create Image dialog open in the browser tab while you answer some
 Answering questions about AMIs
 Answers will be recorded when you choose the blue Submit button at the end of the lab.
 
-Return to the browser tab that has the questions for this lab. You accessed this tab earlier.
+31. Return to the browser tab that has the questions for this lab. You accessed this tab earlier.
 
 If you need to find the page again:
 
@@ -456,7 +456,7 @@ Choose the Details menu, and choose Show.
 Choose the Access the multiple choice questions link that appears at the bottom of the page.
  
 
-In the page, submit answers to the following questions:
+32. In the page, submit answers to the following questions:
 
 Question 5: When you create an AMI from an instance, will the instance be rebooted?
 Question 6: In what ways can you modify the root volume properties when you create an AMI from an instance?
@@ -465,18 +465,18 @@ Question 7: Can you add more volumes to an AMI that you create from an instance 
 ![image](https://github.com/islamicity24/AmazonCity/assets/126258837/6b26bc4e-8b6d-403c-acc7-04fbd5393d3c)
 
 
-Back in the AWS Management Console, in the Create Image screen, create the new AMI:
+33. Back in the AWS Management Console, in the Create Image screen, create the new AMI:
 
 Image name: CafeServer
 Choose Create Image
  
 
-From the navigation menu, choose AMIs and wait until the image status becomes Available. The process typically takes about 2 minutes. You may need to expand Images to find AMIs.
+34. From the navigation menu, choose AMIs and wait until the image status becomes Available. The process typically takes about 2 minutes. You may need to expand Images to find AMIs.
 ![image](https://github.com/islamicity24/AmazonCity/assets/126258837/67d1b007-d401-4056-927d-b2bf6655ae18)
 
  
 
-Create an AMI in another AWS Region
+35. Create an AMI in another AWS Region
 
 In this step, your objective is to create or launch a new EC2 instance from the AMI that you just captured. However, you must create the new instance in the Oregon (us-west-2) AWS Region.
 ![image](https://github.com/islamicity24/AmazonCity/assets/126258837/ff956ee3-926f-4927-b9ea-7cc272c33cd2)
@@ -490,7 +490,7 @@ Tip #3 (click to expand)
 Select the AMI you that you created in the AWS Region where you created it. Next, choose the Actions menu. Do any actions seem like they could help you make the AMI available in the US West (Oregon) Region? Go ahead and choose the appropriate action. After you initiate it, the action might take up to 5 minutes to complete. Choose the refresh icon occasionally to know more quickly when it has completed.
  
 
-Create the new café instance from your AMI. The new instance that you create must match the following criteria.
+36. Create the new café instance from your AMI. The new instance that you create must match the following criteria.
 ![image](https://github.com/islamicity24/AmazonCity/assets/126258837/e68ea6a8-c514-4b96-bbed-33fe89d91849)
 
 Region: Oregon
@@ -514,13 +514,13 @@ Proceed without a key pair (the key pair that you created earlier in this lab sh
 ![image](https://github.com/islamicity24/AmazonCity/assets/126258837/99b5d21f-704e-4f29-a537-1a1bb37825b8)
  
 
-Wait for the new instance to have a Public DNS value assigned to it, even if the status of the instance is still not Available.
+37. Wait for the new instance to have a Public DNS value assigned to it, even if the status of the instance is still not Available.
  
 
 Copy the Public DNS value. You will use it soon.
  
 
-To create the needed AWS Systems Manager parameters in the new AWS Region, complete these steps.
+39. To create the needed AWS Systems Manager parameters in the new AWS Region, complete these steps.
 
 Return to the AWS Cloud9 IDE in the N. Virginia (us-east-1) Region.
 
@@ -547,34 +547,35 @@ Note: By changing the AWS Region details and running this script again, you crea
  
 
 ## Task 7: Verifying the new café instance
-Return to the EC2 Console in the Oregon Region, and verify that the new ProdCafeServer instance is running.
+
+40. Return to the EC2 Console in the Oregon Region, and verify that the new ProdCafeServer instance is running.
  
 
-Copy the IPv4 public IP address, and load it in a web browser.
+41. Copy the IPv4 public IP address, and load it in a web browser.
 
 The Hello from the cafe web server! message should display.
 ![image](https://github.com/islamicity24/AmazonCity/assets/126258837/126ae9d0-b7de-462a-82d9-95c99ec76631)
 
  
 
-Load the http://<public-ip>/cafe/ URL in a browser tab.
+42. Load the http://<public-ip>/cafe/ URL in a browser tab.
 
 The entire café website should display.
 
  
 
-Load the Menu page.
+43. Load the Menu page.
 
 The full Menu page should load, and the order-placing functionality should work.
 
  
 
-Place an order to verify that the website is working as intended.
+44. Place an order to verify that the website is working as intended.
 
 ![image](https://github.com/islamicity24/AmazonCity/assets/126258837/d9c9e8c4-2afb-4d50-9ba6-168c3f6becfd)
 
 
-Troubleshooting tips (skip this one step if you didn't encounter any issues with loading the Menu page).
+45. Troubleshooting tips (skip this one step if you didn't encounter any issues with loading the Menu page).
 
 The grading script can provide additional tips for parts of the lab that you didn't complete successfully. You can submit your work as many times as you like—only the score that you achieve on the last submission will be retained.
 
