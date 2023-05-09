@@ -211,10 +211,11 @@ In this step, you will need to verify and update the configurations that make th
 Here are some tips to help you get started:
 
 Tip #1 (click to expand)
- 
+Discover the IPv4 public IP address of the EC2 instance, and try to load `http://<public-ip>` in a new browser tab. Does the message that you entered into index.html load in the browser?
 
 Tip #2 (click to expand)
- 
+To allow inbound HTTP traffic on TCP port 80 from anywhere, update the security group of the EC2 instance, as needed. 
+contoh : http://100.24.68.166/  (tanpa s. http)
 
 # New business requirement: Installing a dynamic website application on the EC2 instance (Challenge #2)
 In the previous challenge, you configured the EC2 instance. You now know that PHP is installed, and that the application environment has a running relational database. Also, the environment has a running web server that can be accessed from the internet. You now have the basic setup for hosting a dynamic website for the café.
@@ -460,7 +461,9 @@ In the page, submit answers to the following questions:
 Question 5: When you create an AMI from an instance, will the instance be rebooted?
 Question 6: In what ways can you modify the root volume properties when you create an AMI from an instance?
 Question 7: Can you add more volumes to an AMI that you create from an instance that only has one volume?
- 
+
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/6b26bc4e-8b6d-403c-acc7-04fbd5393d3c)
+
 
 Back in the AWS Management Console, in the Create Image screen, create the new AMI:
 
@@ -469,19 +472,26 @@ Choose Create Image
  
 
 From the navigation menu, choose AMIs and wait until the image status becomes Available. The process typically takes about 2 minutes. You may need to expand Images to find AMIs.
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/67d1b007-d401-4056-927d-b2bf6655ae18)
 
  
 
 Create an AMI in another AWS Region
 
-In this step, your objective is to create a new EC2 instance from the AMI that you just captured. However, you must create the new instance in the Oregon (us-west-2) AWS Region.
+In this step, your objective is to create or launch a new EC2 instance from the AMI that you just captured. However, you must create the new instance in the Oregon (us-west-2) AWS Region.
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/ff956ee3-926f-4927-b9ea-7cc272c33cd2)
+
 
 Tip #1 (click to expand)
+Copy the AMI ID of the image that you just created. Then, try to find it in the us-west-2 Region.
 Tip #2 (click to expand)
+Do AMIs exist at the account level?
 Tip #3 (click to expand)
+Select the AMI you that you created in the AWS Region where you created it. Next, choose the Actions menu. Do any actions seem like they could help you make the AMI available in the US West (Oregon) Region? Go ahead and choose the appropriate action. After you initiate it, the action might take up to 5 minutes to complete. Choose the refresh icon occasionally to know more quickly when it has completed.
  
 
 Create the new café instance from your AMI. The new instance that you create must match the following criteria.
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/e68ea6a8-c514-4b96-bbed-33fe89d91849)
 
 Region: Oregon
 
@@ -501,6 +511,7 @@ Create a new one named cafeSG, with TCP port 22 open to anywhere
 Set TCP port 80 so that it's open to anywhere as well
 Proceed without a key pair (the key pair that you created earlier in this lab should work to connect to it, if necessary)
 
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/99b5d21f-704e-4f29-a537-1a1bb37825b8)
  
 
 Wait for the new instance to have a Public DNS value assigned to it, even if the status of the instance is still not Available.
@@ -527,7 +538,7 @@ This example shows what line 12 should look like and how line 18 should be forma
 php-file
 
 File > Save the change.
-To run this script, go to the top of the IDE and choose the Run button.
+To run this script, go to the top of the IDE and choose the Run button. (Alt F5)
 In the Bash terminal below the text editor, you should see output that's formatted in JavaScript Object Notation (JSON). This output indicates that the parameters script ran successfully.
 
 If the script encountered an issue, click here to view troubleshooting tips.
@@ -542,6 +553,7 @@ Return to the EC2 Console in the Oregon Region, and verify that the new ProdCafe
 Copy the IPv4 public IP address, and load it in a web browser.
 
 The Hello from the cafe web server! message should display.
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/126ae9d0-b7de-462a-82d9-95c99ec76631)
 
  
 
@@ -558,7 +570,9 @@ The full Menu page should load, and the order-placing functionality should work.
  
 
 Place an order to verify that the website is working as intended.
- 
+
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/d9c9e8c4-2afb-4d50-9ba6-168c3f6becfd)
+
 
 Troubleshooting tips (skip this one step if you didn't encounter any issues with loading the Menu page).
 
