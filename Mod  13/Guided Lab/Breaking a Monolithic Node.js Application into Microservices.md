@@ -5,7 +5,7 @@ Traditional monolithic architectures can be difficult to scale. As an applicatio
 
 In a microservices architecture, each application component runs as its own service. They are built around business capabilities, and each service performs a single function. Microservices can be written by using different frameworks and programming languages, and they **communicate with other services via a well-defined application programming interface (API)**. Finally, you can _deploy them independently—as a single service, or as a group of services_.
 
-In this optional lab, you will migrate a monolithic application that runs in a standard Node.js server to a containerized Docker environment. You will then refactor the application into microservices and deploy it to a containerized environment that is orchestrated by Amazon Elastic Container Service (Amazon ECS). The Node.js application implements the functions of a simple message board where users can create topic threads, and post messages on each thread.
+In this optional lab, you will **migrate a monolithic application that runs in a standard Node.js server to a containerized Docker environment**. You will then refactor the application into microservices and deploy it to a containerized environment that is orchestrated **by Amazon Elastic Container Service (Amazon ECS)**. The Node.js application implements the functions of a simple message board where users can create topic threads, and post messages on each thread.
 
  
 
@@ -24,8 +24,8 @@ Lab architecture
  
 The diagram highlights the following differences between the monolithic approach and the microservices design:
 
-In a monolithic design, all the functions of the Node.js application are packaged and run as a single service. If one function fails, the entire application fails. Likewise, if one application function experiences a spike in demand, all functions in the service must be scaled together.
-In a microservices architecture, each function of the Node.js application runs as a separate service. The services can scale and be updated independently of each other.
+- In a monolithic design, all the functions of the Node.js application are packaged and run as a single service. If one function fails, the entire application fails. Likewise, if one application function experiences a spike in demand, all functions in the service must be scaled together.
+- In a microservices architecture, each function of the Node.js application runs as a separate service. The services can scale and be updated independently of each other.
 
 ##Duration
 
@@ -36,7 +36,7 @@ AWS service restrictions
 In this lab environment, access to AWS services and service actions might be restricted to the ones that are needed to complete the lab instructions. You might encounter errors if you attempt to access other services or perform actions beyond the ones that are described in this lab.
 
 
-Accessing the AWS Management Console
+# Accessing the AWS Management Console
 At the top of these instructions, choose Start Lab to launch your lab.
 
 A Start Lab panel opens, and it displays the lab status.
@@ -56,10 +56,11 @@ Arrange the AWS Management Console tab so that it displays alongside these instr
  Do not change the Region unless specifically instructed to do so.
 
 
-# Task 1: Preparing the development environment
+## Task 1: Preparing the development environment
 
 An AWS Cloud9 environment was created for you during the process of creating the lab environment. AWS Cloud9 is a cloud-based integrated development environment (IDE) that you can use to write, run, and debug code on a browser. It comes pre-packaged with essential tools for popular programming languages, and provides access to the AWS Command Line Interface (AWS CLI) in a terminal session tab. Your AWS Cloud9 environment has access to the all the AWS resources that are authorized for the user ID that you used to log in to the AWS Management Console.
 
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/7e232ee1-7a32-4054-ab2b-0ec623d93773)
  
 
 To set up your development environment, you will open the AWS Cloud9 IDE, and download and extract the required lab files.
@@ -73,8 +74,10 @@ The IDE opens in a new browser tab and displays several tabs, including a Welcom
 Next, you will download and extract the required lab files.
 
 7. In the bottom pane of the IDE, enter the following command in the terminal tab labeled bash - "ip-nnn-nnn-nnn-nnn":
-
+```
 curl -s https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-200-ACACAD-2-16750/16-lab-mod13-guided-1-ECS/s3/lab-files-ms-node-js.tar.gz | tar -zxv
+```
+
 This command retrieves a compressed archive file that contains the lab files. It also extracts the file contents in the AWS Cloud9 ~/environment folder. The command output should like the following example:
 
 Example output
@@ -109,9 +112,9 @@ Monolith deployment architecture
 
 In this task, you will:
 
-Install the Node.js modules required by the application
-Review the application design and code
-Run the application
+- Install the Node.js modules required by the application
+- Review the application design and code
+- Run the application
 
 ### Task 2.1: Installing the required Node.js modules
 
@@ -210,6 +213,7 @@ curl localhost:3000/api/users
 The RESTful invocation returns a JSON object that contains the list of users in the message board database.
 
 Users list
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/3f92326d-2c45-4c7b-b2e3-7c0d1575aa4a)
 
  
 
@@ -271,12 +275,12 @@ Specifically, you will perform the following steps:
 ### Task 3.1: Preparing the application for Docker containerization
 To put the message board application into a Docker container, the following changes must be made to the application:
 
-- Remove the use of the Node.js cluster feature and convert the application to a single-process design. With Docker containers, the goal is to run a single process per container, instead of a cluster of processes.
+- Remove the use of the Node.js _cluster_ feature and convert the application to a single-process design. With Docker containers, the goal is to run a single process per container, instead of a cluster of processes.
 - _Create a Dockerfile_ for the application. This file is basically a build script that contains instructions about how to build a _container image_ for the application.
 
-A container-ready version of the application is provided to you in the 2-containerized-monolith folder of your AWS Cloud9 environment. Take a few minutes to review the files and understand the changes that were made to prepare the application for containerization.
+A container-ready version of the application is provided to you in the **2-containerized-monolith** folder of your AWS Cloud9 environment. Take a few minutes to review the files and understand the changes that were made to prepare the application for containerization.
 
-22. In the Environment window on the left, expand the 2-containerized-monolith folder, and open the package.json in an editor tab by double-clicking it.
+22. In the **Environment** window on the left, expand the 2-containerized-monolith folder, and open the package.json in an editor tab by double-clicking it.
 
 In Line 7, notice that the entry point into the application was changed from index.js to server.js. The index.js file is no longer in the application folder. The index.js file contained the initialization logic for the Node.js cluster feature, and you will no longer use that feature.
 
@@ -305,7 +309,7 @@ Now that you understand how the container image for the application will be buil
 
 ### Task 3.2: Provisioning a repository
 
-Docker container images are intended to be stored in a repository for sharing, version control, and easier management purposes. Amazon ECR makes it easy for developers to store, manage, and deploy Docker container images. In addition, Amazon ECR is integrated with Amazon ECS, which enables Amazon ECS to pull container images directly for production deployments.
+Docker container images are intended to be stored in a repository for sharing, version control, and easier management purposes. _Amazon ECR_ makes it easy for developers to store, manage, and deploy Docker container images. In addition, Amazon ECR is integrated with Amazon ECS, which enables Amazon ECS to pull container images directly for production deployments.
 
 In this subtask, you will create a repository in Amazon ECR to house the Docker container image for the message board application.
 
@@ -318,19 +322,21 @@ In **Create a repository**, choose `Get Started`.
 27. In the Repository name box, enter mb-repo.
 
 28. Choose **Create repository**.
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/eb4209da-5036-41dd-ad6f-f356ad407ac1)
 
 A message at the top of the page indicates that the repository was successfully created.
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/aa9a403a-267d-4427-82f3-58dc796d0601)
 
 Note: Do not close the window that shows the message. You will use it in the next subtask.
 
 
 ## Task 3.3: Building and pushing the Docker image
 
-You are now ready to build the container image for the application and push it to the Amazon ECR repository that you created.
+You are **now ready to build the container image for the application and push it to the Amazon ECR repository that you created.**
 
 One useful feature of the Amazon ECR console is that it provides ready-to-use command templates for building and pushing an image to the new repository. You use these provided AWS CLI commands in the next steps.
 
-29. Before you can successfully run the next steps, you must upgrade the AWS CLI. To do this, go to the AWS Cloud9 IDE browser tab, and in the left terminal tab, enter the following commands:
+29. Before you can successfully run the next steps, you must _upgrade the AWS CLI_. To do this, go to the AWS Cloud9 IDE browser tab, and in the left terminal tab, enter the following commands:
 ```
 pip3 install awscli --upgrade --user
 export PATH=$HOME/.local/bin:$PATH
@@ -347,9 +353,11 @@ The Push commands for mb-repo pop-up window opens. This window lists four AWS CL
 
    The pop-up window offers two versions of the commands: one for macOS/linux, and one for Microsoft Windows.
 
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/4e6f44b7-9ae7-4071-8851-162b76189a4e)
+
 31. Make sure that the macOS/Linux tab is selected, because you will run these commands in your AWS Cloud9 environment.
 
-First, you will copy and run the command to log in your Docker client to your registry.
+ **1. First**, you will copy and run the command **to log in your Docker client to your registry**.
 
 32. In the pop-up window, locate the first command and then copy the command to the clipboard by choosing the Copy icon.
 
@@ -366,12 +374,13 @@ Switch to the AWS Cloud9 IDE browser tab.
 In the left terminal tab, paste the copied command and run it by pressing ENTER:
 
 Docker client login
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/8c786b4d-f50b-4ba0-a9a0-3ce337feb19b)
 
  
 
 If the command runs successfully, it returns the message _Login Succeeded_. You can ignore the displayed warnings.
 
-Next, you will build the Docker image for your application.
+Next, the second, you will **build the Docker image for your application.**
 
 Note: When a specific terminal tab is not mentioned in an instruction step, use the left terminal tab.
 
@@ -401,7 +410,7 @@ Build Docker image
 The build command produces multiples lines of output as it runs the instructions that are in the application's Dockerfile. When it is finished, you see the messages Successfully built nnnnnnnnnn and Successfully tagged mb-repo:latest.
 ![image](https://user-images.githubusercontent.com/126258837/231413762-8c49d32e-c792-48ea-b7c2-df24728b3c4a.png)
 
-Next, you will tag the image with the repository URI so that it can be pushed the repository.
+Next, the third, you will **tag the image with the repository URI so that it can be pushed the repository**.
 
 40. Switch to the Amazon ECR console browser tab.
 
@@ -424,7 +433,7 @@ Tag the image
 
 The command does not return anything if it completed successfully.
 
-Finally, you will push the container image to the application's repository.
+Finally, the fourth, you will **push the container image to the application's repository**.
 
 Switch to the Amazon ECR console browser tab.
 
@@ -458,17 +467,19 @@ Next, you will verify that the image was successfully uploaded.
 In the Images list, you should see the container image that you pushed, which you can identify by the _latest_ tag.
 
 Latest image
-
- 
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/6dd18ad5-f667-4f5a-b31e-027aef15b7c8)
 
 51. Record the _Image URI_. In the Images list, locate the Image URI of the latest version of the image, and choose the Copy icon. Paste the value in a text editor. You will use it in a subsequent step.
 
+Copy URI
 647651163624.dkr.ecr.us-east-1.amazonaws.com/mb-repo:latest
 
-You have successfully created a container image for the message board application, and you have also pushed it to an Amazon ECR repository.
+You have **successfully created a container image for the message board application**, and you have also pushed it to an Amazon ECR repository. (as latest)
 
 
 ## Task 4: Deploying the monolith to Amazon ECS
+
+https://docs.aws.amazon.com/ecs/
 
 In this task, 
 - you **deploy the containerized monolithic application to an Amazon ECS runtime environment**. 
@@ -496,7 +507,7 @@ An Amazon ECS cluster is a logical grouping of EC2 instances where you can run t
 
 In this subtask, you will create an ECS cluster by using the Amazon ECS console. The console's cluster creation wizard enables you to create all the infrastructure components that are needed to create the ECS cluster environment. These components include the virtual private cloud (VPC), subnets, security groups, internet gateway, and AWS Identity and Access Management (IAM) roles.
 
-52. Go back to the AWS Management Console browser tab, choose Services, and then select Containers > Elastic Container Service.
+52. Go back to the AWS Management Console browser tab, choose Services, and then select Containers > **Elastic Container Service**.
 
 53. In the navigation pane, choose Amazon ECS > Clusters.
 
@@ -521,6 +532,8 @@ Security group inbound rules: Leave it at the default setting, which allows inbo
 ```
 
 **Note**: The message in the **Container instance IAM role section** states that you are granting permissions to Amazon ECS to create and use the **ecsInstanceRole**. This role authorizes the EC2 instances in the cluster to invoke Amazon ECS actions.
+
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/8b886457-de41-4a25-8fb3-0726bc6a458b)
 
 58. Choose Create. ???
 
