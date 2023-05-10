@@ -27,6 +27,8 @@ The diagram highlights the following differences between the monolithic approach
 - In a monolithic design, all the functions of the Node.js application are packaged and run as a single service. If one function fails, the entire application fails. Likewise, if one application function experiences a spike in demand, all functions in the service must be scaled together.
 - In a microservices architecture, each function of the Node.js application runs as a separate service. The services can scale and be updated independently of each other.
 
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/9bcb280a-08e6-4fc3-ab31-2a07b27a3613)
+
 ##Duration
 
 This lab requires approximately 3 hours to complete. 
