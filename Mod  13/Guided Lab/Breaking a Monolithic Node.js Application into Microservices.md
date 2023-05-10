@@ -620,6 +620,7 @@ Add container
 A message displays, indicating that the task definition was successfully created. Notice that the definition is automatically assigned the version number of 1.
 
 Task Definition complete
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/135d9986-b759-451a-8e98-0e8e3de0b601)
 
  
 
@@ -1638,7 +1639,7 @@ Retrieve the posts for the second thread in the database. Change the URI after t
 
 The Posts microservice returns a JSON object that contains the posted messages for the second thread (which are bakery-related) in the database.
 
-Finally, test the submission of a request with an invalid URI. Change the URI after the load balancer DNS name to /xyz and press ENTER.
+288. Finally, test the submission of a request with an invalid URI. Change the URI after the load balancer DNS name to /xyz and press ENTER.
 
 The request is forwarded to default handler in the load balancer's listener rules, which returns the message Invalid request.
 
