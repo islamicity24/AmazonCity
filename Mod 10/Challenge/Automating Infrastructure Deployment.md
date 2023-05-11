@@ -15,6 +15,8 @@ After completing this lab, you should be able to:
 - Use Git to `invoke AWS CodePipeline`, and to `create or update stacks from templates` that are `stored in AWS CodeCommit`
 - `Duplicate network and application resources` to another AWS Region by using AWS CloudFormation
 
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/f0908722-5203-4d0c-959b-427edb0cec82)
+
 ## Duration
 This lab will require approximately 90 minutes to complete.
 
