@@ -1,229 +1,153 @@
-Module 10 - Challenge Lab: Automating Infrastructure Deployment
-Scenario
-Up to this point, the café staff created their AWS resources and configured their applications manually—mostly by using the AWS Management Console. This approach worked well as a way for the café to get started with a web presence quickly. However, they find it challenging to replicate their deployments to new AWS Regions so that they can support new café locations in multiple countries. They would also like to have separate development and production environments that reliably have matching configurations.
+# Module 10 - Challenge Lab: Automating Infrastructure Deployment
+
+## Scenario
+Up to this point, the café staff created their AWS resources and configured their applications manually—mostly by using the AWS Management Console. This approach worked well as a way for the café to get started with a web presence quickly. However, they find it challenging to `**replicate their deployments to new AWS Regions so that they can support new café locations in multiple countries. They would also like to have separate development and production environments that reliably have matching configurations**`.
 
 In this challenge lab, you will take on the role of Sofía as you work to automate the café's deployments and replicate them to another AWS Region.
 
- 
-
-Lab overview and objectives
-In this lab, you will gain experience with creating AWS CloudFormation templates. You will use the templates to create and update AWS CloudFormation stacks. The stacks create and manage updates to resources in multiple AWS service areas in your AWS account. You will practice using AWS CodeCommit to control the version of your templates. You will also observe how you can use AWS CodePipeline to automate stack updates.
+## Lab Overview and Objectives
+In this lab, you will gain experience with `creating AWS CloudFormation templates`. You will use the templates to create and update AWS CloudFormation stacks. The stacks create and manage updates to resources in multiple AWS service areas in your AWS account. You will `practice using AWS CodeCommit to control the version of your templates`. You will also observe how you can `use AWS CodePipeline to automate stack updates`.
 
 After completing this lab, you should be able to:
 
-Deploy a virtual private cloud (VPC) networking layer by using an AWS CloudFormation template
+- Deploy `a virtual private cloud (VPC) networking layer` by using an AWS CloudFormation template
+- Deploy `an application layer` by using an AWS CloudFormation template
+- Use Git to `invoke AWS CodePipeline`, and to `create or update stacks from templates` that are `stored in AWS CodeCommit`
+- `Duplicate network and application resources` to another AWS Region by using AWS CloudFormation
 
-Deploy an application layer by using an AWS CloudFormation template
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/f0908722-5203-4d0c-959b-427edb0cec82)
 
-Use Git to invoke AWS CodePipeline, and to create or update stacks from templates that are stored in AWS CodeCommit
-
-Duplicate network and application resources to another AWS Region by using AWS CloudFormation
-
- 
-
-When you start the lab, the following resources are already created for you in the AWS account:
-
-  start architecture
-
-Note that in this challenge lab, you will encounter a few tasks where step-by-step instructions are not provided. You must figure out how to complete the tasks on your own.
-
- 
-
-Duration
+## Duration
 This lab will require approximately 90 minutes to complete.
 
- 
-
-AWS service restrictions
+## AWS Service Restrictions
 In this lab environment, access to AWS services and service actions might be restricted to the ones that are needed to complete the lab instructions. You might encounter errors if you attempt to access other services or perform actions beyond the ones that are described in this lab.
 
- 
+## Accessing the AWS Management Console
+1. At the top of these instructions, choose Start Lab to launch your lab.
+2. A Start Lab panel opens, and it displays the lab status.
+    - Tip: If you ever need more time to complete the lab that is displayed on the timer, choose the Start Lab button again to restart the timer for the environment. Doing so will not delete resources you have created.
+3. Wait until you see the message Lab status: ready, then close the Start Lab panel by choosing the X.
+4. At the top of these instructions, choose AWS.
+    - This opens the AWS Management Console in a new browser tab. The system will automatically log you in.
+    - Tip: If a new browser tab does not open, a banner or icon is usually at the top of your browser with the message that your browser is preventing the site from opening pop-up windows. Choose the banner or icon, and then choose Allow pop-ups.
+5. Arrange the AWS Management Console tab so that it displays alongside these instructions. Ideally, you will have both browser tabs open at the same time so that you can follow the lab steps more easily.
+    - Note: To hide the terminal window, you can also clear the Terminal box at the top of the screen.
 
-Accessing the AWS Management Console
-At the top of these instructions, choose Start Lab to launch your lab.
-
-A Start Lab panel opens, and it displays the lab status.
-
- Tip: If you ever need more time to complete the lab that is displayed on the timer, choose the Start Lab button again to restart the timer for the environment. Doing so will not delete resources you have created.
-
-Wait until you see the message Lab status: ready, then close the Start Lab panel by choosing the X.
-
-At the top of these instructions, choose AWS.
-
-This opens the AWS Management Console in a new browser tab. The system will automatically log you in.
-
-Tip: If a new browser tab does not open, a banner or icon is usually at the top of your browser with the message that your browser is preventing the site from opening pop-up windows. Choose the banner or icon, and then choose Allow pop-ups.
-
-Arrange the AWS Management Console tab so that it displays alongside these instructions. Ideally, you will have both browser tabs open at the same time so that you can follow the lab steps more easily.
-
-Note: To hide the terminal window, you can also clear the Terminal box at the top of the screen.
-
- 
-
-A business request: Creating a static website for the café by using AWS CloudFormation (Challenge #1)
+## A Business Request: Creating a Static Website for the Café by Using AWS CloudFormation (Challenge #1)
 The café would like to start using AWS CloudFormation to create and maintain resources in the AWS account. As a simple first attempt at this process, you will take on the role of Sofía and create a simple AWS CloudFormation template that can be used to create an Amazon Simple Storage Service (Amazon S3) bucket. Then, you will add more detail to the template so that when you update the stack, it configures the bucket to host a static website for the café.
-
  
-
-Task 1: Creating an AWS CloudFormation template from scratch
+## Task 1: Creating an AWS CloudFormation template from scratch
 In this first task, you will create an AWS CloudFormation template that creates an S3 bucket. You will then run an AWS Command Line Interface (AWS CLI) command that created the AWS CloudFormation stack. (The stack is the resource that creates the bucket.)
 
  
 
-Navigate to the AWS Cloud9 service and open the integrated development environment (IDE) of the existing AWS Cloud9 instance.
+5. Navigate to the AWS Cloud9 service and open the integrated development environment (IDE) of the existing AWS Cloud9 instance.
  
 
-In the AWS Cloud9 IDE, choose File > New File, then choose File > Save, and save the new file as: S3.yaml
+6. In the AWS Cloud9 IDE, choose File > `New File`, then choose File > `Save`, and save the new file as: S3.yaml
  
 
 At the top of the file, add the following two lines:
-
+```
+# S3.yaml
 AWSTemplateFormatVersion: "2010-09-09"
-Description:
- 
-
-Next, add the following three lines to your template:
-
+Description: cafe S3 template
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
-Tip: Make sure that you keep the correct number of spaces for each indentation level. The Resources: line should have no indentation. The S3Bucket: line should be indented by 2 spaces. Finally, the Type: AWS::S3::Bucket line should be indented by 4 spaces.
+```    
+    
+To run the AWS CLI command:
 
-AWS CloudFormation supports the YAML Version 1.1 specification, with a few exceptions. For more information about YAML, go to the YAML website.
-
- 
-
-Add a description (such as "cafe S3 template") on the Description: line. Before you start your description, be sure that you have a space after the colon (:). After you enter the description, Save the changes to file.
-
- In the guided lab earlier in this module, you used the AWS Management Console to create an AWS CloudFormation stack. Here, you use the AWS CLI instead.
-
- 
-
-In the Bash terminal, run these two lines of code:
-
+```
 aws configure get region
 aws cloudformation create-stack --stack-name CreateBucket --template-body file://S3.yaml
-The first line of code that you ran returned the default AWS Region of the AWS CLI client that is installed on the AWS Cloud9 instance. You could modify the default AWS Region by running aws configure. However, for this lab, you should leave the default Region.
+```
+Make sure to replace CreateBucket with your desired stack name. (example S3-Stack)
 
-The second line of code that you ran created a stack that used the template you defined. Because you did not specify the Region in the command, the stack will be created in the default Region.  
+To answer the questions:
 
-If the create-stack command ran successfully, you should see some output that is formatted in JavaScript Object Notation (JSON). This output should indicate a StackId.
+Question 1: Yes, the bucket was created. It was given a name in the format `createbucket-s3bucket-<random-string>`.<br>
+Question 2: The bucket was created in the default Region of the AWS CLI client that is installed on the AWS Cloud9 instance. This can be checked by running aws configure get region in the terminal.<br>
+Question 3: Only three lines of code were needed to define the S3 bucket in the Resources section of the template file.<br>
 
-This diagram illustrates the actions you just completed.
-
-codepipeline
-
-In the AWS Management Console, navigate to the AWS CloudFormation service and observe the details of the CreateBucket stack.
-
-For example, look at the information in the Events, Resources, Outputs, and Template tabs.
-
- 
-
-Navigate to the Amazon S3 service page to observe the bucket that your template created.
-
-Tip: The bucket has the bucket name createbucket-s3bucket-<random-string>.
-
- 
-
-Answering questions about the AWS CloudFormation stack
-The answers will be recorded when you choose the blue Submit button at the end of the lab.
-
- 
-
-Access the questions in this lab.
-
-Choose the Details  menu, and choose Show.
-At the bottom of the page, choose the Access the multiple choice questions link.
- 
-
-In the page that you loaded, submit answers for each of the following questions:
-
-Question 1: Was an S3 bucket created, even if you did not specify a name for the bucket? If so, what name was it given?
-Question 2: What Region was the bucket created in, and why was it created in this Region?
-Question 3: To define an S3 bucket, how many lines of code did you need to enter in the Resources: section of the template file?
-Note: Leave the browser tab with the questions in it open, so that you can return to it later in the lab.
-
- 
-
-Task 2: Configuring the bucket as a website and updating the stack
+## Task 2: Configuring the bucket as a website and updating the stack
 In this next task, you will update the AWS CloudFormation template. The update will configure the S3 bucket to host a static website. This task is similar to the results from the Module 3 challenge lab. In that challenge lab, you created and configured the S3 bucket manually by using the AWS Management Console. However, in this lab, you will instead configure the bucket by using an AWS CloudFormation template.
 
  
 
-Upload static website assets to the bucket.
+15. Upload static website assets to the bucket.
 
 To do this task, run the following commands in the Bash terminal (replace <bucket-name> with your actual bucket name):
-
+```
 wget https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/CUR-TF-200-ACACAD-2-16750/14-lab-mod10-challenge-CFn/s3/static-website.zip
 unzip static-website.zip -d static
 cd static
 aws s3 cp --recursive . s3://<bucket-name>/ --acl public-read
+```    
 If these operations are successful, you should see numerous upload:<file_name> messages in the command output.
 
  
 
-In a new browser tab, open the AWS CloudFormation template documentation for defining S3 bucket resources.
+16. In a new browser tab, open the AWS CloudFormation template documentation for defining S3 bucket resources.
 
 Go to the AWS resource and property types reference documentation
 Scroll down, choose Amazon S3, and then choose the AWS::S3::Bucket resource type.
  
 
-Using the documentation as a reference, modify your S3.yaml template to set the following characteristics on the S3 bucket resource:
+17. Using the documentation as a reference, modify your S3.yaml template to set the following characteristics on the S3 bucket resource:
+    - Attach a deletion policy that will retain the bucket
+    - Configure the bucket to host a static website with index.html set as the index document
 
-Attach a deletion policy that will retain the bucket
-
-Configure the bucket to host a static website with index.html set as the index document
-
- Tip: You can accomplish this task by adding as few as four additional lines of code to your template. See the code in the Examples section of the documentation page that you opened in the last step.
+ **Tip**: You can accomplish this task by adding as few as four additional lines of code to your template. See the code in the Examples section of the documentation page that you opened in the last step.
 
  
 
-To your AWS CloudFormation template, add an output that provides the website URL.
+18. To your AWS CloudFormation template, add an output that provides the website URL.
 
 Again, consult the Examples section of the documentation as a reference.
 
  
 
-Save the changes to your S3.yaml file.
+19. Save the changes to your S3.yaml file.
  
 
-Validate your template.
+20. Validate your template.
 
 Back in the Bash terminal, change the directory back to the location of the S3.yaml file and validate your template by running the following commands.
-
+```
 cd ../
 aws cloudformation validate-template --template-body file://S3.yaml
+```    
 If the output indicates that your template has syntax or other errors, correct them, and then run the command again to verify that they have been resolved.
 
  
 
-Update the stack by running this command:
+21. Update the stack by running this command:
 
 aws cloudformation update-stack --stack-name CreateBucket --template-body file://S3.yaml
 Tip: Proper YAML syntax is important. If you receive a ValidationError when you run update-stack, review your use of colons and confirm that you indented each line appropriately. The example templates in the documentation provide a good reference for well-structured YAML templates.
 
  
 
-Browse to the AWS CloudFormation service and confirm that your stack update completed successfully.
-
-The stack should show status UPDATE_COMPLETE.
-
-If the stack does not attain a status of UPDATE_COMPLETE, try these troubleshooting tips.
-
-If you see that the stack has a ROLLBACK status of some kind, go the Events tab and search for an UPDATE_FAILED entry. (Read the Status reason for that event to understand why the stack update failed.)
-After you think that you resolved any errors, run the update-stack command again. In the console, return to the AWS CloudFormation stack and go to the Events tab to confirm whether you successfully updated the stack.
-Repeat as necessary.
+22. Browse to the AWS CloudFormation service and confirm that your stack update completed successfully.
+    - The stack should show status UPDATE_COMPLETE.
+    - If the stack does not attain a status of UPDATE_COMPLETE, try these troubleshooting tips.
+        - If you see that the stack has a ROLLBACK status of some kind, go the Events tab and search for an UPDATE_FAILED entry. (Read the Status reason for that event to understand why the stack update failed.)
+        - After you think that you resolved any errors, run the update-stack command again. In the console, return to the AWS CloudFormation stack and go to the Events tab to confirm whether you successfully updated the stack.
+        - Repeat as necessary.
  
 
-Verify success.
+23. Verify success.
 
-Does the stack's Outputs tab list an output with a URL value? If so, choose the link.
+    - Does the stack's Outputs tab list an output with a URL value? If so, choose the link.
 
-Does the static website open? (You previously copied the website assets into the bucket.)
+    - Does the static website open? (You previously copied the website assets into the bucket.)
 
-If so, congratulations!
+**If so, congratulations!**
 
-Note: If the stack does not have any output—or if the output hyperlink does not display the contents of the café website—you can try these troubleshooting steps.
+**Note**: If the stack does not have any output—or if the output hyperlink does not display the contents of the café website—you can try these troubleshooting steps.
 
 Browse to the Amazon S3 console and choose your bucket. The Overview tab should list the index.html file and two folders that are named css and images. If these resources are not listed, you might want to revisit the first step in this challenge section.
 
@@ -235,28 +159,25 @@ All of the permissions and properties that are described in this list should be 
 
 Note: In this first challenge, you manually copied the website files into the bucket. You can also perform this action by using a custom resource from AWS CloudFormation, combined with an AWS Lambda function. Both of these resources can be defined in an AWS CloudFormation template. This approach is a more advanced use of AWS CloudFormation beyond the scope of this lab. However, if you are interested in this topic, refer to the AWS Lambda-backed custom resources page in the AWS Documentation.
 
- 
-
-New business requirement: Storing templates in a version control system (Challenge #2)
+# New business requirement: Storing templates in a version control system (Challenge #2)
 The café team was impressed that Sofía configured an entire static website by using an AWS CloudFormation template. Given this success, the team decided that they would like to expand their use of infrastructure as code (IaC) to build out other application resources in the AWS account.
 
-The team understands that it is a best practice to store IaC templates in a version control system, so they asked Sofía to take on this challenge. Sofía spoke with Mateo about this new business requirement when he stopped by the café. He mentioned that AWS CodeCommit would be a good choice for storing templates and managing version control for them. Mateo created a CodeCommit repository with some sample AWS CloudFormation templates in it. Sofía is eager to start using this code repository.
+The team understands that it is a best practice to store IaC templates in a version control system, so they asked Sofía to take on this challenge. Sofía spoke with Mateo about this new business requirement when he stopped by the café. He mentioned that AWS CodeCommit would be a good choice for storing templates and managing version control for them. Mateo created a CodeCommit repository with some sample AWS CloudFormation templates in it. Sofía is eager to start using this code repository.     
 
- 
-
-Task 3: Cloning a CodeCommit repository that contains AWS CloudFormation templates
+## Task 3: Cloning a CodeCommit repository that contains AWS CloudFormation templates
 In this task, you will work as Sofía to clone a CodeCommit repository. The café team will use the repository to store and control the versions of the AWS CloudFormation templates.
 
  
 
-Browse to the CodeCommit service and in your account, notice the repository that is named CFTemplatesRepo.
+24. Browse to the CodeCommit service and in your account, notice the repository that is named **_CFTemplatesRepo_**.
    codecommit
+![image](https://github.com/islamicity24/AmazonCity/assets/126258837/22899280-b6b9-4023-939e-84a0163cd303)
 
  CodeCommit is a source control service that can be used to host Git-based repositories. It can be used in a way that's similar to GitHub repositories. For details about AWS CodeCommit, see the AWS Documentation.
 
  
 
-Choose CFTemplatesRepo and then choose the templates folder.
+25. Choose **CFTemplatesRepo** and then choose the **templates** folder.
 
 Notice that it has AWS CloudFormation templates in it.
 
@@ -264,43 +185,45 @@ Notice that it has AWS CloudFormation templates in it.
 
  
 
-Open the CFTemplatesRepo/templates/start-lab.yaml file and analyze the contents.
+26. Open the CFTemplatesRepo/templates/**start-lab.yaml** file and analyze the contents.
 
-Notice that this template defines a few of the resources that you observed in this AWS account.
+-   Notice that this template defines a few of the resources that you observed in this AWS account.
 
-For example:
+-   For example:
 
-Starting on line 6, the template defines an AWS Cloud9 instance
-Starting on line 12, the template defines the CodeCommit repository that you now have open
+    -   Starting on line 6, the template defines an AWS Cloud9 instance
+    -   Starting on line 12, the template defines the CodeCommit repository that you now have open
  The lab platform that hosts this lab created an AWS CloudFormation stack when you chose Start Lab. The AWS CloudFormation template that it ran includes the resource definitions that are contained in this template. However, this example template does not contain all the resource definitions that are in the actual template that was used to start this lab.
 
  
 
-In the breadcrumbs at the top of the page, choose Repositories and in the Clone URL column, choose HTTPS.
+27. In the breadcrumbs at the top of the page, choose **Repositories** and in the **Clone URL** column, choose **HTTPS**.
 
  This action copies the CodeCommit repository's HTTPS clone URL to your clipboard.
 
  
 
-Return to the AWS Cloud9 IDE and clone the existing CodeCommit repository to your workspace (replace <url> with the clone URL that you copied)
+28. Return to the AWS Cloud9 IDE and clone the existing CodeCommit repository to your workspace (replace <url> with the clone URL that you copied)
 
 In the Bash terminal in the AWS Cloud9 IDE, enter this command:
-
+```
 git clone <url>
+```    
 This command clones a copy of the CodeCommit repository that you just observed. The command creates a CFTemplatesRepo directory that should now appear in the navigation pane (which is the left pane in the IDE).
 
 Use the Git client software to analyze your local copy of the repository.
-
+```
 cd CFTemplatesRepo
 git status
-git status
+```
 
 The git status command shows what branch of the repository you are connected to. It also shows that your local copy is up to date with the source branch in CodeCommit.
 
  
 
-New business requirement: Using a continuous delivery service, create the network and application layers for the café (Challenge #3)
-The next challenge is for Sofía to use AWS CloudFormation to create all the network resources that the dynamic website café application can be deployed to. Then, she must deploy the café application itself.
+# New business requirement: Using a continuous delivery service, create the network and application layers for the café (Challenge #3)
+    
+The next challenge is for Sofía **to use AWS CloudFormation** to create all the network resources that the dynamic website café application can be deployed to. Then, she must deploy the café application itself.
 
 Also, Sofía would like to find an easier way to update stacks when she updates an AWS CloudFormation template. She is now updating templates regularly, and she thinks that she should be able to automate stack updates.
 
@@ -310,65 +233,64 @@ In this challenge, you will work as Sofía and make use of these pipelines. You 
 
  
 
-Task 4: Creating a new network layer with AWS CloudFormation, CodeCommit, and CodePipeline
-In this task, you will use an AWS CloudFormation template to create a VPC with a public subnet, along with other network resources. You will gain experience with using a CI/CD pipeline. When you use Git to push the template into a CodeCommit repository, it will trigger a pipeline that will create an AWS CloudFormation stack.
+## Task 4: Creating a new network layer with AWS CloudFormation, CodeCommit, and CodePipeline
+
+    In this task, you will use an AWS CloudFormation template to create a VPC with a public subnet, along with other network resources. You will gain experience with using a CI/CD pipeline. When you use Git to push the template into a CodeCommit repository, it will trigger a pipeline that will create an AWS CloudFormation stack.
 
  
 
-Create a new AWS CloudFormation template that will create a VPC, public subnet, and other resources.
+29. Create a new AWS CloudFormation template that will create a VPC, public subnet, and other resources.
 
-In the navigation pane of the AWS Cloud9 IDE, expand the CFTemplatesRepo/templates directory.
-In the templates directory, right-click template1.yaml and create a duplicate of it.
-Rename the duplicate to: cafe-network.yaml
-In the text editor, open cafe-network.yaml and set the description to: Network layer for the cafe
-Observe the details of the seven resources that this template creates.
+-   In the navigation pane of the AWS Cloud9 IDE, expand the CFTemplatesRepo/templates directory.
+-   In the templates directory, right-click template1.yaml and create a duplicate of it.
+-   Rename the duplicate to: cafe-network.yaml
+-   In the text editor, open cafe-network.yaml and set the description to: Network layer for the cafe
+-   Observe the details of the seven resources that this template creates.
  
 
-Observe the AWS CodePipeline details that were preconfigured in your account.
+30. Observe the AWS CodePipeline details that were preconfigured in your account.
 
-In the AWS Management Console, from the Services  menu, choose CodePipeline.
+-   In the AWS Management Console, from the Services  menu, choose CodePipeline.
+-   Choose Pipelines.
+-   Notice that two pipelines have been predefined for you:
+    -   CafeAppPipeline
+    -   CafeNetworkPipeline
 
-Choose Pipelines.
-
-Notice that two pipelines have been predefined for you:
-
-CafeAppPipeline
-CafeNetworkPipeline
- Important: The status of the most recent attempt to run each pipeline will show that they failed. However, this status is expected. The AWS CloudFormation template files that the pipelines reference do not exist in their expected location.
+    **Important**: The status of the most recent attempt to run each pipeline will show that they failed. However, this status is expected. The AWS CloudFormation template files that the pipelines reference do not exist in their expected location.
 
  
 
-Analyze the Source stage of the CafeNetworkPipeline.      
+31. Analyze the Source stage of the CafeNetworkPipeline.      
 
-Choose CafeNetworkPipeline and observe the pipeline details.
+-   Choose CafeNetworkPipeline and observe the pipeline details.
 
 In the Source area, you can see that this pipeline's SourceAction is AWS CodeCommit.
 
-To the right of the SourceAction heading, choose 
+-   To the right of the SourceAction heading, choose 
 
 The details in the Configuration window show that the source is the CFTemplatesRepo CodeCommit repository.
 
-To return to the CafeNetworkPipeline page, choose Done.
+-   To return to the CafeNetworkPipeline page, choose Done.
 
  
 
-Analyze the Deploy stage of the CafeNetworkPipeline.
+32. Analyze the _Deploy stage_ of the CafeNetworkPipeline.
 
-Notice that the Deploy action will be performed by using AWS CloudFormation.
+-   Notice that the Deploy action will be performed by using AWS CloudFormation.
 
-To the right of the RunChangeSet heading, choose 
+-   To the right of the RunChangeSet heading, choose 
 
 Analysis: The details in the Configuration window show that a stack named update-cafe-network will be run or be updated. To perform these actions, the stack will use the cafe-network.yaml AWS CloudFormation template. This Deploy action receives the template from the Source stage, which found the template in the CodeCommit repository.
 
 The following diagram illustrates how you will trigger this pipeline and what the pipeline will do. It also shows some of the AWS account resources that the resulting AWS CloudFormation stack will create or update.
 
-codepipeline
+![codepipeline](https://github.com/islamicity24/AmazonCity/blob/main/Mod%2010/code-pipeline.png)
 
  For more details about AWS CodePipeline, refer to the AWS Documentation.
 
  
 
-Return to the AWS Cloud9 instance and trigger the creation of the update-cafe-network by checking your AWS CloudFormation template into CodeCommit.
+33. Return to the AWS Cloud9 instance and trigger the creation of the update-cafe-network by checking your AWS CloudFormation template into CodeCommit.
 
 Observe how the local copy of the repository differs from the origin. In the Bash terminal, run the following command:
 
@@ -389,7 +311,7 @@ Finally, push the commit to the remote repository (this command actually copies 
 git push
  
 
-Return to the CodePipeline console and choose the CafeNetworkPipeline.
+34. Return to the CodePipeline console and choose the **CafeNetworkPipeline**.
 
 Observe that the creation of the stack is automatically triggered.
 
@@ -403,25 +325,26 @@ Notice that the details for both Source and Deploy show the commit number that w
 
  
 
-Troubleshooting tips:
+**Troubleshooting tips**:
 
-If the Deploy step has a status of Failed - Just now, access the error details by opening the Details link. For example, you could have a template-formatting error that must be resolved.
+-   If the Deploy step has a status of Failed - Just now, access the error details by opening the Details link. For example, you could have a template-formatting error that must be resolved.
 
-After you update the template, you can update the stack by running the appropriate git commit and git push commands again.
+-   After you update the template, you can update the stack by running the appropriate git commit and git push commands again.
 
 The Release change button can also trigger the pipeline to run again. It will do so even if you do not make changes to the CodeCommit repository (such as by issuing a git push command).
 Similarly, you can use the Retry button in the Deploy stage of the pipeline. It will retry the Deploy stage without retrying the Source stage.
-If the stack fails to roll back—and prevents you from performing additional updates to the stack—you can delete the stack. To do so, go to the stacks page in the AWS CloudFormation console and delete the stack. If you delete the network stack, push a new update to Git. This action will trigger the re-creation of the stack.
+
+-   If the stack fails to roll back—and prevents you from performing additional updates to the stack—you can delete the stack. To do so, go to the stacks page in the AWS CloudFormation console and delete the stack. If you delete the network stack, push a new update to Git. This action will trigger the re-creation of the stack.
 
  
 
-In the AWS CloudFormation console, confirm that the update-cafe-network stack ran. It should have a status CREATE_COMPLETE or UPDATE_COMPLETE.
+35. In the AWS CloudFormation console, confirm that the update-cafe-network stack ran. It should have a status CREATE_COMPLETE or UPDATE_COMPLETE.
 
 Also, check the Outputs tab for the stack. It currently shows no outputs. Soon, however, you will update the stack so that it creates outputs.
 
  
 
-In the Amazon VPC console, observe that the resources defined in the cafe-network.yaml template were created in the AWS account.
+36. In the Amazon VPC console, observe that the resources defined in the cafe-network.yaml template were created in the AWS account.
 
 For example, the console should list a VPC named Cafe VPC, and a subnet named Cafe Public Subnet.
 
@@ -429,7 +352,7 @@ Congratulations! You have successfully created the network resources that are ne
 
  
 
-Task 5: Updating the network stack
+## Task 5: Updating the network stack
 In this task, you update the network stack so that it exports essential information about two of the resources that it creates. These two outputs can then be referenced by the application stack that you create later.
 
  
@@ -465,7 +388,7 @@ VpcId	update-cafe-network-VpcID
 
  
 
-Task 6: Defining an EC2 instance resource and creating the application stack
+## Task 6: Defining an EC2 instance resource and creating the application stack
 In this task, you will create a new AWS CloudFormation template that will be used to create a stack. The new stack deploys a dynamic website for the café. The CafeAppPipeline pipeline (which you observed earlier) creates or updates the update-cafe-app stack when you push the cafe-app.yaml template to the CodeCommit repository.
 
  
@@ -595,7 +518,7 @@ Sofía will soon experience the benefits of the hard work that she did to define
 
  
 
-Task 7: Duplicating the café network and website to another AWS Region
+## Task 7: Duplicating the café network and website to another AWS Region
 In this final lab task, you will experience how quickly you can duplicate a deployment. A quick deployment is possible because you defined all your resources in AWS CloudFormation templates.
 
 In Tasks 4, 5, and 6, the AWS CloudFormation stacks were created or updated automatically. A pipeline was defined to monitor when the CodeCommit repository was updated. It then invoked AWS CloudFormation to create or update the stack. However, in this task, you will use the AWS CLI to duplicate the café network resources in another AWS Region. Then, you will use the AWS CloudFormation console to create the application stack in the second Region.
@@ -710,11 +633,3 @@ To find detailed feedback on your work, choose Details followed by  View Submiss
 
 Lab complete
  Congratulations! You have completed the lab.
-
-To confirm that you want to end the lab, at the top of this page, choose End Lab, and then choose Yes.  
-
-A panel should appear with this message: DELETE has been initiated... You may close this message box now.
-
- 
-
-To close the panel, choose the X in the top-right corner.
